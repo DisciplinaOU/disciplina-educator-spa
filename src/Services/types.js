@@ -52,7 +52,19 @@ export type FaircvListResponse = {
 export type NewCertificate = Certificate & Grades[]
 
 export interface IFaircvService {
+  httpService: IHttpService,
   getList(filter? : FaircvQuery): Promise<FaircvListResponse>,
   create(cert: NewCertificate): Promise<Certificate>,
   get(id: number): Promise<File>
+}
+
+// AAA
+// TODO return types must be updated when api spec will be ready
+export interface IAAAService {
+  httpService: IHttpService,
+  createUser(email: string, organization: string, website: string, password: string): Promise<any>,
+  login(email: string, password: string): Promise<any>,
+  resetPassword(email: string): Promise<any>,
+  createPassword(password: string): Promise<any>,
+  confirmUser(token: string): Promise<any>
 }

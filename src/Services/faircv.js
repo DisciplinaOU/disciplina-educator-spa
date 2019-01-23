@@ -30,4 +30,4 @@ class FaircvService implements IFaircvService {
   }
 }
 
-export default FaircvService(HttpService);
+export default new FaircvService(HttpService);
