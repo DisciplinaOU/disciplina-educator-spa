@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import AuthForm from './Containers/AuthForm';
 import { Route, Link, Switch, Redirect } from 'react-router-dom';
 import logo from './logo.svg';
 import './App.scss';
@@ -13,7 +14,7 @@ const withAuth = (WrappedComponent: Component) => {
       isLoading: true,
       isAuthenticated: false
     };
-    
+
     async componentDidMount() {
       try {
         await AuthGuard.checkAuth();
@@ -22,7 +23,7 @@ const withAuth = (WrappedComponent: Component) => {
         this.setState({ isLoading: false, isAuthenticated: false });
       }
     }
-    
+
     render() {
       const { isAuthenticated, isLoading } = this.state;
       if (isLoading) return <h5>Loading...</h5>;
@@ -45,10 +46,6 @@ class App extends Component {
     return (
       <div className="App">
         <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
           <a
             className="App-link"
             href="https://reactjs.org"
@@ -65,6 +62,9 @@ class App extends Component {
         <Link to="/auth">auth</Link>
         <Link to="/faircv">faircv list</Link>
         <Link to="/faircv/create">create faircv</Link>
+        <main className="App-main">
+          <AuthForm/>
+        </main>
       </div>
     );
   }

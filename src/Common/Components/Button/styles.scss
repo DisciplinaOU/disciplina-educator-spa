@@ -1,0 +1,150 @@
+@import '../../Styles/styles';
+
+.btn {
+  display: inline-block;
+  text-align: center;
+  border-radius: 5px;
+  white-space: nowrap;
+  font-weight: 400;
+  font-size: 16px;
+  cursor: pointer;
+  transition: color $transition, background-color $transition, border $transition;
+
+  //mod Width
+  &--width-auto {
+    width: auto;
+  }
+
+  &--width-full {
+    width: 100%;
+  }
+
+  //mod Height
+
+  &--height-small {
+    padding: 3px 25px 5px;
+  }
+
+  &--height-big {
+    padding: 6px 25px 8px;
+  }
+
+  //mod Color
+
+  &--color-main {
+    color: $color-white;
+    background-color: $color-blue;
+    border-color: $color-blue;
+
+    &:hover {
+      background-color: $color-emerald-2;
+      border-color: $color-emerald-2;
+    }
+  }
+
+  &--color-red {
+    color: $color-white;
+    background-color: $color-red;
+    border: 1px solid $color-red;
+
+    &:hover {
+      background-color: $color-dark-red;
+      border-color: $color-dark-red;
+    }
+  }
+
+  //mod Style
+
+  &--empty {
+    color: $color-blue;
+    background-color: transparent;
+    border: 1px solid currentColor;
+
+    &:hover {
+      color: $color-emerald-2;
+      background-color: transparent;
+      border-color: currentColor;
+    }
+  }
+
+  &--filled {
+    color: $color-white;
+    border-width: 1px;
+    border-style: solid;
+  }
+
+  &--simple {
+    position: relative;
+    padding: 0;
+    color: $color-blue;
+    background-color: transparent;
+    border-color: transparent;
+
+    &:hover {
+      background-color: transparent;
+      border-color: transparent;
+    }
+  }
+
+  &--arrow-back {
+    position: relative;
+    padding: 0 0 0 12px;
+    color: $color-blue;
+    background-color: transparent;
+    border-color: transparent;
+
+    &:before {
+      content: '';
+      display: block;
+      position: absolute;
+      height: 5px;
+      width: 5px;
+      border-right: 1.5px solid currentColor;
+      border-bottom: 1.5px solid currentColor;
+      transform: rotate(135deg);
+      top: 7px;
+      left: 0;
+      transition: left $transition;
+    }
+
+    &:hover {
+      background-color: transparent;
+      border-color: transparent;
+
+      &:before {
+        left: -4px;
+      }
+    }
+  }
+
+  &--arrow-forward {
+    position: relative;
+    padding: 0 12px 0 0;
+    color: $color-blue;
+    background-color: transparent;
+    border-color: transparent;
+
+    &:after {
+      content: '';
+      display: block;
+      position: absolute;
+      height: 5px;
+      width: 5px;
+      border-right: 1.5px solid currentColor;
+      border-bottom: 1.5px solid currentColor;
+      transform: rotate(-45deg);
+      top: 7px;
+      right: 0;
+      transition: right $transition;
+    }
+
+    &:hover {
+      background-color: transparent;
+      border-color: transparent;
+
+      &:after {
+        right: -4px;
+      }
+    }
+  }
+}

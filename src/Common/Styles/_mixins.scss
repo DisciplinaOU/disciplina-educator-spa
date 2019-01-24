@@ -1,0 +1,144 @@
+@mixin font($fontSize, $fontName, $lineHeight) {
+  font-size: $fontSize;
+  font-family: $fontName;
+  line-height: $lineHeight / $fontSize;
+}
+
+@mixin line-height($fontSize, $lineHeight) {
+  line-height: $lineHeight / $fontSize;
+}
+
+@mixin padding($top, $right, $bottom, $left) {
+  padding-top: $top;
+  padding-right: $right;
+  padding-bottom: $bottom;
+  padding-left: $left;
+}
+
+// Custom Title
+@mixin customTitle($fontSize, $lineHeight, $color) {
+  @include font($fontSize, $font-family, $lineHeight);
+  font-weight: 500;
+  color: $color;
+}
+
+// Title H1
+@mixin titleH1($color: $color-black) {
+  @include font(48px, $font-family, 56px);
+  font-weight: 500;
+  color: $color;
+}
+
+// Title H2
+@mixin titleH2($color: $color-black) {
+  @include font(32px, $font-family, 36px);
+  font-weight: 500;
+  color: $color;
+}
+
+// Title H3
+@mixin titleH3($color: $color-black) {
+  @include font(24px, $font-family, 28px);
+  font-weight: 500;
+  color: $color;
+}
+
+// Title H4
+@mixin titleH4($color: $color-black) {
+  @include font(18px, $font-family, 20px);
+  font-weight: 500;
+  color: $color;
+}
+
+// Title H5
+@mixin titleH5($color: $color-black) {
+  @include font(16px, $font-family, 18px);
+  font-weight: 500;
+  color: $color;
+}
+
+// Custom String
+@mixin customString($fontSize, $lineHeight, $color) {
+  @include font($fontSize, $font-family, $lineHeight);
+  font-weight: 400;
+  color: $color;
+}
+
+// Larger text
+@mixin largerString($color: $color-black) {
+  @include font(16px, $font-family, 18px);
+  font-weight: 400;
+  color: $color;
+}
+
+// Normal text
+@mixin normalString($color: $color-black) {
+  @include font(14px, $font-family, 18px);
+  font-weight: 400;
+  color: $color;
+}
+
+// Small text
+@mixin smallerString($color: $color-black) {
+  @include font(12px, $font-family, 14px);
+  font-weight: 400;
+  color: $color;
+}
+
+// Links
+@mixin link($color: $g-link-color, $color-hover: $g-link-hover-color, $color-active: $g-link-hover-color) {
+  text-decoration: none;
+  color: $color;
+  transition: color $anim-time ease;
+
+  &:hover {
+    text-decoration: none;
+    color: $color-hover;
+  }
+
+  &:active {
+    color: $color-active;
+  }
+}
+
+@mixin linkBorder($color, $color-hover, $color-active, $border-color, $border-hover-color, $background-color: $g-transparent, $background-color-hover: $g-dark-green) {
+  @include link($color, $color-hover, $color-active);
+  border-color: $border-color;
+  background-color: $background-color;
+  transition-property: color, background-color, border-color;
+  transition-duration: $anim-time;
+  transition-timing-function: ease;
+
+  &:hover {
+    border-color: $border-hover-color;
+    background-color: $background-color-hover;
+  }
+
+  &:active {
+    color: $color-active;
+  }
+}
+
+// Placeholder
+
+@mixin placeholder {
+  &::-webkit-input-placeholder {
+
+    @content;
+  }
+
+  &:-moz-placeholder {
+
+    @content;
+  }
+
+  &::-moz-placeholder {
+
+    @content;
+  }
+
+  &:-ms-input-placeholder {
+
+    @content;
+  }
+}

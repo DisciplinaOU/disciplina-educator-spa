@@ -1,0 +1,121 @@
+@import '../../Common/Styles/styles';
+
+.auth-form {
+  box-shadow: $shadow;
+  max-width: 350px;
+  width: 100%;
+  border-radius: 3px;
+  overflow: hidden;
+  background-color: $color-white;
+  text-align: left;
+
+  &__header {
+    padding: 18px 25px 17px;
+    background-image: $linear-gradient-horizon;
+  }
+
+  &__logo {
+    display: inline-block;
+    max-width: 180px;
+    margin-right: 15px;
+  }
+
+  &__main {
+    padding: 16px 24px 24px;
+  }
+
+  &__title {
+    @include titleH3();
+    margin-bottom: 18px;
+    margin-top: 0;
+    text-align: left;
+    width: 100%;
+  }
+
+  .btn + .auth-form__title {
+    margin-top: 12px;
+  }
+
+  &__tabs {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+
+    .tab {
+      @include customTitle(16px, 18px, $color-black);
+      cursor: pointer;
+      text-transform: uppercase;
+      display: inline-block;
+      padding: 5px 0;
+
+      &.active {
+        border-bottom: 2px solid $color-blue;
+      }
+
+      &:first-child {
+        margin-right: 16px;
+      }
+    }
+  }
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+
+  &__input-container {
+    position: relative;
+
+    & + .btn {
+      margin-top: 12px;
+    }
+  }
+
+  .btn + .btn {
+    margin-top: 16px;
+  }
+
+  &__input {
+    @include largerString($color-bg);
+    width: 100%;
+    box-sizing: border-box;
+    border: 0;
+    outline: 0;
+    border-bottom: 1px solid $color-bg;
+    margin-bottom: 24px;
+    display: block;
+    padding: 5px 0;
+    padding-right: 30px;
+    background-repeat: no-repeat;
+    background-position: center right;
+    background-size: 20px;
+
+    &:focus {
+      color: $color-blue-2;
+    }
+
+    &--password {
+      background-image: url('../../Common/Assets/icons/key-icon.svg');
+    }
+
+    &--email {
+      background-image: url('../../Common/Assets/icons/email-icon.svg');
+    }
+
+    &--org-name {
+      background-image: url('../../Common/Assets/icons/student-icon.svg');
+    }
+
+    &--site {
+      background-image: url('../../Common/Assets/icons/site-icon.svg');
+    }
+  }
+
+  &__message {
+    position: absolute;
+    top: 33px;
+    left: 0;
+    @include smallerString($color-red);
+  }
+}
