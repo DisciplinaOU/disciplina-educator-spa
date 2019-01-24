@@ -63,7 +63,7 @@ class App extends Component {
         <Link to="/faircv">faircv list</Link>
         <Link to="/faircv/create">create faircv</Link>
         <main className="App-main">
-          <AuthForm currentState="recovery"/>
+          <AuthForm/>
         </main>
       </div>
     );

@@ -1,37 +1,17 @@
 // @flow
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import './styles.scss';
-
-export const ButtonStyleStates = {
-  filled: 'filled',
-  empty: 'empty',
-  simple: 'simple',
-  arrowForward: 'arrow-forward',
-  arrowBack: 'arrow-back'
-}
-
-export const AuthFormStates = {
-  signIn: 'signIn',
-  signUp: 'signUp',
-  reset: 'reset',
-  recovery: 'recovery'
-}
 
 type ButtonProps = {
   text: string,
   modWidth?: 'width-auto' | 'width-full',
   modHeight?: 'height-small' | 'height-big',
-  modStyle?:
-    ButtonStyleStates.filled |
-    ButtonStyleStates.empty |
-    ButtonStyleStates.simple |
-    ButtonStyleStates.arrowForward |
-    ButtonStyleStates.arrowBack,
+  modStyle?: 'filled' | 'empty' | 'simple' | 'arrow-forward' | 'arrow-back',
   modColor?: 'color-main' | 'color-red',
   callback: () => void
 };
 
-export default class Button extends Component<ButtonProps> {
+export default class Button extends PureComponent<ButtonProps> {
   static defaultProps = {
     modWidth: 'width-auto',
     modHeight: 'height-big',

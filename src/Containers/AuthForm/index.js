@@ -1,35 +1,28 @@
 // @flow
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import logoIcon from '../../Common/Assets/main-logo.svg';
-import keyIcon from '../../Common/Assets/icons/key-icon.svg';
-import emailIcon from '../../Common/Assets/icons/email-icon.svg';
-// import studentIcon from '../../Common/Assets/icons/student-icon.svg';
 import './styles.scss';
 import Button from '../../Common/Components/Button'
 
-export const AuthFormStates = {
-  signIn: 'signIn',
-  signUp: 'signUp',
-  reset: 'reset',
-  recovery: 'recovery'
+export const AUTH_FORM_STATES = {
+  SIGN_IN: 'signIn',
+  SIGN_UP: 'signUp',
+  RESET: 'reset',
+  RECOVERY: 'recovery'
 }
 
 type AuthFormState = {
-  currentState: AuthFormStates.signIn | AuthFormStates.signUp | AuthFormStates.reset | AuthFormStates.recovery
+  currentState: AUTH_FORM_STATES.SIGN_IN | AUTH_FORM_STATES.SIGN_UP | AUTH_FORM_STATES.RESET | AUTH_FORM_STATES.RECOVERY
 }
 
-type AuthFormProps = {
-  currentState: AuthFormStates.signIn | AuthFormStates.signUp | AuthFormStates.reset | AuthFormStates.recovery
-}
-
-class AuthForm extends Component <AuthFormProps, AuthFormState> {
+class AuthForm extends PureComponent <AuthFormProps, AuthFormState> {
   state: AuthFormState = {
     currentState: 'signIn'
   }
 
 
   render() {
-    const { currentState } = this.props;
+    const { currentState } = this.state;
 
     return (
       <div className="auth-form">
