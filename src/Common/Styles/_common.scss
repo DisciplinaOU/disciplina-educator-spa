@@ -47,7 +47,8 @@ a {
 .container {
   width: 100%;
   max-width: $max-width;
-  padding: 0 30px;
+  padding: 0 32px;
+  box-sizing: border-box;
 }
 
 .margin-top-4 {

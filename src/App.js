@@ -5,6 +5,7 @@ import { Route, Link, Switch, Redirect } from 'react-router-dom';
 import MainMessage from './Common/Components/MainMessage'
 import Button from './Common/Components/Button';
 import logo from './logo.svg';
+
 import './App.scss';
 
 const AuthGuard = {
@@ -53,17 +54,16 @@ class App extends Component {
     return (
       <div className="App">
         <Header user={ user } />
-        <Link to="/auth">auth</Link>
-        <Link to="/faircv">faircv list</Link>
-        <Link to="/faircv/create">create faircv</Link>
-        <main className="main">
-          <AuthForm />
+        <main className="App-main">
           <MainMessage type="list_empty"/>
           <div className="container">
             <Switch>
               <Route path="/auth" component={Auth} />
               <Route path="/faircv" component={withAuth(Faircv)} />
             </Switch>
+            <Link to="/auth">auth</Link>
+            <Link to="/faircv">faircv list</Link>
+            <Link to="/faircv/create">create faircv</Link>
           </div>
           <div className="container">
             <div className="main__title">
@@ -76,6 +76,9 @@ class App extends Component {
                 modColor="color-main"
               />
             </div>
+          </div>
+          <div className="container">
+            <AuthForm />
           </div>
         </main>
       </div>

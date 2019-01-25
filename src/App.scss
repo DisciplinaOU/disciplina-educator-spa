@@ -6,10 +6,6 @@
 }
 
 .main {
-  min-height: calc(100vh - 84px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
   &__title {
     display: flex;
     flex-direction: row;
