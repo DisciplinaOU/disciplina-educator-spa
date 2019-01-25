@@ -1,5 +1,5 @@
 // @flow
-import React, { PureComponent } from 'react';
+import React from 'react';
 import logoIcon from '../../Common/Assets/main-logo.svg';
 import './styles.scss';
 
