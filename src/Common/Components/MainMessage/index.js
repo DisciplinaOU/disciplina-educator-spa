@@ -1,50 +1,57 @@
 // @flow
-import React from 'react';
-import emailImg from '../../../Common/Assets/email.svg';
-import studentImg from '../../../Common/Assets/student.svg';
-import personImg from '../../../Common/Assets/person.svg';
-import Button from '../Button';
+import React, { PureComponent, lazy, Suspense } from 'react';
+import emailImg from '../../Assets/email.svg';
+import studentImg from '../../Assets/student.svg';
+import personImg from '../../Assets/person.svg';
+import Message from './Components/Message';
 import './styles.scss';
+
+export const MAIN_MESSAGE_STATE = {
+  CONFIRMED: 'CONFIRMED',
+  NOT_CONFIRMED: 'NOT_CONFIRMED',
+  LIST_EMPTY: 'LIST_EMPTY'
+}
 
 type MainMessageProps = {
   type: string
 }
-export const MainMessage = (props: MainMessageProps) => {
-  const { type } = props;
 
-  return (
-    <div className="main-message">
-      {(type === 'mail_confirmed')
-        ? <div className="mail_confirmed">
-            <img className="mail_confirmed__img" src={ emailImg } alt=""/>
-            <h3 className="mail_confirmed__title">Ваш адрес электронной почты подтвержден</h3>
-            <p className="mail_confirmed__text">Чтобы продолжить, войдите в систему:</p>
-            <Button
-              text="Вход с паролем"
-              modWidth="width-auto"
-              modHeight="height-big"
-              modStyle="filled"
-              modColor="color-main"
+type MainMessageState = {
+  currentState: string
+}
+
+export default class MainMessage extends PureComponent<MainMessageProps, MainMessageState> {
+  state = {
+    currentState: MAIN_MESSAGE_STATE.LIST_EMPTY
+  };
+
+  render() {
+    const { currentState } = this.state;
+
+    return (
+      <div className="main-message">
+        <Suspense fallback={<h5>Loading...</h5>}>
+          {{
+            [MAIN_MESSAGE_STATE.CONFIRMED]: <Message
+              img={emailImg}
+              title='Ваш адрес электронной почты подтвержден'
+              text='Чтобы продолжить, войдите в систему:'
+              buttonText='Вход с паролем'
+            />,
+            [MAIN_MESSAGE_STATE.NOT_CONFIRMED]: <Message
+              img={studentImg }
+              title='Ваша учетная запись еще не&nbsp;подтверждена как учебное заведение.'
+              text='Мы&nbsp;сообщим о&nbsp;подтверждении письмом на&nbsp;указанную электронную почту.'
+            />,
+            [MAIN_MESSAGE_STATE.LIST_EMPTY]: <Message
+              img={ personImg }
+              title='Вы&nbsp;еще не&nbsp;создали ни&nbsp;одного FairCV'
             />
-          </div>
-        : null
-      }
-      {(type === 'not_yet')
-        ? <div className="mail_confirmed">
-            <img className="mail_confirmed__img" src={ studentImg } alt=""/>
-            <h3 className="mail_confirmed__title">Ваша учетная запись еще не&nbsp;подтверждена как учебное заведение.</h3>
-            <p className="mail_confirmed__text">Мы&nbsp;сообщим о&nbsp;подтверждении письмом на&nbsp;указанную электронную почту.</p>
-          </div>
-        : null
-      }
-      {(type === 'list_empty')
-        ? <div className="mail_confirmed">
-            <img className="mail_confirmed__img" src={ personImg } alt=""/>
-            <h3 className="mail_confirmed__title">Вы&nbsp;еще не&nbsp;создали ни&nbsp;одного FairCV</h3>
-          </div>
-        : null
-      }
-    </div>
-  );
+          }[currentState]}
+        </Suspense>
+      </div>
+    );
+  }
+
+
 };
-export default MainMessage;
