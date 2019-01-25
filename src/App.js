@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import AuthForm from './Containers/AuthForm';
 import { Route, Link, Switch, Redirect } from 'react-router-dom';
+import Button from './Common/Components/Button';
 import logo from './logo.svg';
 import './App.scss';
 
@@ -64,6 +65,18 @@ class App extends Component {
             <Link to="/auth">auth</Link>
             <Link to="/faircv">faircv list</Link>
             <Link to="/faircv/create">create faircv</Link>
+          </div>
+          <div className="container">
+            <div className="main__title">
+              <h2 className="main__title-text">Созданные FairCV</h2>
+              <Button
+                text="Добавить FairCV"
+                modWidth="width-auto"
+                modHeight="height-big"
+                modStyle="filled"
+                modColor="color-main"
+              />
+            </div>
           </div>
           <div className="container">
             <AuthForm/>
