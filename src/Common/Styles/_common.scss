@@ -85,7 +85,8 @@ ul {
 .container {
   width: 100%;
   max-width: 1470px;
-  padding: 0 30px;
+  padding: 0 32px;
+  box-sizing: border-box;
 }
 
 .link {
