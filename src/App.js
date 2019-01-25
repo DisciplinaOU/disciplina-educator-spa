@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import AuthForm from './Containers/AuthForm';
+import Header from './Containers/Header';
 import { Route, Link, Switch, Redirect } from 'react-router-dom';
 import MainMessage from './Common/Components/MainMessage'
 import Button from './Common/Components/Button';
@@ -43,30 +44,26 @@ const Faircv = () => (
   </Switch>
 );
 
+const user = {
+  isConfirmed: true
+}
+
 class App extends Component {
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-        <main className="App-main">
+        <Header user={ user } />
+        <Link to="/auth">auth</Link>
+        <Link to="/faircv">faircv list</Link>
+        <Link to="/faircv/create">create faircv</Link>
+        <main className="main">
+          <AuthForm />
           <MainMessage type="list_empty"/>
           <div className="container">
             <Switch>
               <Route path="/auth" component={Auth} />
               <Route path="/faircv" component={withAuth(Faircv)} />
             </Switch>
-            <Link to="/auth">auth</Link>
-            <Link to="/faircv">faircv list</Link>
-            <Link to="/faircv/create">create faircv</Link>
           </div>
           <div className="container">
             <div className="main__title">
@@ -79,9 +76,6 @@ class App extends Component {
                 modColor="color-main"
               />
             </div>
-          </div>
-          <div className="container">
-            <AuthForm />
           </div>
         </main>
       </div>

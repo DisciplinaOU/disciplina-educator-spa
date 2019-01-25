@@ -1,0 +1,72 @@
+@import '../../Common/Styles/styles';
+
+.header {
+  padding: 16px 32px  24px;
+  background-image: $linear-gradient-horizon;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+
+  &__logo {
+    flex: 0 0 auto;
+    margin-right: 32px;
+  }
+
+  &__title {
+    @include titleH3($color-white);
+    text-align: left;
+    margin-right: 32px;
+  }
+
+  &__log-off {
+    @include normalString($color-white);
+    position: relative;
+    padding: 0 0 0 28px;
+    margin-left: auto;
+
+    &:before {
+      content: '';
+      position: absolute;
+      background-image: url('../../Common/Assets/icons/log-off-icon.svg');
+      width: 20px;
+      height: 14px;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      transition: left 0.2s ease-in-out;
+    }
+
+    &:hover {
+      &:before {
+        left: 2px;
+      }
+    }
+  }
+
+  @media screen and (max-width: $wide-desktop) {
+    padding: 16px 24px  24px;
+
+    &__title {
+      @include titleH4($color-white);
+    }
+  }
+
+  @media screen and (max-width: $phablet) {
+    flex-wrap: wrap;
+    padding: 16px 16px 24px;
+
+    &__logo {
+      order: 1;
+    }
+
+    &__title {
+      order: 3;
+      margin-top: 16px;
+    }
+
+    &__log-off {
+      order: 2;
+    }
+  }
+}

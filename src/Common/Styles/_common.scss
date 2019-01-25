@@ -31,6 +31,7 @@ button {
   border: none;
   outline: none !important;
   background-color: transparent;
+  cursor: pointer;
 }
 
 ul {
@@ -45,9 +46,8 @@ a {
 
 .container {
   width: 100%;
-  max-width: 1470px;
-  padding: 0 32px;
-  box-sizing: border-box;
+  max-width: $max-width;
+  padding: 0 30px;
 }
 
 .margin-top-4 {
