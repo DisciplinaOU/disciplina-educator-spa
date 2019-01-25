@@ -41,11 +41,15 @@ const Faircv = () => (
   </Switch>
 );
 
+const user = {
+  isConfirmed: true
+}
+
 class App extends Component {
   render() {
     return (
       <div className="App">
-        <Header />
+        <Header user={ user } />
         <Switch>
           <Route path="/auth" component={Auth} />
           <Route path="/faircv" component={withAuth(Faircv)} />
