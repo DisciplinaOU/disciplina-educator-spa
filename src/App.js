@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import AuthForm from './Containers/AuthForm';
 import { Route, Link, Switch, Redirect } from 'react-router-dom';
+import MainMessage from './Common/Components/MainMessage'
 import Button from './Common/Components/Button';
 import logo from './logo.svg';
 import './App.scss';
@@ -57,6 +58,7 @@ class App extends Component {
           </a>
         </header>
         <main className="App-main">
+          <MainMessage type="list_empty"/>
           <div className="container">
             <Switch>
               <Route path="/auth" component={Auth} />
