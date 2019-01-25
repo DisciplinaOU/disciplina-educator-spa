@@ -79,7 +79,7 @@ class App extends Component {
             </div>
           </div>
           <div className="container">
-            <AuthForm/>
+            <AuthForm />
           </div>
         </main>
       </div>
