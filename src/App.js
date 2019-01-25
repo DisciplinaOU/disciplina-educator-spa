@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import AuthForm from './Containers/AuthForm';
 import { Route, Link, Switch, Redirect } from 'react-router-dom';
+import MainMessage from './Common/Components/MainMessage'
 import logo from './logo.svg';
 import './App.scss';
 
@@ -55,6 +56,7 @@ class App extends Component {
             Learn React
           </a>
         </header>
+
         <Switch>
           <Route path="/auth" component={Auth} />
           <Route path="/faircv" component={withAuth(Faircv)} />
@@ -63,7 +65,7 @@ class App extends Component {
         <Link to="/faircv">faircv list</Link>
         <Link to="/faircv/create">create faircv</Link>
         <main className="App-main">
-          <AuthForm/>
+          <MainMessage type="list_empty"/>
         </main>
       </div>
     );
