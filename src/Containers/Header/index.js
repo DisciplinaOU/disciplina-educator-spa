@@ -18,7 +18,6 @@ export const Header = (props: HeaderProps) => {
         <button className="header__log-off">Выход</button>
         : null
       }
-
     </header>
   )
 };

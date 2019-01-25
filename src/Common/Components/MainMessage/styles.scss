@@ -1,0 +1,24 @@
+@import '../../Styles/styles';
+
+.mail_confirmed {
+  margin: 10vh auto 20vh;
+  max-width: 560px;
+
+  &__img {
+    width: 140px;
+  }
+
+  &__title {
+    @include titleH3();
+    margin-top: 32px;
+  }
+
+  &__text {
+    @include largerString();
+    margin-top: 16px;
+
+    & + .btn {
+      margin-top: 16px;
+    }
+  }
+}

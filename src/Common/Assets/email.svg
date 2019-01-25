@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="140px" height="98px" viewBox="0 0 140 98" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52.4 (67378) - http://www.bohemiancoding.com/sketch -->
+    <title>Combined Shape</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Form-App" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" opacity="0.5">
+        <g id="mail-confirmation" transform="translate(-574.000000, -257.000000)" fill="#D6D6D6">
+            <g id="Group" transform="translate(360.000000, 257.000000)">
+                <path d="M344,7.10542736e-15 L284,42 L224,0 L344,0 Z M353.621395,7.26502348 C353.868008,8.13427415 354,9.05172293 354,10 L354,88 C354,93.5228475 349.522847,98 344,98 L224,98 C218.477153,98 214,93.5228475 214,88 L214,10 C214,9.05172293 214.131992,8.13427415 214.378605,7.26502348 L284,56 L353.621395,7.26502348 Z" id="Combined-Shape"></path>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -4,6 +4,7 @@
   box-shadow: $shadow;
   max-width: 350px;
   width: 100%;
+  margin: 20vh auto 10vh;
   border-radius: 3px;
   overflow: hidden;
   background-color: $color-white;
@@ -56,6 +57,25 @@
       &:first-child {
         margin-right: 16px;
       }
+    }
+  }
+
+  @media screen and (max-width: 480px) {
+    margin: 0;
+    border-radius: 0;
+    box-shadow: none;
+    max-width: none;
+
+    &__header {
+      display: none;
+    }
+
+    &__main {
+      padding: 18px 0;
+    }
+
+    .tab {
+      font-size: 14px;
     }
   }
 }
