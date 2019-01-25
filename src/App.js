@@ -55,15 +55,10 @@ class App extends Component {
             Learn React
           </a>
         </header>
-        <Switch>
-          <Route path="/auth" component={Auth} />
-          <Route path="/faircv" component={withAuth(Faircv)} />
-        </Switch>
-        <Link to="/auth">auth</Link>
-        <Link to="/faircv">faircv list</Link>
-        <Link to="/faircv/create">create faircv</Link>
         <main className="App-main">
-          <AuthForm/>
+          <div className="container">
+            <AuthForm/>
+          </div>
         </main>
       </div>
     );
