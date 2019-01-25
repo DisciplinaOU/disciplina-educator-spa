@@ -27,4 +27,5 @@ export const Header = (props: HeaderProps) => {
     </header>
   )
 };
+
 export default Header;

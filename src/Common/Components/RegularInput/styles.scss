@@ -1,0 +1,20 @@
+@import '../../Styles/styles';
+
+.regular-input {
+  text-align: left;
+
+  &__label {
+    display: block;
+    @include largerString();
+    margin-bottom: $size-xs;
+  }
+
+  &__field {
+    display: block;
+    border: 0;
+    background-color: $color-gray-2;
+    border-radius: 5px;
+    @include largerString();
+    padding: 7px 8px 9px;
+  }
+}

@@ -19,13 +19,13 @@ class AuthForm extends PureComponent <{}, AuthFormState> {
   state: AuthFormState = {
     currentState: AUTH_FORM_STATES.SIGN_IN
   };
-  
+
   goToRegisterTab = () => this.setState({ currentState: AUTH_FORM_STATES.SIGN_UP });
-  
+
   goToSigninTab = () => this.setState({ currentState: AUTH_FORM_STATES.SIGN_IN });
-  
+
   goToResetTab = () => this.setState({ currentState: AUTH_FORM_STATES.RESET });
-  
+
   goToRecoveryTab = () => this.setState({ currentState: AUTH_FORM_STATES.RECOVERY });
 
   render() {
@@ -145,6 +145,6 @@ class AuthForm extends PureComponent <{}, AuthFormState> {
       </div>
     )
   }
-}
+};
 
 export default AuthForm;

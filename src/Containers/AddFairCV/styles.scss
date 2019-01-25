@@ -1,0 +1,51 @@
+@import '../../Common/Styles/styles';
+
+.add-form {
+  border: 1px solid blue;
+
+  // &__title {
+  //   display: flex;
+  //   flex-direction: row;
+  //   align-items: center;
+  //   justify-content: space-between;
+  // }
+
+  &__title {
+    text-align: left;
+    margin: 24px 32px 24px 0;
+    @include customTitle(36px, 42px);
+  }
+
+  &__navigation-link {
+    margin-top: 24px;
+  }
+
+  &__navigation-link + .add-form__title {
+    margin-top: 16px;
+  }
+
+  @media screen and (max-width: $mobile) {
+    &__title {
+      @include customTitle(24px, 28px);
+    }
+  }
+
+  // @media screen and (max-width: 480px) {
+  //   &__title {
+  //     flex-direction: column;
+  //
+  //     .btn {
+  //       order: 0;
+  //       margin: 32px 0;
+  //       width: 100%;
+  //     }
+  //   }
+  //
+  //   &__title-text {
+  //     order: 1;
+  //     margin-top: 0;
+  //     margin-right: 0;
+  //     width: 100%;
+  //   }
+  // }
+}
