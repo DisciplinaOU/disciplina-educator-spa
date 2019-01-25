@@ -30,8 +30,6 @@ $linear-gradient-horizon : linear-gradient(90deg, $color-blue-2, $color-blue-3);
 $shadow: 0 2px 2px rgba(0, 0, 0, 0.25);
 $transition: 0.3s ease-in-out;
 
-//dark theme
-
 $color-dark-blue: #262B49;
 $color-dark-blue-2: #1C2238;
 $color-dark-blue-3: #38415B;
@@ -47,4 +45,27 @@ $color-emerald-4: #289278;
 $color-dark-red: #C54674;
 $color-rose: #FF2D78;
 
+//Shadows
+
 $shadow-white: 0 2px 2px rgba(255, 255, 255, 0.25);
+
+//Viewports
+$wide-desktop: 1440px;
+$desktop: 1280px;
+$tablet: 1024px;
+$phablet: 768px;
+$mobile: 480px;
+$small-mobile: 320px;
+
+//Containers
+$max-width: 1440px;
+
+// Sizes
+$size-xxl: 80px;
+$size-xx: 64px;
+$size-xl: 40px;
+$size-l: 32px;
+$size-m: 24px;
+$size-s: 16px;
+$size-xs: 8px;
+$size-xxs: 4px;

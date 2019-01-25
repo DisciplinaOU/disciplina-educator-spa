@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import AuthForm from './Containers/AuthForm';
+import Header from './Containers/Header';
 import { Route, Link, Switch, Redirect } from 'react-router-dom';
-import logo from './logo.svg';
 import './App.scss';
 
 const AuthGuard = {
@@ -45,16 +45,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+        <Header />
         <Switch>
           <Route path="/auth" component={Auth} />
           <Route path="/faircv" component={withAuth(Faircv)} />
@@ -62,7 +53,7 @@ class App extends Component {
         <Link to="/auth">auth</Link>
         <Link to="/faircv">faircv list</Link>
         <Link to="/faircv/create">create faircv</Link>
-        <main className="App-main">
+        <main className="main">
           <AuthForm/>
         </main>
       </div>
