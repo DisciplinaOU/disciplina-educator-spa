@@ -1,42 +1,40 @@
 import React, { Component } from 'react';
-import AuthForm from './Containers/AuthForm';
 import Header from './Containers/Header';
 import { Route, Link, Switch, Redirect } from 'react-router-dom';
-import MainMessage from './Common/Components/MainMessage'
-import Button from './Common/Components/Button';
-import logo from './logo.svg';
 import './App.scss';
+import AuthContainer from './Containers/Auth';
+import AAAService from './Services/aaa';
 
-const AuthGuard = {
-  checkAuth: async () => Promise.resolve(() => true)
-};
+const UserContext = React.createContext({ id: 0, isConfirmed: false });
 
-const withAuth = (WrappedComponent: Component) => {
+const withUser = (WrappedComponent: Component) => {
   return class PrivateContainer extends Component {
     state = {
       isLoading: true,
-      isAuthenticated: false
+      isAuthenticated: false,
+      user: {}
     };
 
     async componentDidMount() {
       try {
-        await AuthGuard.checkAuth();
-        this.setState({ isLoading: false, isAuthenticated: true });
+        const user = await AAAService.getCurrentUser();
+        this.setState({ isLoading: false, isAuthenticated: true, user });
       } catch (e) {
-        this.setState({ isLoading: false, isAuthenticated: false });
+        this.setState({ isLoading: false, isAuthenticated: true });
       }
     }
 
     render() {
-      const { isAuthenticated, isLoading } = this.state;
+      const { isAuthenticated, isLoading, user } = this.state;
       if (isLoading) return <h5>Loading...</h5>;
       if (!isAuthenticated) return <Redirect to="/auth" />;
-      return <WrappedComponent {...this.props} />;
+      return <UserContext.Provider value={user}>
+        <WrappedComponent {...this.props} user={user} />
+      </UserContext.Provider> ;
     }
   }
 };
 
-const Auth = () => <h2>Welcome Auth...</h2>;
 const Faircv = () => (
   <Switch>
     <Route exact path="/faircv" render={() => <h2>Welcome fair list...</h2>} />
@@ -44,38 +42,22 @@ const Faircv = () => (
   </Switch>
 );
 
-const user = {
-  isConfirmed: true
-}
-
 class App extends Component {
   render() {
     return (
       <div className="App">
-        <Header user={ user } />
+        <UserContext.Consumer>
+          {user => <Header user={ user } />}
+        </UserContext.Consumer>
         <Link to="/auth">auth</Link>
         <Link to="/faircv">faircv list</Link>
         <Link to="/faircv/create">create faircv</Link>
         <main className="main">
-          <AuthForm />
-          <MainMessage type="list_empty"/>
           <div className="container">
             <Switch>
-              <Route path="/auth" component={Auth} />
-              <Route path="/faircv" component={withAuth(Faircv)} />
+              <Route path="/auth" component={AuthContainer} />
+              <Route path="/faircv" component={withUser(Faircv)} />
             </Switch>
-          </div>
-          <div className="container">
-            <div className="main__title">
-              <h2 className="main__title-text">Созданные FairCV</h2>
-              <Button
-                text="Добавить FairCV"
-                modWidth="width-auto"
-                modHeight="height-big"
-                modStyle="filled"
-                modColor="color-main"
-              />
-            </div>
           </div>
         </main>
       </div>

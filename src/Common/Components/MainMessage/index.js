@@ -10,23 +10,19 @@ export const MAIN_MESSAGE_STATE = {
   CONFIRMED: 'CONFIRMED',
   NOT_CONFIRMED: 'NOT_CONFIRMED',
   LIST_EMPTY: 'LIST_EMPTY'
-}
+};
 
 type MainMessageProps = {
   type: string
 }
 
-type MainMessageState = {
-  currentState: string
-}
-
-export default class MainMessage extends PureComponent<MainMessageProps, MainMessageState> {
-  state = {
+export default class MainMessage extends PureComponent<MainMessageProps, {}> {
+  static defaultProps = {
     currentState: MAIN_MESSAGE_STATE.LIST_EMPTY
   };
   
   render() {
-    const { currentState } = this.state;
+    const { type } = this.props;
     
     return (
       <div className="main-message">
@@ -46,7 +42,7 @@ export default class MainMessage extends PureComponent<MainMessageProps, MainMes
             img={personImg}
             title='Вы&nbsp;еще не&nbsp;создали ни&nbsp;одного FairCV'
           />
-        }[currentState]}
+        }[type]}
       </div>
     );
   }
