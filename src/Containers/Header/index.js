@@ -3,6 +3,12 @@ import React from 'react';
 import logoIcon from '../../Common/Assets/main-logo.svg';
 import './styles.scss';
 
+type HeaderProps = {
+  user: {
+    isConfirmed: boolean
+  }
+}
+
 export const Header = (props: HeaderProps) => {
   const { user } = props;
 

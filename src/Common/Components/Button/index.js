@@ -4,10 +4,10 @@ import './styles.scss';
 
 type ButtonProps = {
   text: string,
-  modWidth?: 'width-auto' | 'width-full',
-  modHeight?: 'height-small' | 'height-big',
-  modStyle?: 'filled' | 'empty' | 'simple' | 'arrow-forward' | 'arrow-back',
-  modColor?: 'color-main' | 'color-red',
+  modWidth: 'width-auto' | 'width-full',
+  modHeight: 'height-small' | 'height-big',
+  modStyle: 'filled' | 'empty' | 'simple' | 'arrow-forward' | 'arrow-back',
+  modColor: 'color-main' | 'color-red',
   callback: () => void
 };
 

@@ -9,17 +9,24 @@ export const AUTH_FORM_STATES = {
   SIGN_UP: 'signUp',
   RESET: 'reset',
   RECOVERY: 'recovery'
-}
+};
 
 type AuthFormState = {
-  currentState: AUTH_FORM_STATES.SIGN_IN | AUTH_FORM_STATES.SIGN_UP | AUTH_FORM_STATES.RESET | AUTH_FORM_STATES.RECOVERY
+  currentState: $Values<typeof AUTH_FORM_STATES>
 }
 
-class AuthForm extends PureComponent <AuthFormProps, AuthFormState> {
+class AuthForm extends PureComponent <{}, AuthFormState> {
   state: AuthFormState = {
-    currentState: 'signIn'
-  }
-
+    currentState: AUTH_FORM_STATES.SIGN_IN
+  };
+  
+  goToRegisterTab = () => this.setState({ currentState: AUTH_FORM_STATES.SIGN_UP });
+  
+  goToSigninTab = () => this.setState({ currentState: AUTH_FORM_STATES.SIGN_IN });
+  
+  goToResetTab = () => this.setState({ currentState: AUTH_FORM_STATES.RESET });
+  
+  goToRecoveryTab = () => this.setState({ currentState: AUTH_FORM_STATES.RECOVERY });
 
   render() {
     const { currentState } = this.state;
@@ -30,11 +37,11 @@ class AuthForm extends PureComponent <AuthFormProps, AuthFormState> {
           <img className="auth-form__logo" src={ logoIcon } alt="" />
         </div>
         <div className="auth-form__main">
-          {( currentState === 'signIn' ) ?
-            <>
+          {{
+            [AUTH_FORM_STATES.SIGN_IN]: <>
               <div className="auth-form__tabs">
                 <button className="tab active" href="1">Вход с паролем</button>
-                <button className="tab" href="1">Регистрация</button>
+                <button className="tab" href="1" onClick={this.goToRegisterTab}>Регистрация</button>
               </div>
               <form className="secret__key-auth login-form">
                 <div className="login-form__input-container">
@@ -51,20 +58,19 @@ class AuthForm extends PureComponent <AuthFormProps, AuthFormState> {
                   modHeight="height-big"
                   modStyle="filled"
                   modColor="color-main"
+                  callback={()=>{}}
                 />
                 <Button
                   text="Я забыл пароль"
                   modStyle="simple"
                   modColor="color-main"
+                  callback={this.goToRecoveryTab}
                 />
               </form>
-            </>
-            : null
-          }
-          {( currentState === 'signUp' ) ?
-            <>
+            </>,
+            [AUTH_FORM_STATES.SIGN_UP]: <>
               <div className="auth-form__tabs">
-                <button className="tab" href="1">Вход с паролем</button>
+                <button className="tab" href="1" onClick={this.goToSigninTab}>Вход с паролем</button>
                 <button className="tab active" href="1">Регистрация</button>
               </div>
               <form className="secret__key-auth login-form">
@@ -90,54 +96,51 @@ class AuthForm extends PureComponent <AuthFormProps, AuthFormState> {
                   modHeight="height-big"
                   modStyle="filled"
                   modColor="color-main"
+                  callback={()=>{}}
                 />
               </form>
-            </>
-            : null
-          }
-          {( currentState === 'reset' ) ?
-            <>
+            </>,
+            [AUTH_FORM_STATES.RESET]: <>
               <p className="auth-form__title">Создание нового пароля</p>
               <form className="login-form">
-              <div className="login-form__input-container">
-                <input className="login-form__input login-form__input--password" placeholder="Новый пароль" />
-                <span className="login-form__message">errormsg</span>
-              </div>
+                <div className="login-form__input-container">
+                  <input className="login-form__input login-form__input--password" placeholder="Новый пароль" />
+                  <span className="login-form__message">errormsg</span>
+                </div>
                 <Button
                   text="Сохранить"
                   modWidth="width-full"
                   modHeight="height-big"
                   modStyle="filled"
                   modColor="color-main"
+                  callback={()=>{}}
                 />
               </form>
-            </>
-            : null
-          }
-          {( currentState === 'recovery' ) ?
-            <>
+            </>,
+            [AUTH_FORM_STATES.RECOVERY]: <>
               <Button
+                callback={this.goToSigninTab}
                 text="Вернуться назад"
                 modStyle="arrow-back"
                 modColor="color-main"
               />
               <p className="auth-form__title">Восстановление пароля</p>
               <form className="login-form">
-              <div className="login-form__input-container">
-                <input className="login-form__input login-form__input--password" placeholder="Новый пароль" />
-                <span className="login-form__message">errormsg</span>
-              </div>
+                <div className="login-form__input-container">
+                  <input className="login-form__input login-form__input--password" placeholder="Новый пароль" />
+                  <span className="login-form__message">errormsg</span>
+                </div>
                 <Button
                   text="Отправить"
                   modWidth="width-full"
                   modHeight="height-big"
                   modStyle="filled"
                   modColor="color-main"
+                  callback={()=>{}}
                 />
               </form>
             </>
-            : null
-          }
+          }[currentState]}
         </div>
       </div>
     )
