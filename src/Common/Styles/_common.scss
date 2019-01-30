@@ -46,9 +46,19 @@ a {
 
 .container {
   width: 100%;
+  margin: 0 auto;
   max-width: $max-width;
   padding: 0 32px;
   box-sizing: border-box;
+}
+
+.full-width {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.auto-width {
+  width: auto;
 }
 
 .margin-top-4 {

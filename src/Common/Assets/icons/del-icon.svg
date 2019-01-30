@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="20px" height="20px" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52.4 (67378) - http://www.bohemiancoding.com/sketch -->
+    <title>Shape</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Form-App" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Add-CV-grades" transform="translate(-1227.000000, -1099.000000)" fill="#FF5760">
+            <g id="Group-2" transform="translate(32.000000, 217.000000)">
+                <path d="M1205,902 C1199.5,902 1195,897.5 1195,892 C1195,886.5 1199.5,882 1205,882 C1210.5,882 1215,886.5 1215,892 C1215,897.5 1210.5,902 1205,902 L1205,902 Z M1210,888.4 L1208.6,887 L1205,890.6 L1201.4,887 L1200,888.4 L1203.6,892 L1200,895.6 L1201.4,897 L1205,893.4 L1208.6,897 L1210,895.6 L1206.4,892 L1210,888.4 L1210,888.4 Z" id="Shape" transform="translate(1205.000000, 892.000000) scale(1, -1) translate(-1205.000000, -892.000000) "></path>
+            </g>
+        </g>
+    </g>
+</svg>

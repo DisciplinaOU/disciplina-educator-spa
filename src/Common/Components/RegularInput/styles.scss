@@ -1,8 +1,7 @@
-@import '../../Styles/styles';
+@import '../../Styles/mixins';
+@import '../../Styles/variables';
 
 .regular-input {
-  text-align: left;
-
   &__label {
     display: block;
     @include largerString();
@@ -13,7 +12,7 @@
     display: block;
     border: 0;
     background-color: $color-gray-2;
-    border-radius: 5px;
+    border-radius: $border-radius;
     @include largerString();
     padding: 7px 8px 9px;
   }

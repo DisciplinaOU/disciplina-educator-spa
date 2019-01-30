@@ -1,4 +1,5 @@
-@import '../../Styles/styles';
+@import '../../Styles/mixins';
+@import '../../Styles/variables';
 
 .btn {
   display: inline-block;
@@ -146,5 +147,19 @@
         right: -4px;
       }
     }
+  }
+
+  &--edit {
+    width: 19px;
+    height: 20px;
+    background-image: url('../../Assets/icons/edit-icon.svg');
+    background-size: cover;
+  }
+
+  &--del {
+    width: 20px;
+    height: 20px;
+    background-image: url('../../Assets/icons/del-icon.svg');
+    background-size: cover;
   }
 }
