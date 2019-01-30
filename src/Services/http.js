@@ -1,7 +1,7 @@
 import type { IHttpService } from './types';
 import axios, { AxiosStatic, AxiosInstance } from 'axios';
 
-const BASE_URL = '/';
+const BASE_URL = 'https://stage-teachmeplease-aaa.stage.tchmpls.com';
 
 class HttpService implements IHttpService {
   httpService: AxiosInstance;

@@ -2,7 +2,7 @@ import type { Educator, IAAAService, IHttpService } from './types';
 import HttpService from './http';
 
 const BASE_URL = '/educators';
-const USER_CONFIRM = `${BASE_URL}/current`;
+// const USER_CURRENT = `${BASE_URL}/current`;
 const USER_LOGIN = '/educator_session';
 const CREATE_PASS = `${BASE_URL}/password`;
 const RESET_PASSWORD = `${BASE_URL}/send_reset_instructions`;
@@ -19,8 +19,8 @@ class AAAService implements IAAAService {
   }
   
   getCurrentUser(): Promise<Educator> {
-    return Promise.resolve({id: 1, isConfirmed: true });
-    // return this.httpService.get(USER_CONFIRM);
+    return Promise.resolve({id: 1, isConfirmed: true, isOrganizationConfirmed: true });
+    // return this.httpService.get(USER_CURRENT);
   }
   
   createPassword(password: string, resetPasswordToken: string): Promise<*> {
@@ -28,11 +28,11 @@ class AAAService implements IAAAService {
   }
   
   resetPassword(email: string): Promise<*> {
-    return this.httpService(RESET_PASSWORD, { email });
+    return this.httpService.post(RESET_PASSWORD, { email });
   }
   
   login(email: string, password: string): Promise<*> {
-    return this.httpService(USER_LOGIN, { ...arguments });
+    return this.httpService.post(USER_LOGIN, { ...arguments });
   }
   
 }

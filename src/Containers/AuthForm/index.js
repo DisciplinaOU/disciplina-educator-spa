@@ -1,8 +1,10 @@
 // @flow
 import React, { PureComponent } from 'react';
+import AAAService from '../../Services/aaa';
 import logoIcon from '../../Common/Assets/main-logo.svg';
 import './styles.scss';
 import Button from '../../Common/Components/Button'
+import type { IAAAService } from '../../Services/types';
 
 export const AUTH_FORM_STATES = {
   SIGN_IN: 'signIn',
@@ -12,12 +14,119 @@ export const AUTH_FORM_STATES = {
 };
 
 type AuthFormState = {
-  currentState: $Values<typeof AUTH_FORM_STATES>
+  currentState: $Values<typeof AUTH_FORM_STATES>,
+  isLoading: boolean,
+  email: string,
+  password: string,
+  newPassword: string,
+  name: string,
+  url: string,
+  token: string
 }
 
-class AuthForm extends PureComponent <{}, AuthFormState> {
+type AuthFormProps = {
+  history: any,
+  location: any
+}
+
+class AuthForm extends PureComponent <AuthFormProps, AuthFormState> {
+  Service: IAAAService = AAAService;
+  
   state: AuthFormState = {
-    currentState: AUTH_FORM_STATES.SIGN_IN
+    currentState: AUTH_FORM_STATES.SIGN_IN,
+    isLoading: false,
+    email: '',
+    password: '',
+    newPassword: '',
+    name: '',
+    url: '',
+    token: ''
+  };
+  
+  componentDidMount(): void {
+    const { location } = this.props;
+    let urlParams;
+    let token;
+    if (location) {
+      urlParams = new URLSearchParams(location.search);
+      token = urlParams.get('reset_password_token') || '';
+    }
+    if (token) this.setState({ token, currentState: AUTH_FORM_STATES.RESET });
+  }
+  
+  login = async () => {
+    const { email, password } = this.state;
+    this.startLoading();
+    try {
+      await this.Service.login(email, password);
+    } catch (e) {
+      console.log(e)
+    } finally {
+      this.stopLoading();
+    }
+  };
+  
+  signUp = async () => {
+    const { email, password, name, url } = this.state;
+    this.startLoading();
+    try {
+      await this.Service.createUser(email, name, url, password);
+    } catch (e) {
+      console.log(e)
+    } finally {
+      this.stopLoading();
+    }
+  };
+  
+  setNewPassword = async () => {
+    const { newPassword } = this.state;
+    this.startLoading();
+    try {
+      await this.Service.createPassword(newPassword, 'token');
+    } catch (e) {
+      console.log(e)
+    } finally {
+      this.stopLoading();
+    }
+  };
+  
+  resetPassword = async () => {
+    const { email } = this.state;
+    this.startLoading();
+    try {
+      await this.Service.resetPassword(email);
+    } catch (e) {
+      console.log(e)
+    } finally {
+      this.stopLoading();
+    }
+  };
+  
+  handleEmailInput = (e: SyntheticEvent<HTMLInputElement>) => this.setState({ email: e.currentTarget.value });
+  
+  handlePasswordInput = (e: SyntheticEvent<HTMLInputElement>) => {
+    this.setState({ password: e.currentTarget.value });
+  };
+  
+  handleNewPasswordInput = (e: SyntheticEvent<HTMLInputElement>) => {
+    this.setState({ newPassword: e.currentTarget.value });
+  };
+  
+  handleNameInput = (e: SyntheticEvent<HTMLInputElement>) => {
+    this.setState({ name: e.currentTarget.value });
+  };
+  
+  handleUrlInput = (e: SyntheticEvent<HTMLInputElement>) => {
+    this.setState({ url: e.currentTarget.value });
+  };
+  
+  startLoading = () => this.setState({ isLoading: true });
+  
+  stopLoading = () => this.setState({ isLoading: false });
+  
+  goToIndex = () => {
+    const { history } = this.props;
+    history.push('/');
   };
   
   goToRegisterTab = () => this.setState({ currentState: AUTH_FORM_STATES.SIGN_UP });
@@ -29,7 +138,7 @@ class AuthForm extends PureComponent <{}, AuthFormState> {
   goToRecoveryTab = () => this.setState({ currentState: AUTH_FORM_STATES.RECOVERY });
 
   render() {
-    const { currentState } = this.state;
+    const { currentState, email, password, name, newPassword, url, isLoading } = this.state;
 
     return (
       <div className="auth-form">
@@ -45,11 +154,21 @@ class AuthForm extends PureComponent <{}, AuthFormState> {
               </div>
               <form className="secret__key-auth login-form">
                 <div className="login-form__input-container">
-                  <input className="login-form__input login-form__input--email" placeholder="Электронная почта" />
+                  <input
+                    className="login-form__input login-form__input--email"
+                    placeholder="Электронная почта"
+                    value={email}
+                    onChange={this.handleEmailInput}
+                  />
                   <span className="login-form__message">errormsg</span>
                 </div>
                 <div className="login-form__input-container">
-                  <input className="login-form__input login-form__input--password" placeholder="Пароль" />
+                  <input
+                    className="login-form__input login-form__input--password"
+                    placeholder="Пароль"
+                    value={password}
+                    onChange={this.handlePasswordInput}
+                  />
                   <span className="login-form__message">errormsg</span>
                 </div>
                 <Button
@@ -58,7 +177,8 @@ class AuthForm extends PureComponent <{}, AuthFormState> {
                   modHeight="height-big"
                   modStyle="filled"
                   modColor="color-main"
-                  callback={()=>{}}
+                  callback={this.login}
+                  disabled={isLoading}
                 />
                 <Button
                   text="Я забыл пароль"
@@ -75,19 +195,39 @@ class AuthForm extends PureComponent <{}, AuthFormState> {
               </div>
               <form className="secret__key-auth login-form">
                 <div className="login-form__input-container">
-                  <input className="login-form__input login-form__input--email" placeholder="Электронная почта" />
+                  <input
+                    className="login-form__input login-form__input--email"
+                    placeholder="Электронная почта"
+                    value={email}
+                    onChange={this.handleEmailInput}
+                  />
                   <span className="login-form__message">errormsg</span>
                 </div>
                 <div className="login-form__input-container">
-                  <input className="login-form__input login-form__input--org-name" placeholder="Название организации" />
+                  <input
+                    className="login-form__input login-form__input--org-name"
+                    placeholder="Название организации"
+                    value={name}
+                    onChange={this.handleNameInput}
+                  />
                   <span className="login-form__message">errormsgsdfdsf</span>
                 </div>
                 <div className="login-form__input-container">
-                  <input className="login-form__input login-form__input--site" placeholder="Сайт организации" />
+                  <input
+                    className="login-form__input login-form__input--site"
+                    placeholder="Сайт организации"
+                    value={url}
+                    onChange={this.handleUrlInput}
+                  />
                   <span className="login-form__message">errormsg</span>
                 </div>
                 <div className="login-form__input-container">
-                  <input className="login-form__input login-form__input--password" placeholder="Пароль" />
+                  <input
+                    className="login-form__input login-form__input--password"
+                    placeholder="Пароль"
+                    value={password}
+                    onChange={this.handlePasswordInput}
+                  />
                   <span className="login-form__message">errormsg</span>
                 </div>
                 <Button
@@ -96,7 +236,8 @@ class AuthForm extends PureComponent <{}, AuthFormState> {
                   modHeight="height-big"
                   modStyle="filled"
                   modColor="color-main"
-                  callback={()=>{}}
+                  callback={this.signUp}
+                  disabled={isLoading}
                 />
               </form>
             </>,
@@ -104,7 +245,12 @@ class AuthForm extends PureComponent <{}, AuthFormState> {
               <p className="auth-form__title">Создание нового пароля</p>
               <form className="login-form">
                 <div className="login-form__input-container">
-                  <input className="login-form__input login-form__input--password" placeholder="Новый пароль" />
+                  <input
+                    className="login-form__input login-form__input--password"
+                    placeholder="Новый пароль"
+                    value={newPassword}
+                    onChange={this.handleNewPasswordInput}
+                  />
                   <span className="login-form__message">errormsg</span>
                 </div>
                 <Button
@@ -113,7 +259,8 @@ class AuthForm extends PureComponent <{}, AuthFormState> {
                   modHeight="height-big"
                   modStyle="filled"
                   modColor="color-main"
-                  callback={()=>{}}
+                  callback={this.setNewPassword}
+                  disabled={isLoading}
                 />
               </form>
             </>,
@@ -127,7 +274,12 @@ class AuthForm extends PureComponent <{}, AuthFormState> {
               <p className="auth-form__title">Восстановление пароля</p>
               <form className="login-form">
                 <div className="login-form__input-container">
-                  <input className="login-form__input login-form__input--password" placeholder="Новый пароль" />
+                  <input
+                    className="login-form__input login-form__input--email"
+                    placeholder="Электронная почта"
+                    value={email}
+                    onChange={this.handleEmailInput}
+                  />
                   <span className="login-form__message">errormsg</span>
                 </div>
                 <Button
@@ -136,7 +288,8 @@ class AuthForm extends PureComponent <{}, AuthFormState> {
                   modHeight="height-big"
                   modStyle="filled"
                   modColor="color-main"
-                  callback={()=>{}}
+                  callback={this.resetPassword}
+                  disabled={isLoading}
                 />
               </form>
             </>
