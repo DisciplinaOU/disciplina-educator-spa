@@ -39,7 +39,7 @@ export class Scores extends PureComponent<ScoresProps, ScoresState> {
                 <div className="table__item table__item--button"><span className="btn btn--del"></span></div>
               </div>
             )): null }
-          <form className="table__row table__form">
+          <div className="table__row table__form">
             <div className="table__item table__item--course"><RegularInput /></div>
             <div className="table__item table__item--lang"><DropDownInput list={[1,2,3]} /></div>
             <div className="table__item table__item--hours"><RegularInput /></div>
@@ -55,7 +55,7 @@ export class Scores extends PureComponent<ScoresProps, ScoresState> {
                 callback={()=>{}}
               />
             </div>
-          </form>
+          </div>
         </div>
       </div>
     );

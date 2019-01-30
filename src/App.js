@@ -65,11 +65,9 @@ class App extends Component {
             <Link to="/faircv/create">create faircv</Link>
           </div>
           <div className="container">
-            <AddFairCV />
-          </div>
-          <div className="container">
             <AuthForm />
           </div>
+          <AddFairCV />
         </main>
       </div>
     );

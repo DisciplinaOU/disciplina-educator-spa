@@ -3,10 +3,20 @@
 
 
 .add-form {
+  flex: 1 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+
   &__title {
     text-align: left;
     margin: 24px 32px 24px 0;
     @include customTitle(36px, 42px);
+  }
+
+  form {
+    margin-bottom: $size-l;
   }
 
   .navigation-link {
@@ -64,6 +74,10 @@
   .input-rank {
     width: 100%;
     max-width: 608px;
+  }
+
+  .reminder {
+    margin-top: auto;
   }
 }
 

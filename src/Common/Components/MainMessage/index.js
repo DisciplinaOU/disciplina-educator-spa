@@ -22,12 +22,12 @@ type MainMessageState = {
 
 export default class MainMessage extends PureComponent<MainMessageProps, MainMessageState> {
   state = {
-    currentState: MAIN_MESSAGE_STATE.LIST_EMPTY
+    currentState: MAIN_MESSAGE_STATE.CONFIRMED
   };
-  
+
   render() {
     const { currentState } = this.state;
-    
+
     return (
       <div className="main-message">
         {{
@@ -50,6 +50,6 @@ export default class MainMessage extends PureComponent<MainMessageProps, MainMes
       </div>
     );
   }
-  
-  
+
+
 };
