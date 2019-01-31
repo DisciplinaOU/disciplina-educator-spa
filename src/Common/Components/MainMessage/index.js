@@ -9,8 +9,9 @@ import './styles.scss';
 export const MAIN_MESSAGE_STATE = {
   CONFIRMED: 'CONFIRMED',
   NOT_CONFIRMED: 'NOT_CONFIRMED',
-  LIST_EMPTY: 'LIST_EMPTY'
-}
+  LIST_EMPTY: 'LIST_EMPTY',
+  CHECK_EMAIL: 'CHECK_EMAIL'
+};
 
 type MainMessageProps = {
   type: string
@@ -45,6 +46,11 @@ export default class MainMessage extends PureComponent<MainMessageProps, MainMes
           [MAIN_MESSAGE_STATE.LIST_EMPTY]: <Message
             img={personImg}
             title='Вы&nbsp;еще не&nbsp;создали ни&nbsp;одного FairCV'
+          />,
+          [MAIN_MESSAGE_STATE.CHECK_EMAIL]: <Message
+            img={emailImg}
+            title='Проверьте вашу электронную почту'
+            text='Мы выслали на нее письмо со&nbsp;ссылкой для подтверждения адреся'
           />
         }[currentState]}
       </div>

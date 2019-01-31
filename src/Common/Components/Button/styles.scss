@@ -11,6 +11,12 @@
   cursor: pointer;
   transition: color $transition, background-color $transition, border $transition;
 
+  &[disabled] {
+    background-color: $color-gray;
+    border-color: $color-gray;
+    pointer-events: none;
+  }
+
   //mod Width
   &--width-auto {
     width: auto;
