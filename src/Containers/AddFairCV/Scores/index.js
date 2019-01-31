@@ -6,10 +6,10 @@ import Button from '../../../Common/Components/Button';
 import './styles.scss';
 
 type ScoresProps = {
-  data: array
+  data: Array<any>
 }
 
-export class Scores extends PureComponent<ScoresProps, ScoresState> {
+export class Scores extends PureComponent<ScoresProps, {}> {
 
   render() {
     const { data } = this.props;
@@ -27,18 +27,18 @@ export class Scores extends PureComponent<ScoresProps, ScoresState> {
             <div className="table__item table__item--button"></div>
             <div className="table__item table__item--button"></div>
           </div>
-          { data ?
-            ( data.map((item, i) =>
-              <div className="table__row" key={ i }>
-                <div className="table__item table__item--course">{ item.course }</div>
-                <div className="table__item table__item--lang">{ item.language }</div>
-                <div className="table__item table__item--hours">{ item.hours }</div>
-                <div className="table__item table__item--credits">{ item.ectscredits }</div>
-                <div className="table__item table__item--score">{ item.score }</div>
+          {data ?
+            ( data.map((i) =>
+              <div className="table__row" key={i.id}>
+                <div className="table__item table__item--course">{i.course}</div>
+                <div className="table__item table__item--lang">{i.language}</div>
+                <div className="table__item table__item--hours">{i.hours}</div>
+                <div className="table__item table__item--credits">{i.ectscredits}</div>
+                <div className="table__item table__item--score">{i.score}</div>
                 <div className="table__item table__item--button"><span className="btn btn--edit"></span></div>
                 <div className="table__item table__item--button"><span className="btn btn--del"></span></div>
               </div>
-            )): null }
+            )): null}
           <div className="table__row table__form">
             <div className="table__item table__item--course"><RegularInput /></div>
             <div className="table__item table__item--lang"><DropDownInput list={[1,2,3]} /></div>

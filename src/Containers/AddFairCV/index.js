@@ -10,6 +10,7 @@ import Reminder from './Reminder'
 import 'react-datepicker/dist/react-datepicker.css';
 
 export const scoresData = [{
+    id: 1,
     course: 'Введение в управление бизнесом',
     language: 'ru',
     hours: 72,
@@ -17,6 +18,7 @@ export const scoresData = [{
     score: 'зачтено'
   },
   {
+    id: 2,
     course: 'Введение в бизнес-управление ',
     language: 'ru',
     hours: 7,
@@ -24,6 +26,7 @@ export const scoresData = [{
     score: 'зачтено'
   },
   {
+    id: 3,
     course: 'Введение в бизнес',
     language: 'ru',
     hours: 2,
@@ -127,7 +130,7 @@ export class AddFairCV extends PureComponent <{}, AddFairCVState> {
                 className="input-specialization"
               />
             </div>
-            <Scores data={ scoresData }/>
+            <Scores data={scoresData}/>
           </form>
         </div>
         <Reminder />

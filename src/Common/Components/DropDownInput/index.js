@@ -5,46 +5,51 @@ import './styles.scss';
 type DropDownInputProps = {
   value?: string,
   title: string,
-  list: array,
+  list: Array<string>,
   callback: () => void
 };
 
 type DropDownInputState = {
-  selectOpen: boolean,
+  isSelectOpened: boolean,
   value: string
 }
 
 export default class DropDownInput extends PureComponent<DropDownInputProps, DropDownInputState> {
 
   state = {
-    selectOpen: false,
+    isSelectOpened: false,
     value: "start"
   }
 
   changeSelectState = () => {
-    if(this.state.selectOpen){
-      this.setState({
-        selectOpen: false
-      })
-    } else {
-      this.setState({
-        selectOpen: true
-      })
-    }
+    const opened = this.state.isSelectOpened;
+    opened ? this.closeSelect() : this.openSelect();
   }
 
-  changeSelectValue = (i) => {
+  openSelect = () => {
+    this.setState ({
+      isSelectOpened: true
+    })
+  }
+
+  closeSelect = () => {
     this.setState({
-      value: i
+      isSelectOpened: false
+    })
+  }
+
+  changeSelectValue = (e) => {
+    this.setState({
+      value: e.currentTarget.dataset.value
     })
   }
 
   render() {
     const {  id, title, list, className } = this.props;
-    const { selectOpen, value } = this.state;
+    const { isSelectOpened, value } = this.state;
     return (
-      <div className={`dropdown-input ${selectOpen ? 'active' : ''} ${className ? className : ""}`} onClick={this.changeSelectState}>
-        <label className="dropdown-input__label">{ title }</label>
+      <div className={`dropdown-input ${isSelectOpened ? 'active' : ''} ${className ? className : ""}`} onClick={this.changeSelectState}>
+        <label className="dropdown-input__label">{title}</label>
         <input
           id={id || undefined}
           className="dropdown-input__field"
@@ -52,8 +57,8 @@ export default class DropDownInput extends PureComponent<DropDownInputProps, Dro
           value={value}
           />
         <ul className="dropdown-input__list">
-          { list.map((item, i) =>
-            <li className="dropdown-input__item" key={ i } onClick={ this.changeSelectValue(item) }>{ item }</li>
+          { list.map((i) =>
+            <li className="dropdown-input__item" key={i.id} data-value={i} onClick={this.changeSelectValue}>{i}</li>
           )}
         </ul>
       </div>

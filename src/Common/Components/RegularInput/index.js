@@ -7,25 +7,28 @@ type RegularInputProps = {
   value?: string,
   title: string,
   placeholder: string,
-  width?: string
+  width?: string,
+  dispatchValue: (state: any) => void
 };
 
 export default class RegularInput extends PureComponent<RegularInputProps> {
-  static defaultProps = {
+  onChange = (value: string) => {
+    const { dispatchValue } = this.props;
+    dispatchValue(value);
   };
-
   render() {
     const {  id, value, title, placeholder, width, className } = this.props;
     return (
       <div className={`regular-input input ${className ? className : ""}`}>
-        <label className="regular-input__label">{ title }</label>
+        <label className="regular-input__label">{title}</label>
         <input
           className={`regular-input__field${(width === "full") ? " full-width" : " auto-width"}`}
-          id={ id || undefined}
-          value={ value }
+          id={id || undefined}
+          value={value}
           placeholder={placeholder}
           type="text"
-          />
+          onChange={this.onChange}
+        />
       </div>
     );
   }

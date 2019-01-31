@@ -49,6 +49,8 @@
     overflow: hidden;
     opacity: 0;
     transition: top $transition, opacity $transition;
+    background-color: $color-white;
+    z-index: 99;
   }
 
   &__item {

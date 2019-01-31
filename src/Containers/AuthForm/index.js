@@ -34,7 +34,7 @@ class AuthForm extends PureComponent <{}, AuthFormState> {
     return (
       <div className="auth-form">
         <div className="auth-form__header">
-          <img className="auth-form__logo" src={ logoIcon } alt="" />
+          <img className="auth-form__logo" src={logoIcon} alt="" />
         </div>
         <div className="auth-form__main">
           {{

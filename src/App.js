@@ -52,7 +52,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <Header user={ user } />
+        <Header user={user} />
         <main className="App-main">
           <MainMessage type="list_empty"/>
           <div className="container">

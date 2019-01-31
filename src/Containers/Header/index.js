@@ -14,8 +14,7 @@ export const Header = (props: HeaderProps) => {
 
   return (
     <header className="header">
-      <img className="header__logo" src={ logoIcon } alt="" />
-
+      <img className="header__logo" src={logoIcon} alt="" />
       {(user && user.isConfirmed) ?
         <div className="header__title">Ивановский государственный химико-технологический университет</div>
         : null
