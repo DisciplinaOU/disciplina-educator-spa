@@ -8,7 +8,11 @@ import AAAService from './Services/aaa';
 const UserContext = React.createContext({ id: 0, isConfirmed: false });
 
 const withUserContext = (WrappedComponent: Component, isGuardEnabled: boolean) => {
-  return class PrivateContainer extends PureComponent {
+  type PrivateContainerProps = {
+    history: { push: (url: string) => void },
+    location: { pathname: string }
+  };
+  return class PrivateContainer extends PureComponent<PrivateContainerProps> {
     state = {
       isLoading: true,
       isAuthenticated: false,
@@ -19,8 +23,10 @@ const withUserContext = (WrappedComponent: Component, isGuardEnabled: boolean) =
       try {
         const user = await AAAService.getCurrentUser();
         this.setState({ isLoading: false, isAuthenticated: true, user });
+        const { history, location } = this.props;
+        if (location.pathname.indexOf('faircv') < 0) history.push('/faircv');
       } catch (e) {
-        this.setState({ isLoading: false, isAuthenticated: true });
+        this.setState({ isLoading: false, isAuthenticated: false });
       }
     }
 
@@ -42,7 +48,7 @@ const Faircv = () => (
   </Switch>
 );
 
-class App extends PureComponent {
+class App extends Component {
   render() {
     return (
       <div className="App">

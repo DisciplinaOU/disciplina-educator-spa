@@ -56,9 +56,11 @@ class AuthForm extends PureComponent <AuthFormProps, AuthFormState> {
   
   login = async () => {
     const { email, password } = this.state;
+    const { history } = this.props;
     this.startLoading();
     try {
       await this.Service.login(email, password);
+      history.push('/faircv');
     } catch (e) {
       console.log(e)
     } finally {
@@ -82,7 +84,7 @@ class AuthForm extends PureComponent <AuthFormProps, AuthFormState> {
     const { newPassword } = this.state;
     this.startLoading();
     try {
-      await this.Service.createPassword(newPassword, 'token');
+      await this.Service.createPassword(newPassword, '6LwzHosh-kHxcRmeCBqJ');
     } catch (e) {
       console.log(e)
     } finally {

@@ -1,7 +1,8 @@
 import type { IHttpService } from './types';
 import axios, { AxiosStatic, AxiosInstance } from 'axios';
 
-const BASE_URL = 'https://stage-teachmeplease-aaa.stage.tchmpls.com';
+// const BASE_URL = 'https://stage-teachmeplease-aaa.stage.tchmpls.com';
+const BASE_URL = '//192.168.1.112:4000';
 
 class HttpService implements IHttpService {
   httpService: AxiosInstance;
@@ -9,9 +10,20 @@ class HttpService implements IHttpService {
   constructor(axiosService: AxiosStatic) {
     this.httpService = new axiosService.create({
       baseURL: BASE_URL,
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', 'tmp-csrf': 'tmp-csrf' },
       withCredentials: true
     });
+    
+    this.httpService.interceptors.response.use(response => {
+      if (response.data.token) localStorage.setItem('token', response.data.token);
+      return response;
+    }, error => Promise.reject(error));
+    
+    this.httpService.interceptors.request.use(config => {
+      const token = localStorage.getItem('token');
+      if (token) config.headers.authorization = token;
+      return config;
+    }, error => Promise.reject(error));
   }
   
   _serializefilter(filter: {}): string {

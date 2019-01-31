@@ -76,5 +76,6 @@ export interface IAAAService {
   login(email: string, password: string): Promise<any>,
   resetPassword(email: string): Promise<any>,
   createPassword(password: string, resetPasswordToken: string): Promise<any>,
-  getCurrentUser(): Promise<Educator>
+  getCurrentUser(): Promise<Educator>,
+  logout(): void
 }
