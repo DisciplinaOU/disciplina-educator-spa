@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PureComponent } from 'react';
 import AuthForm from './Containers/AuthForm';
 import AddFairCV from './Containers/AddFairCV';
 import Header from './Containers/Header';
@@ -56,16 +56,10 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-<<<<<<< HEAD
-        <Header user={user} />
-        <main className="App-main">
-          <MainMessage type="list_empty"/>
-=======
         <UserContext.Consumer>
           {user => <Header user={ user } />}
         </UserContext.Consumer>
         <main className="main">
->>>>>>> cdda10b847c3701218d2db29ab2d9cb7d6e2b697
           <div className="container">
             <Switch>
               <Route path="/auth" component={withUserContext(AuthContainer, false)} />
@@ -75,13 +69,6 @@ class App extends Component {
             <Link to="/faircv">faircv list</Link>
             <Link to="/faircv/create">create faircv</Link>
           </div>
-<<<<<<< HEAD
-          <div className="container">
-            <AuthForm />
-          </div>
-          <AddFairCV />
-=======
->>>>>>> cdda10b847c3701218d2db29ab2d9cb7d6e2b697
         </main>
       </div>
     );
