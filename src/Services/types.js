@@ -11,6 +11,16 @@ type EducationForm = 'fulltime' | 'parttime';
 
 type Language = 'en' | 'ru';
 
+export type Educator = {
+  id?: number,
+  email: string,
+  name: string,
+  website: string,
+  password: string,
+  confirmedAt: string,
+  confirmedByOrganization: boolean
+}
+
 export type FaircvQuery = {
   offset: number,
   limit: number,
@@ -62,9 +72,10 @@ export interface IFaircvService {
 // TODO return types must be updated when api spec will be ready
 export interface IAAAService {
   httpService: IHttpService,
-  createUser(email: string, organization: string, website: string, password: string): Promise<any>,
+  createUser(email: string, name: string, website: string, password: string): Promise<Educator>,
   login(email: string, password: string): Promise<any>,
   resetPassword(email: string): Promise<any>,
-  createPassword(password: string): Promise<any>,
-  confirmUser(token: string): Promise<any>
+  createPassword(password: string, resetPasswordToken: string): Promise<any>,
+  getCurrentUser(): Promise<Educator>,
+  logout(): void
 }

@@ -9,24 +9,21 @@ import './styles.scss';
 export const MAIN_MESSAGE_STATE = {
   CONFIRMED: 'CONFIRMED',
   NOT_CONFIRMED: 'NOT_CONFIRMED',
-  LIST_EMPTY: 'LIST_EMPTY'
-}
+  LIST_EMPTY: 'LIST_EMPTY',
+  CHECK_EMAIL: 'CHECK_EMAIL'
+};
 
 type MainMessageProps = {
   type: string
 }
 
-type MainMessageState = {
-  currentState: string
-}
-
-export default class MainMessage extends PureComponent<MainMessageProps, MainMessageState> {
-  state = {
-    currentState: MAIN_MESSAGE_STATE.LIST_EMPTY
+export default class MainMessage extends PureComponent<MainMessageProps, {}> {
+  static defaultProps = {
+    type: MAIN_MESSAGE_STATE.LIST_EMPTY
   };
   
   render() {
-    const { currentState } = this.state;
+    const { type } = this.props;
     
     return (
       <div className="main-message">
@@ -45,8 +42,13 @@ export default class MainMessage extends PureComponent<MainMessageProps, MainMes
           [MAIN_MESSAGE_STATE.LIST_EMPTY]: <Message
             img={personImg}
             title='Вы&nbsp;еще не&nbsp;создали ни&nbsp;одного FairCV'
+          />,
+          [MAIN_MESSAGE_STATE.CHECK_EMAIL]: <Message
+            img={emailImg}
+            title='Проверьте вашу электронную почту'
+            text='Мы выслали на нее письмо со&nbsp;ссылкой для подтверждения адреся'
           />
-        }[currentState]}
+        }[type]}
       </div>
     );
   }

@@ -8,7 +8,7 @@ type ButtonProps = {
   modHeight: 'height-small' | 'height-big',
   modStyle: 'filled' | 'empty' | 'simple' | 'arrow-forward' | 'arrow-back',
   modColor: 'color-main' | 'color-red',
-  callback: () => void
+  callback: () => Promise<any> | void
 };
 
 export default class Button extends PureComponent<ButtonProps> {
