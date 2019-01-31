@@ -1,6 +1,6 @@
 import React, { PureComponent, Component } from 'react';
 import Header from './Containers/Header';
-import { Route, Link, Switch, Redirect } from 'react-router-dom';
+import { Route, Switch, Redirect } from 'react-router-dom';
 import './App.scss';
 import AuthContainer from './Containers/Auth';
 import AAAService from './Services/aaa';
@@ -21,10 +21,8 @@ const withUserContext = (WrappedComponent: Component, isGuardEnabled: boolean) =
 
     async componentDidMount() {
       try {
-        const user = await AAAService.getCurrentUser();
-        this.setState({ isLoading: false, isAuthenticated: true, user });
-        const { history, location } = this.props;
-        if (location.pathname.indexOf('faircv') < 0) history.push('/faircv');
+        const userResponse = await AAAService.getCurrentUser();
+        this.setState({ isLoading: false, isAuthenticated: true, user: userResponse.data });
       } catch (e) {
         this.setState({ isLoading: false, isAuthenticated: false });
       }
@@ -33,7 +31,9 @@ const withUserContext = (WrappedComponent: Component, isGuardEnabled: boolean) =
     render() {
       const { isAuthenticated, isLoading, user } = this.state;
       if (isLoading) return <h5>Loading...</h5>;
-      if (!isAuthenticated && isGuardEnabled) return <Redirect to="/auth" />;
+      if ((!isAuthenticated || !user.confirmedAt || !user.confirmedByOrganization) && isGuardEnabled) {
+        return <Redirect to="/auth" />;
+      }
       return <UserContext.Provider value={user}>
         <WrappedComponent {...this.props} user={user} />
       </UserContext.Provider>;
@@ -55,9 +55,6 @@ class App extends Component {
         <UserContext.Consumer>
           {user => <Header user={ user } />}
         </UserContext.Consumer>
-        <Link to="/auth">auth</Link>
-        <Link to="/faircv">faircv list</Link>
-        <Link to="/faircv/create">create faircv</Link>
         <main className="main">
           <div className="container">
             <Switch>

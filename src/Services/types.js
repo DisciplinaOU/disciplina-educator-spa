@@ -17,8 +17,8 @@ export type Educator = {
   name: string,
   website: string,
   password: string,
-  isConfirmed: boolean,
-  isOrganizationConfirmed: boolean
+  confirmedAt: string,
+  confirmedByOrganization: boolean
 }
 
 export type FaircvQuery = {

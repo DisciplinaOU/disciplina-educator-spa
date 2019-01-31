@@ -13,13 +13,13 @@ type AuthContainerProps = {
 export default class AuthContainer extends PureComponent<AuthContainerProps, {}> {
   render() {
     const { history, location, user } = this.props;
-    return (
-      <>
-        {!user.isConfirmed ? <MainMessage type="CHECK_EMAIL" /> : null}
-        {!user.isOrganizationConfirmed ? <MainMessage type="NOT_CONFIRMED" /> : null}
-        <MainMessage type="NOT_CONFIRMED" />
-        <AuthForm history={history} location={location} />
-      </>
-    )
+  
+    if (!user.confirmedAt) {
+      return <MainMessage type="CHECK_EMAIL" />;
+    } else if (!user.confirmedByOrganization) {
+      return <MainMessage type="NOT_CONFIRMED"/>;
+    } else {
+      return <AuthForm history={history} location={location} />;
+    }
   }
 }

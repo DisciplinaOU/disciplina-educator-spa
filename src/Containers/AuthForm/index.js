@@ -51,7 +51,10 @@ class AuthForm extends PureComponent <AuthFormProps, AuthFormState> {
       urlParams = new URLSearchParams(location.search);
       token = urlParams.get('reset_password_token') || '';
     }
-    if (token) this.setState({ token, currentState: AUTH_FORM_STATES.RESET });
+    if (token) {
+      this.setState({ token });
+      this.goToResetTab();
+    }
   }
   
   login = async () => {
@@ -81,10 +84,10 @@ class AuthForm extends PureComponent <AuthFormProps, AuthFormState> {
   };
   
   setNewPassword = async () => {
-    const { newPassword } = this.state;
+    const { newPassword, token } = this.state;
     this.startLoading();
     try {
-      await this.Service.createPassword(newPassword, '6LwzHosh-kHxcRmeCBqJ');
+      await this.Service.createPassword(newPassword, token);
     } catch (e) {
       console.log(e)
     } finally {
@@ -125,11 +128,6 @@ class AuthForm extends PureComponent <AuthFormProps, AuthFormState> {
   startLoading = () => this.setState({ isLoading: true });
   
   stopLoading = () => this.setState({ isLoading: false });
-  
-  goToIndex = () => {
-    const { history } = this.props;
-    history.push('/');
-  };
   
   goToRegisterTab = () => this.setState({ currentState: AUTH_FORM_STATES.SIGN_UP });
   

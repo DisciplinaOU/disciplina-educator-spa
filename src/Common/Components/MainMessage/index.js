@@ -19,7 +19,7 @@ type MainMessageProps = {
 
 export default class MainMessage extends PureComponent<MainMessageProps, {}> {
   static defaultProps = {
-    currentState: MAIN_MESSAGE_STATE.LIST_EMPTY
+    type: MAIN_MESSAGE_STATE.LIST_EMPTY
   };
   
   render() {
