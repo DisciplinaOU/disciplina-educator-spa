@@ -7,34 +7,7 @@ import AAAService from './Services/aaa';
 
 const UserContext = React.createContext({ id: 0, isConfirmed: false });
 
-const withUserContext = (WrappedComponent: Component) => {
-  return class UserContextContainer extends PureComponent {
-    state = {
-      isLoading: true,
-      isAuthenticated: false,
-      user: {}
-    };
-    
-    async componentDidMount(): void {
-      try {
-        const user = await AAAService.getCurrentUser();
-        this.setState({ isLoading: false, user });
-      } catch (e) {
-        this.setState({ isLoading: false });
-      }
-    }
-    
-    render() {
-      const { isLoading, user } = this.state;
-      if (isLoading) return <h5>Loading...</h5>;
-      return <UserContext.Provider value={user}>
-        <WrappedComponent {...this.props} user={user} />
-      </UserContext.Provider>;
-    }
-  }
-};
-
-const withUserGuard = (WrappedComponent: Component) => {
+const withUserContext = (WrappedComponent: Component, isGuardEnabled: boolean) => {
   return class PrivateContainer extends PureComponent {
     state = {
       isLoading: true,
@@ -54,7 +27,7 @@ const withUserGuard = (WrappedComponent: Component) => {
     render() {
       const { isAuthenticated, isLoading, user } = this.state;
       if (isLoading) return <h5>Loading...</h5>;
-      if (!isAuthenticated) return <Redirect to="/auth" />;
+      if (!isAuthenticated && isGuardEnabled) return <Redirect to="/auth" />;
       return <UserContext.Provider value={user}>
         <WrappedComponent {...this.props} user={user} />
       </UserContext.Provider>;
@@ -82,8 +55,8 @@ class App extends PureComponent {
         <main className="main">
           <div className="container">
             <Switch>
-              <Route path="/auth" component={withUserContext(AuthContainer)} />
-              <Route path="/faircv" component={withUserGuard(Faircv)} />
+              <Route path="/auth" component={withUserContext(AuthContainer, false)} />
+              <Route path="/faircv" component={withUserContext(Faircv, true)} />
             </Switch>
           </div>
         </main>
