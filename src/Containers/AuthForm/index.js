@@ -31,7 +31,7 @@ type AuthFormProps = {
 
 class AuthForm extends PureComponent <AuthFormProps, AuthFormState> {
   Service: IAAAService = AAAService;
-  
+
   state: AuthFormState = {
     currentState: AUTH_FORM_STATES.SIGN_IN,
     isLoading: false,
@@ -42,7 +42,7 @@ class AuthForm extends PureComponent <AuthFormProps, AuthFormState> {
     url: '',
     token: ''
   };
-  
+
   componentDidMount(): void {
     const { location } = this.props;
     let urlParams;
@@ -56,7 +56,7 @@ class AuthForm extends PureComponent <AuthFormProps, AuthFormState> {
       this.goToResetTab();
     }
   }
-  
+
   login = async () => {
     const { email, password } = this.state;
     const { history } = this.props;
@@ -70,7 +70,7 @@ class AuthForm extends PureComponent <AuthFormProps, AuthFormState> {
       this.stopLoading();
     }
   };
-  
+
   signUp = async () => {
     const { email, password, name, url } = this.state;
     this.startLoading();
@@ -82,7 +82,7 @@ class AuthForm extends PureComponent <AuthFormProps, AuthFormState> {
       this.stopLoading();
     }
   };
-  
+
   setNewPassword = async () => {
     const { newPassword, token } = this.state;
     this.startLoading();
@@ -94,7 +94,7 @@ class AuthForm extends PureComponent <AuthFormProps, AuthFormState> {
       this.stopLoading();
     }
   };
-  
+
   resetPassword = async () => {
     const { email } = this.state;
     this.startLoading();
@@ -106,35 +106,35 @@ class AuthForm extends PureComponent <AuthFormProps, AuthFormState> {
       this.stopLoading();
     }
   };
-  
+
   handleEmailInput = (e: SyntheticEvent<HTMLInputElement>) => this.setState({ email: e.currentTarget.value });
-  
+
   handlePasswordInput = (e: SyntheticEvent<HTMLInputElement>) => {
     this.setState({ password: e.currentTarget.value });
   };
-  
+
   handleNewPasswordInput = (e: SyntheticEvent<HTMLInputElement>) => {
     this.setState({ newPassword: e.currentTarget.value });
   };
-  
+
   handleNameInput = (e: SyntheticEvent<HTMLInputElement>) => {
     this.setState({ name: e.currentTarget.value });
   };
-  
+
   handleUrlInput = (e: SyntheticEvent<HTMLInputElement>) => {
     this.setState({ url: e.currentTarget.value });
   };
-  
+
   startLoading = () => this.setState({ isLoading: true });
-  
+
   stopLoading = () => this.setState({ isLoading: false });
-  
+
   goToRegisterTab = () => this.setState({ currentState: AUTH_FORM_STATES.SIGN_UP });
-  
+
   goToSigninTab = () => this.setState({ currentState: AUTH_FORM_STATES.SIGN_IN });
-  
+
   goToResetTab = () => this.setState({ currentState: AUTH_FORM_STATES.RESET });
-  
+
   goToRecoveryTab = () => this.setState({ currentState: AUTH_FORM_STATES.RECOVERY });
 
   render() {
@@ -143,7 +143,7 @@ class AuthForm extends PureComponent <AuthFormProps, AuthFormState> {
     return (
       <div className="auth-form">
         <div className="auth-form__header">
-          <img className="auth-form__logo" src={ logoIcon } alt="" />
+          <img className="auth-form__logo" src={logoIcon} alt="" />
         </div>
         <div className="auth-form__main">
           {{
@@ -298,6 +298,6 @@ class AuthForm extends PureComponent <AuthFormProps, AuthFormState> {
       </div>
     )
   }
-}
+};
 
 export default AuthForm;

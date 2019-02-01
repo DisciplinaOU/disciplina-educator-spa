@@ -1,4 +1,5 @@
-@import '../../Common/Styles/styles';
+@import '../../Common/Styles/mixins';
+@import '../../Common/Styles/variables';
 
 .auth-form {
   box-shadow: $shadow;

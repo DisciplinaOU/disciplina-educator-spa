@@ -40,14 +40,21 @@ ul {
   }
 }
 
-a {
-  text-decoration: none;
-}
-
 .container {
   width: 100%;
+  margin: 0 auto;
   max-width: $max-width;
-  padding: 0 30px;
+  padding: 0 32px;
+  box-sizing: border-box;
+}
+
+.full-width {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.auto-width {
+  width: auto;
 }
 
 .margin-top-4 {
@@ -108,4 +115,17 @@ a {
 
 .margin-bottom-64 {
   margin-bottom: 64px;
+}
+
+// Text align
+.text-left {
+  text-align: left;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-right {
+  text-align: right;
 }

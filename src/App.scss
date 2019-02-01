@@ -1,43 +1,12 @@
-// @import './Common/Styles/styles';
+@import './Common/Styles/styles';
 
 .App {
-  text-align: center;
   min-width: 320px;
 }
 
-.main {
-  min-height: calc(100vh - 84px);
+.App-main {
+  min-height: calc(100vh - 83px);
   display: flex;
-  align-items: center;
-  justify-content: center;
-  &__title {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  &__title-text {
-    text-align: left;
-    margin: 24px 32px 24px 0;
-  }
-
-  @media screen and (max-width: 480px) {
-    &__title {
-      flex-direction: column;
-
-      .btn {
-        order: 0;
-        margin: 32px 0;
-        width: 100%;
-      }
-    }
-
-    &__title-text {
-      order: 1;
-      margin-top: 0;
-      margin-right: 0;
-      width: 100%;
-    }
-  }
+  flex-direction: column;
+  justify-content: flex-start;
 }

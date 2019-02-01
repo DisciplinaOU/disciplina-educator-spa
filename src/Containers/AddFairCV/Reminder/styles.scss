@@ -1,0 +1,47 @@
+@import '../../../Common/Styles/mixins';
+@import '../../../Common/Styles/variables';
+
+.reminder {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  background-color: $color-light-gray-2;
+  padding: 8px 32px;
+  align-items: center;
+
+  &__text {
+    max-width: 480px;
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    background-color: $color-gray-2;
+    border-radius: $border-radius;
+    overflow: hidden;
+    margin-right: $size-m;
+    min-height: 70px;
+    @include normalString($color-gray-text);
+
+    p {
+      padding: 0 16px;
+    }
+
+    span {
+      background-color: $color-blue-3;
+      flex: 0 0 70px;
+      color: $color-white;
+      padding: 11px;
+      box-sizing: border-box;
+
+      &:before {
+        content: 'i';
+        font-size: 34px;
+        display: inline-block;
+        border-radius: 50%;
+        width: 44px;
+        height: 44px;
+        text-align: center;
+        border: 2px solid $color-white;
+      }
+    }
+  }
+}

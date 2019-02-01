@@ -1,0 +1,19 @@
+@import '../../Styles/mixins';
+@import '../../Styles/variables';
+
+.regular-input {
+  &__label {
+    display: block;
+    @include largerString();
+    margin-bottom: $size-xs;
+  }
+
+  &__field {
+    display: block;
+    border: 0;
+    background-color: $color-gray-2;
+    border-radius: $border-radius;
+    @include largerString();
+    padding: 7px 8px 9px;
+  }
+}

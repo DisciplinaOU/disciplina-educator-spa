@@ -1,6 +1,10 @@
-import React, { PureComponent, Component } from 'react';
+import React, { Component, PureComponent } from 'react';
+import AuthForm from './Containers/AuthForm';
+import AddFairCV from './Containers/AddFairCV';
 import Header from './Containers/Header';
-import { Route, Switch, Redirect } from 'react-router-dom';
+import { Route, Link, Switch, Redirect } from 'react-router-dom';
+import MainMessage from './Common/Components/MainMessage'
+import Button from './Common/Components/Button';
 import './App.scss';
 import AuthContainer from './Containers/Auth';
 import AAAService from './Services/aaa';
@@ -44,7 +48,7 @@ const withUserContext = (WrappedComponent: Component, isGuardEnabled: boolean) =
 const Faircv = () => (
   <Switch>
     <Route exact path="/faircv" render={() => <h2>Welcome fair list...</h2>} />
-    <Route exact path="/faircv/create" render={() => <h2>Welcome fair create...</h2>} />
+    <Route exact path="/faircv/create" render={() => <AddFairCV />} />
   </Switch>
 );
 
@@ -56,12 +60,13 @@ class App extends Component {
           {user => <Header user={ user } />}
         </UserContext.Consumer>
         <main className="main">
-          <div className="container">
-            <Switch>
-              <Route path="/auth" component={withUserContext(AuthContainer, false)} />
-              <Route path="/faircv" component={withUserContext(Faircv, true)} />
-            </Switch>
-          </div>
+          <Switch>
+            <Route path="/auth" component={withUserContext(AuthContainer, false)} />
+            <Route path="/faircv" component={withUserContext(Faircv, false)} />
+          </Switch>
+          <Link to="/auth">auth</Link>
+          <Link to="/faircv">faircv list</Link>
+          <Link to="/faircv/create">create faircv</Link>
         </main>
       </div>
     );

@@ -17,14 +17,18 @@ type MainMessageProps = {
   type: string
 }
 
-export default class MainMessage extends PureComponent<MainMessageProps, {}> {
+type MainMessageState = {
+  currentState: string
+}
+
+export default class MainMessage extends PureComponent<MainMessageProps, MainMessageState> {
   static defaultProps = {
     type: MAIN_MESSAGE_STATE.LIST_EMPTY
   };
-  
+
   render() {
     const { type } = this.props;
-    
+
     return (
       <div className="main-message">
         {{
@@ -52,6 +56,4 @@ export default class MainMessage extends PureComponent<MainMessageProps, {}> {
       </div>
     );
   }
-  
-  
 };

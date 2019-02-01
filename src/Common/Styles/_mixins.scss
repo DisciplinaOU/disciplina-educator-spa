@@ -16,7 +16,7 @@
 }
 
 // Custom Title
-@mixin customTitle($fontSize, $lineHeight, $color) {
+@mixin customTitle($fontSize, $lineHeight, $color: $color-black) {
   @include font($fontSize, $font-family, $lineHeight);
   font-weight: 500;
   color: $color;

@@ -1,0 +1,164 @@
+@import '../../../Common/Styles/mixins';
+@import '../../../Common/Styles/variables';
+
+.scores {
+  .input {
+    margin: 0;
+  }
+
+  &__title {
+    @include customTitle(24px, 28px);
+  }
+
+  .table {
+    &__row {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      padding: 12px 0;
+
+      &:last-child {
+        padding-bottom: 0;
+      }
+    }
+
+    &__item {
+      margin: 0 8px;
+      box-sizing: border-box;
+
+      input {
+        width: 100%;
+        box-sizing: border-box;
+      }
+
+      &:first-child {
+        margin-left: 0;
+      }
+
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+
+    &__item--course {
+      flex: 1 0 200px;
+    }
+
+    &__item--lang {
+      flex: 0 0 80px;
+    }
+
+    &__item--hours {
+      flex: 0 0 80px;
+      width: 80px;
+    }
+
+    &__item--credits {
+      flex: 0 0 120px;
+      width: 120px;
+    }
+
+    &__item--score {
+      flex: 0 0 200px;
+    }
+
+    &__item--button {
+      flex: 0 0 20px;
+    }
+
+    &__row--head {
+      padding-top: 0;
+      padding-bottom: 8px;
+
+      &.active {
+        border-bottom: 1px solid $color-black;
+
+        & + .table__row {
+          padding-top: 16px;
+        }
+
+        .table__form {
+          padding-top: 12px;
+        }
+      }
+    }
+
+    &__form {
+      flex-wrap: wrap;
+      padding-top: 0;
+
+      .table__item--submit {
+        flex-basis: 100%;
+        margin: 16px 0 0;
+      }
+
+      .table__item--score {
+        flex-basis: 232px;
+        margin-right: 40px;
+      }
+    }
+  }
+}
+
+.react-datepicker-popper {
+  .react-datepicker {
+    border-radius: 3px;
+
+    &__header {
+      background-color: transparent;
+      border: 0;
+      padding-top: 24px;
+    }
+
+    &__triangle {
+      border-bottom-color: $color-white !important;
+    }
+
+    &__navigation {
+      top: 27px;
+      border: 0;
+      border-bottom: 2px solid $color-blue;
+      border-right: 2px solid $color-blue;
+    }
+
+    &__navigation--next {
+      right: 30px;
+      transform: rotate(-45deg);
+    }
+
+    &__navigation--previous {
+      left: 30px;
+      transform: rotate(135deg);
+    }
+
+    &__month {
+      margin: 0;
+      padding: 18px;
+    }
+
+    &__day-names {
+      margin-top: 5px;
+      display: flex;
+      justify-content: space-between;
+      padding: 0 24px;
+    }
+
+    &__day-name {
+      font-weight: 500;
+      text-transform: uppercase;
+      @include smallerString($color-gray-text);
+    }
+
+    &__day {
+      width: 33px;
+      height: 33px;
+      line-height: 2.2;
+    }
+
+    &__day--today {
+      border-radius: 50%;
+      background-color: $color-blue;
+      font-weight: 400;
+    }
+  }
+}
