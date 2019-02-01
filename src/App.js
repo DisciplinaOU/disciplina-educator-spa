@@ -3,10 +3,9 @@ import AuthForm from './Containers/AuthForm';
 import AddFairCV from './Containers/AddFairCV';
 import Header from './Containers/Header';
 import { Route, Link, Switch, Redirect } from 'react-router-dom';
-import MainMessage from './Common/Components/MainMessage'
-import Button from './Common/Components/Button';
 import './App.scss';
 import AuthContainer from './Containers/Auth';
+import FaircvList from './Containers/FaircvList';
 import AAAService from './Services/aaa';
 
 const UserContext = React.createContext({ id: 0, isConfirmed: false });
@@ -48,7 +47,8 @@ const withUserContext = (WrappedComponent: Component, isGuardEnabled: boolean) =
 const Faircv = () => (
   <Switch>
     <Route exact path="/faircv" render={() => <h2>Welcome fair list...</h2>} />
-    <Route exact path="/faircv/create" render={() => <AddFairCV />} />
+    <Route exact path="/faircv/create" render={() => <h2>Welcome fair create...</h2>} />
+    <Route exact path="/faircv/list" component={FaircvList} />
   </Switch>
 );
 

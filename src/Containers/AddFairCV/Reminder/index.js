@@ -1,5 +1,5 @@
 // @flow
-import React, { PureComponent } from 'react';
+import React from 'react';
 import Button from '../../../Common/Components/Button';
 import './styles.scss';
 

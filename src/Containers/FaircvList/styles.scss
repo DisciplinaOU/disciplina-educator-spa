@@ -1,0 +1,72 @@
+@import '../../Common/Styles/styles';
+
+.faircv-list {
+  align-self: flex-start;
+  text-align: left;
+  justify-content: flex-start;
+
+  &__title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    h1 {
+      margin: 24px 0 40px;
+    }
+  }
+
+  &__search {
+    margin-bottom: 24px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  &__search-input {
+    flex: 0 1 500px;
+    margin-bottom: 0;
+    margin-right: $size-s;
+  }
+
+  .pagination {
+    margin-top: 32px;
+  }
+}
+
+.list {
+  &__item {
+    display: flex;
+    align-items: flex-end;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    margin-top: 24px;
+    border-bottom: 1px solid $color-dark-gray;
+    padding-bottom: 12px;
+
+    &:first-child {
+      margin-top: 0;
+    }
+  }
+
+  &__item-content {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  &__item-name {
+    width: 100%;
+    @include titleH4();
+    margin-bottom: 8px;
+  }
+
+  &__item-degree {
+    margin-right: 28px;
+  }
+
+  &__item-document {
+    margin-right: 28px;
+  }
+}
