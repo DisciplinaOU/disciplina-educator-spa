@@ -2,10 +2,20 @@
 import React from 'react';
 import './styles.scss';
 import Button from '../../Common/Components/Button';
-import fairCVListData from './fairCVListData';
+import FairCVListData from './FairCVListData';
 import RegularInput from '../../Common/Components/RegularInput';
+import Pagination from '../../Common/Components/Pagination';
+
+type FairCVListDataType = {
+  id: number,
+  name: string,
+  degree: string,
+  document: string
+}
 
 export const FaircvList = () => {
+  const data = (FairCVListData: Array<FairCVListDataType>);
+
   return (
     <div className="faircv-list container">
       <div className="faircv-list__title">
@@ -18,11 +28,14 @@ export const FaircvList = () => {
           modColor="color-main"
         />
       </div>
-      {fairCVListData.length ?
+      {data.length ?
         (
         <>
           <form className="faircv-list__search">
-            <RegularInput placeholder="Введите имя студента или номер диплома" className="faircv-list__search-input" width="full"/>
+            <RegularInput
+              placeholder="Введите имя студента или номер диплома" className="faircv-list__search-input"
+              width="full"
+            />
             <Button
               text="Найти"
               modWidth="width-auto"
@@ -32,7 +45,7 @@ export const FaircvList = () => {
             />
           </form>
           <ul className="list">
-           { fairCVListData.map((item) =>
+           { data.map((item) =>
             <li className="list__item">
               <div className="list__item-content">
                 <div className="list__item-name">{item.name}</div>
@@ -45,6 +58,7 @@ export const FaircvList = () => {
                 modHeight="height-small"
                 modStyle="empty"
                 modColor="color-main"
+                callback={() => {}}
               />
             </li>
           )}
@@ -52,13 +66,8 @@ export const FaircvList = () => {
         </>
         )
       : null}
-      {(fairCVListData.length >= 10 ) ?
-        <ul className="pagination">
-          <li className="pagination__item ">1</li>
-          <li className="pagination__item">2</li>
-          <li className="pagination__item active">33</li>
-          <li className="pagination__item">Дальше</li>
-        </ul>
+      {(FairCVListData.length >= 10 ) ?
+        <Pagination />
       : null}
     </div>
   );

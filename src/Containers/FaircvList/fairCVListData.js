@@ -1,4 +1,4 @@
-export const fairCVListData = [{
+export const FairCVListData = [{
     id: 1,
     name: 'Борщов Роман Михайлович',
     degree: 'Магистр техники и технологии',
@@ -78,4 +78,4 @@ export const fairCVListData = [{
   }
 ];
 
-export default fairCVListData;
+export default FairCVListData;

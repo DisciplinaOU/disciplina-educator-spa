@@ -5,8 +5,17 @@ import DropDownInput from '../../../Common/Components/DropDownInput';
 import Button from '../../../Common/Components/Button';
 import './styles.scss';
 
+type ScoresDataType = {
+  id: number,
+  course: string,
+  languare: string,
+  hours: number,
+  estscredits: string,
+  score: string
+}
+
 type ScoresProps = {
-  data: Array<object>
+  data: Array<ScoresDataType>
 }
 
 export class Scores extends PureComponent<ScoresProps, {}> {

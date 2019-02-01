@@ -48,7 +48,7 @@ const Faircv = () => (
   <Switch>
     <Route exact path="/faircv" render={() => <h2>Welcome fair list...</h2>} />
     <Route exact path="/faircv/create" render={() => <h2>Welcome fair create...</h2>} />
-    <Route exact path="/faircv/list" render={() => <FaircvList />} />
+    <Route exact path="/faircv/list" component={FaircvList} />
   </Switch>
 );
 
