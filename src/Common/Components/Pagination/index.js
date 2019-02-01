@@ -2,7 +2,7 @@
 import React from 'react';
 import './styles.scss';
 
-export const Reminder = () => {
+export const Pagination = () => {
   return (
     <ul className="pagination">
       <li className="pagination__item ">1</li>
@@ -13,4 +13,4 @@ export const Reminder = () => {
   )
 };
 
-export default Reminder
+export default Pagination;
