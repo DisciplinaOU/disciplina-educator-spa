@@ -6,7 +6,7 @@ import Button from '../../../Common/Components/Button';
 import './styles.scss';
 
 type ScoresProps = {
-  data: Array<any>
+  data: Array<object>
 }
 
 export class Scores extends PureComponent<ScoresProps, {}> {
