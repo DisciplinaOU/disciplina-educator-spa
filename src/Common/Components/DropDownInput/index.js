@@ -27,10 +27,10 @@ export default class DropDownInput extends PureComponent<DropDownInputProps, Dro
   }
 
   openSelect = () => this.setState ({ isSelectOpened: true })
-  
+
   closeSelect = () => this.setState({ isSelectOpened: false })
 
-  changeSelectValue = (e) => this.setState({ value: e.currentTarget.dataset.value })
+  changeSelectValue = (e: SyntheticEvent<HTMLSelectElement>) => this.setState({ value: e.currentTarget.dataset.value })
 
   render() {
     const {  id, title, list, className } = this.props;

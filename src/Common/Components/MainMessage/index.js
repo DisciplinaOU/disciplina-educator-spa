@@ -27,7 +27,7 @@ export default class MainMessage extends PureComponent<MainMessageProps, MainMes
   };
 
   render() {
-    const { type } = this.state;
+    const { type } = this.props;
 
     return (
       <div className="main-message">
