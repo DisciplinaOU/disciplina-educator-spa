@@ -7,6 +7,7 @@ import MainMessage from './Common/Components/MainMessage'
 import Button from './Common/Components/Button';
 import './App.scss';
 import AuthContainer from './Containers/Auth';
+import FaircvList from './Containers/FaircvList';
 import AAAService from './Services/aaa';
 
 const UserContext = React.createContext({ id: 0, isConfirmed: false });
