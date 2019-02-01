@@ -22,12 +22,12 @@ type MainMessageState = {
 }
 
 export default class MainMessage extends PureComponent<MainMessageProps, MainMessageState> {
-  state = {
-    currentState: MAIN_MESSAGE_STATE.CONFIRMED
+  static defaultProps = {
+    type: MAIN_MESSAGE_STATE.LIST_EMPTY
   };
 
   render() {
-    const { currentState } = this.state;
+    const { type } = this.state;
 
     return (
       <div className="main-message">
@@ -52,10 +52,8 @@ export default class MainMessage extends PureComponent<MainMessageProps, MainMes
             title='Проверьте вашу электронную почту'
             text='Мы выслали на нее письмо со&nbsp;ссылкой для подтверждения адреся'
           />
-        }[currentState]}
+        }[type]}
       </div>
     );
   }
-
-
 };

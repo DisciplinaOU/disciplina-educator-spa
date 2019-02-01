@@ -22,43 +22,38 @@ export default class DropDownInput extends PureComponent<DropDownInputProps, Dro
   }
 
   changeSelectState = () => {
-    const opened = this.state.isSelectOpened;
-    opened ? this.closeSelect() : this.openSelect();
+    const { isSelectOpened } = this.state;
+    isSelectOpened ? this.closeSelect() : this.openSelect();
   }
 
-  openSelect = () => {
-    this.setState ({
-      isSelectOpened: true
-    })
-  }
+  openSelect = () => this.setState ({ isSelectOpened: true })
+  
+  closeSelect = () => this.setState({ isSelectOpened: false })
 
-  closeSelect = () => {
-    this.setState({
-      isSelectOpened: false
-    })
-  }
-
-  changeSelectValue = (e) => {
-    this.setState({
-      value: e.currentTarget.dataset.value
-    })
-  }
+  changeSelectValue = (e) => this.setState({ value: e.currentTarget.dataset.value })
 
   render() {
     const {  id, title, list, className } = this.props;
     const { isSelectOpened, value } = this.state;
     return (
-      <div className={`dropdown-input ${isSelectOpened ? 'active' : ''} ${className ? className : ""}`} onClick={this.changeSelectState}>
+      <div
+        className={`dropdown-input ${isSelectOpened ? 'active' : ''} ${className ? className : ""}`}
+        onClick={this.changeSelectState}
+      >
         <label className="dropdown-input__label">{title}</label>
         <input
-          id={id || undefined}
+          id={id}
           className="dropdown-input__field"
           type="text"
           value={value}
           />
         <ul className="dropdown-input__list">
-          { list.map((i) =>
-            <li className="dropdown-input__item" key={i.id} data-value={i} onClick={this.changeSelectValue}>{i}</li>
+          { list.map((item) =>
+            <li
+              className="dropdown-input__item"
+              key={item.id} data-value={item}
+              onClick={this.changeSelectValue}>{item}
+            </li>
           )}
         </ul>
       </div>

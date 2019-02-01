@@ -48,7 +48,7 @@ const withUserContext = (WrappedComponent: Component, isGuardEnabled: boolean) =
 const Faircv = () => (
   <Switch>
     <Route exact path="/faircv" render={() => <h2>Welcome fair list...</h2>} />
-    <Route exact path="/faircv/create" render={() => <h2>Welcome fair create...</h2>} />
+    <Route exact path="/faircv/create" render={() => <AddFairCV />} />
   </Switch>
 );
 
@@ -60,15 +60,13 @@ class App extends Component {
           {user => <Header user={ user } />}
         </UserContext.Consumer>
         <main className="main">
-          <div className="container">
-            <Switch>
-              <Route path="/auth" component={withUserContext(AuthContainer, false)} />
-              <Route path="/faircv" component={withUserContext(Faircv, true)} />
-            </Switch>
-            <Link to="/auth">auth</Link>
-            <Link to="/faircv">faircv list</Link>
-            <Link to="/faircv/create">create faircv</Link>
-          </div>
+          <Switch>
+            <Route path="/auth" component={withUserContext(AuthContainer, false)} />
+            <Route path="/faircv" component={withUserContext(Faircv, false)} />
+          </Switch>
+          <Link to="/auth">auth</Link>
+          <Link to="/faircv">faircv list</Link>
+          <Link to="/faircv/create">create faircv</Link>
         </main>
       </div>
     );

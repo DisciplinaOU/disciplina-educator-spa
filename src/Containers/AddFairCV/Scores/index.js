@@ -27,14 +27,14 @@ export class Scores extends PureComponent<ScoresProps, {}> {
             <div className="table__item table__item--button"></div>
             <div className="table__item table__item--button"></div>
           </div>
-          {data ?
-            ( data.map((i) =>
-              <div className="table__row" key={i.id}>
-                <div className="table__item table__item--course">{i.course}</div>
-                <div className="table__item table__item--lang">{i.language}</div>
-                <div className="table__item table__item--hours">{i.hours}</div>
-                <div className="table__item table__item--credits">{i.ectscredits}</div>
-                <div className="table__item table__item--score">{i.score}</div>
+          {data.length ?
+            ( data.map((item) =>
+              <div className="table__row" key={item.id}>
+                <div className="table__item table__item--course">{item.course}</div>
+                <div className="table__item table__item--lang">{item.language}</div>
+                <div className="table__item table__item--hours">{item.hours}</div>
+                <div className="table__item table__item--credits">{item.ectscredits}</div>
+                <div className="table__item table__item--score">{item.score}</div>
                 <div className="table__item table__item--button"><span className="btn btn--edit"></span></div>
                 <div className="table__item table__item--button"><span className="btn btn--del"></span></div>
               </div>
