@@ -14,9 +14,9 @@ export default class AuthContainer extends PureComponent<AuthContainerProps, {}>
   render() {
     const { history, location, user } = this.props;
   
-    if (!user.confirmedAt) {
+    if (user.id && !user.confirmedAt) {
       return <MainMessage type="CHECK_EMAIL" />;
-    } else if (!user.confirmedByOrganization) {
+    } else if (user.id && !user.confirmedByOrganization) {
       return <MainMessage type="NOT_CONFIRMED"/>;
     } else {
       return <AuthForm history={history} location={location} />;
