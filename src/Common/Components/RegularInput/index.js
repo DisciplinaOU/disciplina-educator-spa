@@ -5,16 +5,17 @@ import './styles.scss';
 type RegularInputProps = {
   id?: string,
   value?: string,
-  title: string,
-  placeholder: string,
+  title?: string,
+  placeholder?: string,
   width?: string,
-  dispatchValue: (value: any) => void
+  dispatchValue: (value: any) => void,
+  className?: string
 };
 
 export default class RegularInput extends PureComponent<RegularInputProps> {
-  onChangeHandler = (value: string) => {
+  onChangeHandler = (e: SyntheticEvent<HTMLInputElement>) => {
     const { dispatchValue } = this.props;
-    dispatchValue(value);
+    dispatchValue(e.currentTarget.value);
   };
   render() {
     const {  id, value, title, placeholder, width, className } = this.props;

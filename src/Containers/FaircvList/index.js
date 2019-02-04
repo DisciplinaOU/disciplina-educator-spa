@@ -2,7 +2,7 @@
 import React from 'react';
 import './styles.scss';
 import Button from '../../Common/Components/Button';
-import FairCVListData from './FairCVListData.js';
+import FairCVListData from './fairCVListData';
 import RegularInput from '../../Common/Components/RegularInput';
 import Pagination from '../../Common/Components/Pagination';
 
@@ -27,6 +27,7 @@ export const FaircvList = () => {
           modHeight="height-big"
           modStyle="filled"
           modColor="color-main"
+          callback={()=>{}}
         />
       </div>
       {data.length ?
@@ -34,8 +35,10 @@ export const FaircvList = () => {
         <>
           <form className="faircv-list__search">
             <RegularInput
-              placeholder={searchPlaceholder} className="faircv-list__search-input"
+              placeholder="Введите имя студента или номер диплома"
+              className="faircv-list__search-input"
               width="full"
+              dispatchValue={() => {}}
             />
             <Button
               text="Найти"
@@ -43,6 +46,7 @@ export const FaircvList = () => {
               modHeight="height-big"
               modStyle="filled"
               modColor="color-main"
+              callback={()=>{}}
             />
           </form>
           <ul className="list">

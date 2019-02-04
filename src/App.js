@@ -6,6 +6,7 @@ import './App.scss';
 import AuthContainer from './Containers/Auth';
 import FaircvList from './Containers/FaircvList';
 import AAAService from './Services/aaa';
+import AddFairCV from './Containers/AddFairCV';
 
 const UserContext = React.createContext({ id: 0, isConfirmed: false });
 
@@ -33,7 +34,7 @@ const withUserContext = (WrappedComponent: Component, isGuardEnabled: boolean) =
     render() {
       const { isAuthenticated, isLoading, user } = this.state;
       if (isLoading) return <h5>Loading...</h5>;
-      if ((!isAuthenticated || !user.confirmedAt || !user.confirmedByOrganization) && isGuardEnabled) {
+      if ((!isAuthenticated || !user.confirmedAt) && isGuardEnabled) {
         return <Redirect to="/auth" />;
       }
       return <UserContext.Provider value={user}>
@@ -61,7 +62,7 @@ class App extends Component {
         <main className="main">
           <Switch>
             <Route path="/auth" component={withUserContext(AuthContainer, false)} />
-            <Route path="/faircv" component={withUserContext(Faircv, false)} />
+            <Route path="/faircv" component={withUserContext(Faircv, true)} />
           </Switch>
           <Link to="/auth">auth</Link>
           <Link to="/faircv">faircv list</Link>

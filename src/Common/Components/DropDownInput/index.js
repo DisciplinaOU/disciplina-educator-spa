@@ -4,9 +4,11 @@ import './styles.scss';
 
 type DropDownInputProps = {
   value?: string,
-  title: string,
+  title?: string,
   list: Array<string>,
-  callback: () => void
+  callback: (v: string) => void,
+  id?: string,
+  className?: string
 };
 
 type DropDownInputState = {
@@ -19,23 +21,25 @@ export default class DropDownInput extends PureComponent<DropDownInputProps, Dro
   state = {
     isSelectOpened: false,
     value: "start"
-  }
+  };
 
   changeSelectState = () => {
     const { isSelectOpened } = this.state;
     isSelectOpened ? this.closeSelect() : this.openSelect();
-  }
+  };
 
-  openSelect = () => this.setState ({ isSelectOpened: true })
+  openSelect = () => this.setState ({ isSelectOpened: true });
 
-  closeSelect = () => this.setState({ isSelectOpened: false })
+  closeSelect = () => this.setState({ isSelectOpened: false });
 
   changeSelectValue = (e: SyntheticEvent<HTMLSelectElement>) => {
-    this.setState({ value: e.currentTarget.dataset.value })
-  }
+    const { callback } = this.props;
+    this.setState({ value: e.currentTarget.dataset.value });
+    callback(e.currentTarget.dataset.value);
+  };
 
   render() {
-    const {  id, title, list, className } = this.props;
+    const { id, title, list, className } = this.props;
     const { isSelectOpened, value } = this.state;
     return (
       <div
@@ -53,8 +57,10 @@ export default class DropDownInput extends PureComponent<DropDownInputProps, Dro
           { list.map((item) =>
             <li
               className="dropdown-input__item"
-              key={item.id} data-value={item}
-              onClick={this.changeSelectValue}>{item}
+              data-value={item}
+              onClick={this.changeSelectValue}
+            >
+              {item}
             </li>
           )}
         </ul>

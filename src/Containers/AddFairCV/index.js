@@ -9,24 +9,17 @@ import Scores from './Scores';
 import Reminder from './Reminder';
 import Modal from './Modal';
 import 'react-datepicker/dist/react-datepicker.css';
-import scoresData from './scoresData';
 
 type AddFairCVState = {
-  startDate: typeof Date
+  startDate: Date
 }
 
 export class AddFairCV extends PureComponent <{}, AddFairCVState> {
   state = {
-    startDate: new Date(),
-    scoresData: scoresData,
-    modalContent: 'SUCCESS'
+    startDate: new Date()
   };
 
-  handleChange = (date) => {
-    this.setState({
-      startDate: date
-    });
-  };
+  handleChange = (date: Date) => this.setState({ startDate: date });
 
   render() {
     const {startDate, scoresData, modalContent} = this.state;
@@ -41,6 +34,7 @@ export class AddFairCV extends PureComponent <{}, AddFairCVState> {
               modHeight="height-big"
               modStyle="arrow-back"
               modColor="color-main"
+              callback={()=>{}}
             />
           </div>
           <h1 className="add-form__title">Добавление FairCV</h1>
@@ -48,7 +42,12 @@ export class AddFairCV extends PureComponent <{}, AddFairCVState> {
             <div className="add-form__item input-container">
               <h2 className="input-container__title text-left">Студент</h2>
               <div className="input-group">
-                <RegularInput title="Фамилия, имя, отчество" className="input-sudent" width="full"/>
+                <RegularInput
+                  title="Фамилия, имя, отчество"
+                  className="input-sudent"
+                  width="full"
+                  dispatchValue={() => {}}
+                />
                 <div className="input data-input">
                   <label className="data-input__label">Дата рождения</label>
                   <DatePicker
@@ -62,19 +61,22 @@ export class AddFairCV extends PureComponent <{}, AddFairCVState> {
               <h2 className="input-container__title text-left">Обучение</h2>
               <div className="input-group">
                 <DropDownInput
-                  list={[1,2,3]}
+                  list={['1','2','3']}
                   title="Год поступления"
                   className="input-education-start"
+                  callback={() => {}}
                 />
                 <DropDownInput
-                  list={[1,2,3]}
+                  list={['1','2','3']}
                   title="Год окончания"
                   className="input-education-end"
+                  callback={() => {}}
                 />
                 <DropDownInput
-                  list={[1,2,3]}
+                  list={['1','2','3']}
                   title="Форма обучения"
                   className="input-education-form"
+                  callback={() => {}}
                 />
               </div>
             </div>
@@ -85,6 +87,7 @@ export class AddFairCV extends PureComponent <{}, AddFairCVState> {
                   title="Номер"
                   className="input-number"
                   width="full"
+                  dispatchValue={() => {}}
                 />
                 <div className="input data-input">
                   <label className="data-input__label">Дата выдачи</label>
@@ -98,18 +101,21 @@ export class AddFairCV extends PureComponent <{}, AddFairCVState> {
                 title="Присвоено звание"
                 width="full"
                 className="input-rank"
+                dispatchValue={() => {}}
               />
               <RegularInput
                 title="Специальность" width="full"
                 className="input-speciality"
+                dispatchValue={() => {}}
               />
               <RegularInput
                 title="Специализация (если есть)"
                 width="full"
                 className="input-specialization"
+                dispatchValue={() => {}}
               />
             </div>
-            <Scores data={scoresData}/>
+            <Scores dispatchScores={()=>{}} />
           </form>
         </div>
         <Reminder className="container"/>
