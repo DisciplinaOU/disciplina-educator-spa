@@ -1,0 +1,65 @@
+@import '../../../Common/Styles/mixins';
+@import '../../../Common/Styles/variables';
+
+.modal {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  background-color: $color-overlay;
+  z-index: 999;
+  top: 0;
+  min-height: 300px;
+
+  &__container {
+    background-color: $color-white;
+    border-radius: $border-radius;
+    max-width: 482px;
+    width: calc(100% - 32px);
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(calc(-50% - 16px), -50%);
+    padding: 24px 16px 16px;
+    margin: 24px 16px;
+  }
+
+  &__title {
+    @include titleH3();
+    text-align: center;
+    margin-bottom: 16px;
+  }
+
+  &__reminder {
+    background-color: transparent;
+    flex-wrap: wrap;
+    padding: 0;
+    justify-content: space-between;
+  }
+
+  .reminder__text {
+    margin-right: 0;
+    margin-bottom: 16px;
+    flex: 0 0 100%;
+  }
+
+  .btn {
+    margin-right: 16px;
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+
+  @media screen and (max-width: $phablet) {
+    .btn {
+      margin-right: 0;
+      margin-bottom: 16px;
+      width: 100%;
+      font-size: 14px;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+}

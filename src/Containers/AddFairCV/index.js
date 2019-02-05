@@ -5,8 +5,9 @@ import Button from '../../Common/Components/Button';
 import RegularInput from '../../Common/Components/RegularInput';
 import DropDownInput from '../../Common/Components/DropDownInput';
 import DatePicker from 'react-datepicker';
-import Scores from './Scores'
-import Reminder from './Reminder'
+import Scores from './Scores';
+import Reminder from '../../Common/Components/Reminder';
+import Modal from '../../Common/Components/Modal';
 import 'react-datepicker/dist/react-datepicker.css';
 import scoresData from './scoresData';
 
@@ -15,21 +16,47 @@ type AddFairCVState = {
 }
 
 export class AddFairCV extends PureComponent <{}, AddFairCVState> {
-
   state = {
     startDate: new Date(),
-    scoresData: scoresData
-  }
+    scoresData: scoresData,
+    modalContent:
+    <>
+      <div className="modal__title">FairCV создано</div>
+      <div className="modal__reminder reminder">
+        <div className="reminder__text">
+          <span></span>
+          <p>Первые несколько минут после создания новое FairCV может не проходить валидацию. Это связано с задержкой появления информации в блокчейне.</p>
+        </div>
+        <Button
+          text="Скачать PDF"
+          modWidth="width-auto"
+          modHeight="height-big"
+          modStyle="filled"
+          modColor="color-main"
+          callback={()=>{}}
+        />
+        <Button
+          text="Закрыть и вернуться к списку"
+          modWidth="width-auto"
+          modHeight="height-big"
+          modStyle="empty"
+          modColor="color-main"
+          callback={()=>{}}
+        />
+      </div>
+    </>
+  };
 
   handleChange = (date) => {
     this.setState({
       startDate: date
     });
-  }
+  };
 
   render() {
     return (
       <div className="add-form">
+        <Modal content={this.state.modalContent} />
         <div className="container">
           <div className="navigation-link text-left">
             <Button
@@ -113,6 +140,6 @@ export class AddFairCV extends PureComponent <{}, AddFairCVState> {
       </div>
     );
   }
-};
+}
 
-export default AddFairCV;
+export default AddFairCV
