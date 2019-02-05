@@ -8,12 +8,12 @@ type AuthContainerProps = {
   user: Educator,
   history: any,
   location: any
-}
+};
 
 export default class AuthContainer extends PureComponent<AuthContainerProps, {}> {
   render() {
     const { history, location, user } = this.props;
-  
+
     if (!user.confirmedAt) {
       return <MainMessage type="CHECK_EMAIL" />;
     } else if (!user.confirmedByOrganization) {
@@ -22,4 +22,4 @@ export default class AuthContainer extends PureComponent<AuthContainerProps, {}>
       return <AuthForm history={history} location={location} />;
     }
   }
-}
+};

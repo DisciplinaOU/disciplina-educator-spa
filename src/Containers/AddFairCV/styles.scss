@@ -2,6 +2,80 @@
 @import '../../Common/Styles/variables';
 
 
+.input-container {
+  margin-bottom: 24px;
+
+  &__title {
+    @include customTitle(24px, 28px);
+    margin: 0 0 16px;
+  }
+
+  @media screen and (max-width: $mobile) {
+    &__title {
+      @include customTitle(18px, 22px);
+    }
+  }
+}
+
+.input-group {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+
+  .input,
+  .dropdown-input {
+    margin-right: $size-l;
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+
+  @media screen and (max-width: $phablet) {
+    flex-wrap: wrap;
+  }
+}
+
+.input {
+  margin-bottom: $size-m;
+}
+
+.data-input {
+  display: inline-block;
+  padding-right: 30px;
+
+  &__label {
+    display: block;
+    @include largerString();
+    margin-bottom: $size-xs;
+  }
+
+  .react-datepicker-wrapper {
+    position: relative;
+
+    input {
+      display: block;
+      border: 0;
+      background-color: $color-gray-2;
+      border-radius: $border-radius;
+      @include largerString();
+      padding: 7px 8px 9px;
+    }
+
+    &:after {
+      content: '';
+      display: block;
+      width: 20px;
+      height: 17px;
+      background-image: url('../../Common/Assets/icons/calendar-icon.svg');
+      position: absolute;
+      right: -28px;
+      top: 8px;
+      cursor: pointer;
+    }
+  }
+}
+
 .add-form {
   flex: 1 0 auto;
   display: flex;
@@ -25,12 +99,6 @@
 
   &__navigation-link + .add-form__title {
     margin-top: 16px;
-  }
-
-  @media screen and (max-width: $mobile) {
-    &__title {
-      @include customTitle(24px, 28px);
-    }
   }
 
   .input-sudent {
@@ -79,68 +147,33 @@
   .reminder {
     margin-top: auto;
   }
-}
 
-.input-container {
-  margin-bottom: 48px;
-
-  &__title {
-    @include customTitle(24px, 28px);
-    margin: 0 0 16px;
+  @media screen and (max-width: $phablet) {
+    .input {
+      margin-bottom: 16px;
+    }
   }
-}
 
-.input-group {
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
+  @media screen and (max-width: $mobile) {
+    &__title {
+      @include customTitle(24px, 28px);
+      margin-top: 12px;
+    }
 
-  .input,
-  .dropdown-input {
-    margin-right: $size-l;
-
-    &:last-child {
+    .input-education-end {
       margin-right: 0;
-    }
-  }
-}
 
-.input {
-  margin-bottom: $size-m;
-}
-
-.data-input {
-  display: inline-block;
-  padding-right: 30px;
-
-  &__label {
-    display: block;
-    @include largerString();
-    margin-bottom: $size-xs;
-  }
-
-  .react-datepicker-wrapper {
-    position: relative;
-
-    input {
-      display: block;
-      border: 0;
-      background-color: $color-gray-2;
-      border-radius: $border-radius;
-      @include largerString();
-      padding: 7px 8px 9px;
+      &:before {
+        left: -35px;
+      }
     }
 
-    &:after {
-      content: '';
-      display: block;
-      width: 20px;
-      height: 17px;
-      background-image: url('../../Common/Assets/icons/calendar-icon.svg');
-      position: absolute;
-      right: -28px;
-      top: 8px;
-      cursor: pointer;
+    .input-education-start {
+      margin-right: 28px;
+    }
+
+    .input-number {
+      margin-right: 0;
     }
   }
 }

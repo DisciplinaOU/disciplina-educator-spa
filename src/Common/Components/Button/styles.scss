@@ -168,4 +168,11 @@
     background-image: url('../../Assets/icons/del-icon.svg');
     background-size: cover;
   }
+
+  @media screen and (max-width: $mobile) {
+    &--empty,
+    &--filled {
+      width: 100%;
+    }
+  }
 }

@@ -47,8 +47,14 @@ ul {
   width: 100%;
   margin: 0 auto;
   max-width: $max-width;
-  padding: 0 32px;
+  padding-right: $size-l;
+  padding-left: $size-l;
   box-sizing: border-box;
+
+  @media screen and (max-width: $phablet) {
+    padding-right: $size-s;
+    padding-left: $size-s;
+  }
 }
 
 .full-width {

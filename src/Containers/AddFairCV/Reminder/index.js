@@ -5,7 +5,7 @@ import './styles.scss';
 
 export const Reminder = () => {
   return (
-    <div className="reminder">
+    <div className="container reminder">
       <div className="reminder__text">
         <span></span>
         <p>Внимательно проверьте все данные перед сохранением. Изменить сохраненные записи будет невозможно!</p>

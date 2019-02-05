@@ -1,5 +1,4 @@
 import React, { Component, PureComponent } from 'react';
-import AuthForm from './Containers/AuthForm';
 import AddFairCV from './Containers/AddFairCV';
 import Header from './Containers/Header';
 import { Route, Link, Switch, Redirect } from 'react-router-dom';
@@ -20,7 +19,7 @@ const withUserContext = (WrappedComponent: Component, isGuardEnabled: boolean) =
       isLoading: true,
       isAuthenticated: false,
       user: {}
-    };
+    }
 
     async componentDidMount() {
       try {
@@ -47,7 +46,7 @@ const withUserContext = (WrappedComponent: Component, isGuardEnabled: boolean) =
 const Faircv = () => (
   <Switch>
     <Route exact path="/faircv" render={() => <h2>Welcome fair list...</h2>} />
-    <Route exact path="/faircv/create" render={() => <h2>Welcome fair create...</h2>} />
+    <Route exact path="/faircv/create" component={AddFairCV} />
     <Route exact path="/faircv/list" component={FaircvList} />
   </Switch>
 );
@@ -71,6 +70,6 @@ class App extends Component {
       </div>
     );
   }
-}
+};
 
 export default App;

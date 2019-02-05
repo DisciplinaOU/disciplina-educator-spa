@@ -15,22 +15,21 @@ export const MAIN_MESSAGE_STATE = {
 
 type MainMessageProps = {
   type: string
-}
+};
 
 type MainMessageState = {
   currentState: string
-}
+};
 
 export default class MainMessage extends PureComponent<MainMessageProps, MainMessageState> {
   static defaultProps = {
     type: MAIN_MESSAGE_STATE.LIST_EMPTY
-  };
+  }
 
   render() {
     const { type } = this.props;
-
     return (
-      <div className="main-message">
+      <div className="main-message container">
         {{
           [MAIN_MESSAGE_STATE.CONFIRMED]: <Message
             img={emailImg}
