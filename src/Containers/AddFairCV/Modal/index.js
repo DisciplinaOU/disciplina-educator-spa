@@ -14,7 +14,8 @@ type ModalType = {
 }
 
 export const Modal = (props: ModalType) => {
-  const {madalContent} = props;
+  const { mоdalContent } = props;
+
   return (
     <div className="modal">
       <div className="modal__container">
@@ -45,7 +46,7 @@ export const Modal = (props: ModalType) => {
               />
             </div>
           </>,
-          [MODAL_CONTENT_STATE.DELETE]:<>
+          [MODAL_CONTENT_STATE.CLOSE]:<>
             <div className="modal__title">Вы уверены что хотите выйти?</div>
             <p className="modal__text">Все введенные данные будут утеряны</p>
             <Button
@@ -65,7 +66,7 @@ export const Modal = (props: ModalType) => {
               callback={()=>{}}
             />
           </>,
-          [MODAL_CONTENT_STATE.CLOSE]:<>
+          [MODAL_CONTENT_STATE.DELETE]:<>
             <div className="modal__title">Вы уверены что хотите удалить эту оценку?</div>
             <Button
               text="Удалить"
@@ -84,7 +85,7 @@ export const Modal = (props: ModalType) => {
               callback={()=>{}}
             />
           </>,
-          }[madalContent]}
+          }[mоdalContent]}
       </div>
     </div>
   )

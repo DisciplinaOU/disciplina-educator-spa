@@ -29,9 +29,10 @@ export class AddFairCV extends PureComponent <{}, AddFairCVState> {
   };
 
   render() {
+    const {startDate, scoresData, modalContent} = this.state;
     return (
       <div className="add-form">
-        <Modal madalContent={this.state.modalContent}/>
+        <Modal mоdalContent={modalContent}/>
         <div className="container">
           <div className="navigation-link text-left">
             <Button
@@ -51,7 +52,7 @@ export class AddFairCV extends PureComponent <{}, AddFairCVState> {
                 <div className="input data-input">
                   <label className="data-input__label">Дата рождения</label>
                   <DatePicker
-                    selected={this.state.startDate}
+                    selected={startDate}
                     onChange={this.handleChange}
                   />
                 </div>
@@ -88,7 +89,7 @@ export class AddFairCV extends PureComponent <{}, AddFairCVState> {
                 <div className="input data-input">
                   <label className="data-input__label">Дата выдачи</label>
                   <DatePicker
-                    selected={this.state.startDate}
+                    selected={startDate}
                     onChange={this.handleChange}
                   />
                 </div>
