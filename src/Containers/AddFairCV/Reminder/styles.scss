@@ -6,7 +6,8 @@
   flex-direction: row;
   justify-content: flex-end;
   background-color: $color-light-gray-2;
-  padding: 8px 32px;
+  padding-top: 8px;
+  padding-bottom: 8px;
   align-items: center;
 
   &__text {
@@ -22,7 +23,7 @@
     @include normalString($color-gray-text);
 
     p {
-      padding: 0 16px;
+      padding: 16px;
     }
 
     span {
@@ -31,17 +32,35 @@
       color: $color-white;
       padding: 11px;
       box-sizing: border-box;
+      position: relative;
 
       &:before {
         content: 'i';
         font-size: 34px;
-        display: inline-block;
+        display: block;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
         border-radius: 50%;
         width: 44px;
         height: 44px;
         text-align: center;
         border: 2px solid $color-white;
       }
+    }
+  }
+
+  @media screen and (max-width: $phablet) {
+    flex-direction: column;
+    padding-top: 16px;
+    padding-bottom: 16px;
+
+    &__text {
+      margin-bottom: 16px;
+      width: 100%;
+      max-width: none;
+      margin-right: 0;
     }
   }
 }

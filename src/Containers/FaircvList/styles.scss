@@ -9,9 +9,16 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    margin: 24px 0;
+    flex-wrap: wrap;
 
     h1 {
-      margin: 24px 0 40px;
+      margin-right: 40px;
+      margin-bottom: 16px;
+    }
+
+    .btn {
+      margin-bottom: 16px;
     }
   }
 
@@ -31,6 +38,22 @@
   .pagination {
     margin-top: 32px;
   }
+
+  @media screen and (max-width: $phablet) {
+    &__title {
+      h1 {
+        @include titleH3();
+        order: 2;
+        margin-bottom: 0;
+      }
+
+      .btn {
+        order: 1;
+        width: 100%;
+        margin-bottom: 32px;
+      }
+    }
+  }
 }
 
 .list {
@@ -42,10 +65,14 @@
     justify-content: space-between;
     margin-top: 24px;
     border-bottom: 1px solid $color-dark-gray;
-    padding-bottom: 12px;
+    padding-bottom: 8px;
 
     &:first-child {
       margin-top: 0;
+    }
+
+    .btn {
+      margin-bottom: 4px;
     }
   }
 
@@ -54,6 +81,7 @@
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    align-items: flex-end;
   }
 
   &__item-name {
@@ -64,9 +92,28 @@
 
   &__item-degree {
     margin-right: 28px;
+    width: 100%;
+    max-width: 500px;
+    margin-bottom: 4px;
+    @include normalString();
   }
 
   &__item-document {
     margin-right: 28px;
+    width: 100%;
+    max-width: 600px;
+    margin-bottom: 4px;
+    @include normalString();
+  }
+
+  @media screen and (max-width: $phablet) {
+    &__item {
+      flex-wrap: wrap;
+      padding-bottom: 12px;
+
+      .btn {
+        margin-top: 8px;
+      }
+    }
   }
 }

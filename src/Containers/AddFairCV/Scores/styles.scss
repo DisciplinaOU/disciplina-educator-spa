@@ -8,6 +8,7 @@
 
   &__title {
     @include customTitle(24px, 28px);
+    margin: 0 0 16px;
   }
 
   .table {
@@ -15,6 +16,7 @@
       display: flex;
       flex-direction: row;
       flex-wrap: nowrap;
+      align-items: flex-start;
       padding: 12px 0;
 
       &:last-child {
@@ -23,16 +25,12 @@
     }
 
     &__item {
-      margin: 0 8px;
+      margin-right: 16px;
       box-sizing: border-box;
 
       input {
         width: 100%;
         box-sizing: border-box;
-      }
-
-      &:first-child {
-        margin-left: 0;
       }
 
       &:last-child {
@@ -42,6 +40,7 @@
 
     &__item--course {
       flex: 1 0 200px;
+      padding-right: 24px;
     }
 
     &__item--lang {
@@ -50,19 +49,18 @@
 
     &__item--hours {
       flex: 0 0 80px;
-      width: 80px;
     }
 
     &__item--credits {
       flex: 0 0 120px;
-      width: 120px;
     }
 
     &__item--score {
       flex: 0 0 200px;
     }
 
-    &__item--button {
+    &__item--button-edit,
+    &__item--button-del {
       flex: 0 0 20px;
     }
 
@@ -85,7 +83,6 @@
 
     &__form {
       flex-wrap: wrap;
-      padding-top: 0;
 
       .table__item--submit {
         flex-basis: 100%;
@@ -96,6 +93,130 @@
         flex-basis: 232px;
         margin-right: 40px;
       }
+
+      .table__item--course {
+        padding-right: 0;
+      }
+    }
+  }
+
+  @media screen and (max-width: $desktop) {
+    .table {
+      &__row--head.active {
+        display: none;
+
+        & + .table__row {
+          padding-top: 0;
+          border: 0;
+        }
+      }
+
+      &__row {
+        flex-wrap: wrap;
+        border-top: 1px solid $color-gray-3;
+
+        &:first-child {
+          border: 0;
+        }
+
+        .table__item {
+          margin-bottom: 8px;
+          margin-right: 8px;
+
+          &:before {
+            display: block;
+            @include smallerString($color-gray-text);
+            margin-bottom: 2px;
+          }
+        }
+
+        .table__item--course {
+          flex-basis: calc(100% - 80px);
+          order: 1;
+          font-weight: 500;
+          margin-bottom: 10px;
+        }
+
+        .table__item--button-edit {
+          order: 2;
+          margin-top: 4px;
+        }
+
+        .table__item--button-del {
+          order: 3;
+          margin-top: 4px;
+        }
+
+        .table__item--lang {
+          order: 4;
+          margin-left: 0;
+
+          &:before {
+            content: 'Язык';
+          }
+        }
+
+        .table__item--hours {
+          order: 5;
+
+          &:before {
+            content: 'Часов';
+          }
+        }
+
+        .table__item--credits {
+          order: 6;
+
+          &:before {
+            content: 'ECTS credits';
+          }
+        }
+
+        .table__item--score {
+          order: 7;
+          flex-basis: 150px;
+
+          &:before {
+            content: 'Оценка';
+          }
+        }
+
+        .table__item--submit {
+          order: 8;
+        }
+
+        &.table__form {
+          &:last-child {
+            border-top: 0;
+          }
+
+          .table__item {
+            margin-bottom: 16px;
+            margin-right: 16px;
+
+            &:nth-last-child(2) {
+              margin-right: 0;
+            }
+
+            &:before {
+              @include largerString();
+              margin-bottom: 8px;
+            }
+          }
+
+          .table__item--course {
+            &:before {
+              content: 'Курс';
+            }
+          }
+        }
+      }
+    }
+  }
+
+  @media screen and (max-width: $mobile) {
+    &__title {
+      @include customTitle(18px, 22px);
     }
   }
 }

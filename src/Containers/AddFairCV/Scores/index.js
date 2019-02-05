@@ -12,11 +12,11 @@ type ScoresDataType = {
   hours: number,
   estscredits: string,
   score: string
-}
+};
 
 type ScoresProps = {
   data: Array<ScoresDataType>
-}
+};
 
 export class Scores extends PureComponent<ScoresProps, {}> {
 
@@ -44,8 +44,8 @@ export class Scores extends PureComponent<ScoresProps, {}> {
                 <div className="table__item table__item--hours">{item.hours}</div>
                 <div className="table__item table__item--credits">{item.ectscredits}</div>
                 <div className="table__item table__item--score">{item.score}</div>
-                <div className="table__item table__item--button"><span className="btn btn--edit"></span></div>
-                <div className="table__item table__item--button"><span className="btn btn--del"></span></div>
+                <div className="table__item table__item--button-edit"><span className="btn btn--edit"></span></div>
+                <div className="table__item table__item--button-del"><span className="btn btn--del"></span></div>
               </div>
             )): null}
           <div className="table__row table__form">
@@ -69,7 +69,6 @@ export class Scores extends PureComponent<ScoresProps, {}> {
       </div>
     );
   }
-
 }
 
 export default Scores;

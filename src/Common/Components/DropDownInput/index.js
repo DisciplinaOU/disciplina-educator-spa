@@ -30,17 +30,19 @@ export default class DropDownInput extends PureComponent<DropDownInputProps, Dro
 
   closeSelect = () => this.setState({ isSelectOpened: false })
 
-  changeSelectValue = (e: SyntheticEvent<HTMLSelectElement>) => this.setState({ value: e.currentTarget.dataset.value })
+  changeSelectValue = (e: SyntheticEvent<HTMLSelectElement>) => {
+    this.setState({ value: e.currentTarget.dataset.value })
+  }
 
   render() {
     const {  id, title, list, className } = this.props;
     const { isSelectOpened, value } = this.state;
     return (
       <div
-        className={`dropdown-input ${isSelectOpened ? 'active' : ''} ${className ? className : ""}`}
+        className={`dropdown-input input ${isSelectOpened ? 'active' : ''} ${className ? className : ""}`}
         onClick={this.changeSelectState}
       >
-        <label className="dropdown-input__label">{title}</label>
+        {title ? <label className="dropdown-input__label">{title}</label> : null}
         <input
           id={id}
           className="dropdown-input__field"

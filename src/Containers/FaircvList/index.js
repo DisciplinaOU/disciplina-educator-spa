@@ -2,7 +2,7 @@
 import React from 'react';
 import './styles.scss';
 import Button from '../../Common/Components/Button';
-import FairCVListData from './FairCVListData';
+import FairCVListData from './FairCVListData.js';
 import RegularInput from '../../Common/Components/RegularInput';
 import Pagination from '../../Common/Components/Pagination';
 
@@ -15,7 +15,8 @@ type FairCVListDataType = {
 
 export const FaircvList = () => {
   const data = (FairCVListData: Array<FairCVListDataType>);
-
+  const isDesktop = document.documentElement.clientWidth >= 768;
+  const searchPlaceholder = isDesktop ? "Введите имя студента или номер диплома" : "Поиск";
   return (
     <div className="faircv-list container">
       <div className="faircv-list__title">
@@ -33,7 +34,7 @@ export const FaircvList = () => {
         <>
           <form className="faircv-list__search">
             <RegularInput
-              placeholder="Введите имя студента или номер диплома" className="faircv-list__search-input"
+              placeholder={searchPlaceholder} className="faircv-list__search-input"
               width="full"
             />
             <Button
