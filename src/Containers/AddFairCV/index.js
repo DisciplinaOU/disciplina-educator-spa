@@ -136,7 +136,7 @@ export class AddFairCV extends PureComponent <{}, AddFairCVState> {
             <Scores data={scoresData}/>
           </form>
         </div>
-        <Reminder />
+        <Reminder className="container"/>
       </div>
     );
   }

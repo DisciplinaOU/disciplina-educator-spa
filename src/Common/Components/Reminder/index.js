@@ -3,9 +3,14 @@ import React from 'react';
 import Button from '../../../Common/Components/Button';
 import './styles.scss';
 
-export const Reminder = () => {
+type ReminderProps = {
+  className: string
+}
+
+export const Reminder = (props: ReminderProps) => {
+  const {className} = props;
   return (
-    <div className="reminder">
+    <div className={`reminder ${className ? className : null }`}>
       <div className="reminder__text">
         <span></span>
         <p>Внимательно проверьте все данные перед сохранением. Изменить сохраненные записи будет невозможно!</p>
