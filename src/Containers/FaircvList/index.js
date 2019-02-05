@@ -11,17 +11,12 @@ type FairCVListDataType = {
   name: string,
   degree: string,
   document: string
-};
+}
 
 export const FaircvList = () => {
   const data = (FairCVListData: Array<FairCVListDataType>);
-  const searchPlaceholder = () => {
-    if(document.documentElement.clientWidth >= 768) {
-      return ("Введите имя студента или номер диплома");
-    } else {
-      return("Поиск");
-    }
-  };
+  const isDesktop = document.documentElement.clientWidth >= 768;
+  const searchPlaceholder = isDesktop ? "Введите имя студента или номер диплома" : "Поиск";
   return (
     <div className="faircv-list container">
       <div className="faircv-list__title">
@@ -39,7 +34,7 @@ export const FaircvList = () => {
         <>
           <form className="faircv-list__search">
             <RegularInput
-              placeholder={searchPlaceholder()} className="faircv-list__search-input"
+              placeholder={searchPlaceholder} className="faircv-list__search-input"
               width="full"
             />
             <Button
