@@ -1,20 +1,19 @@
 // @flow
-import React, { PureComponent } from 'react';
-import './styles.scss';
-import Button from '../../Common/Components/Button';
-import RegularInput from '../../Common/Components/RegularInput';
-import DropDownInput from '../../Common/Components/DropDownInput';
-import DatePicker from 'react-datepicker';
-import Scores from './Scores';
-import Reminder from './Reminder';
-import Modal from './Modal';
-import 'react-datepicker/dist/react-datepicker.css';
+import React, { PureComponent } from "react";
+import "./styles.scss";
+import DatePicker from "react-datepicker";
+import Button from "../../Common/Components/Button";
+import RegularInput from "../../Common/Components/RegularInput";
+import DropDownInput from "../../Common/Components/DropDownInput";
+import Scores from "./Scores";
+import Reminder from "./Reminder";
+import "react-datepicker/dist/react-datepicker.css";
 
 type AddFairCVState = {
   startDate: Date
-}
+};
 
-export class AddFairCV extends PureComponent <{}, AddFairCVState> {
+export class AddFairCV extends PureComponent<{}, AddFairCVState> {
   state = {
     startDate: new Date()
   };
@@ -22,7 +21,7 @@ export class AddFairCV extends PureComponent <{}, AddFairCVState> {
   handleChange = (date: Date) => this.setState({ startDate: date });
 
   render() {
-    const {startDate, scoresData, modalContent} = this.state;
+    const { startDate } = this.state;
     return (
       <div className="add-form">
         <Modal mоdalContent={modalContent}/>
@@ -34,7 +33,7 @@ export class AddFairCV extends PureComponent <{}, AddFairCVState> {
               modHeight="height-big"
               modStyle="arrow-back"
               modColor="color-main"
-              callback={()=>{}}
+              callback={() => {}}
             />
           </div>
           <h1 className="add-form__title">Добавление FairCV</h1>
@@ -45,7 +44,7 @@ export class AddFairCV extends PureComponent <{}, AddFairCVState> {
                 <RegularInput
                   title="Фамилия, имя, отчество"
                   className="input-sudent"
-                  width="full"
+                  width="full-width"
                   dispatchValue={() => {}}
                 />
                 <div className="input data-input">
@@ -61,19 +60,19 @@ export class AddFairCV extends PureComponent <{}, AddFairCVState> {
               <h2 className="input-container__title text-left">Обучение</h2>
               <div className="input-group">
                 <DropDownInput
-                  list={['1','2','3']}
+                  list={["1", "2", "3"]}
                   title="Год поступления"
                   className="input-education-start"
                   callback={() => {}}
                 />
                 <DropDownInput
-                  list={['1','2','3']}
+                  list={["1", "2", "3"]}
                   title="Год окончания"
                   className="input-education-end"
                   callback={() => {}}
                 />
                 <DropDownInput
-                  list={['1','2','3']}
+                  list={["1", "2", "3"]}
                   title="Форма обучения"
                   className="input-education-form"
                   callback={() => {}}
@@ -86,7 +85,7 @@ export class AddFairCV extends PureComponent <{}, AddFairCVState> {
                 <RegularInput
                   title="Номер"
                   className="input-number"
-                  width="full"
+                  width="full-width"
                   dispatchValue={() => {}}
                 />
                 <div className="input data-input">
@@ -99,23 +98,24 @@ export class AddFairCV extends PureComponent <{}, AddFairCVState> {
               </div>
               <RegularInput
                 title="Присвоено звание"
-                width="full"
+                width="full-width"
                 className="input-rank"
                 dispatchValue={() => {}}
               />
               <RegularInput
-                title="Специальность" width="full"
+                title="Специальность"
+                width="full-width"
                 className="input-speciality"
                 dispatchValue={() => {}}
               />
               <RegularInput
                 title="Специализация (если есть)"
-                width="full"
+                width="full-width"
                 className="input-specialization"
                 dispatchValue={() => {}}
               />
             </div>
-            <Scores dispatchScores={()=>{}} />
+            <Scores dispatchScores={() => {}} />
           </form>
         </div>
         <Reminder className="container"/>
