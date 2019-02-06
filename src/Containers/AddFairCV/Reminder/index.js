@@ -10,7 +10,7 @@ type ReminderProps = {
 export const Reminder = (props: ReminderProps) => {
   const {className} = props;
   return (
-    <div className={`reminder ${className ? className : null }`}>
+    <div className={`reminder ${className}`}>
       <div className="reminder__text">
         <span></span>
         <p>Внимательно проверьте все данные перед сохранением. Изменить сохраненные записи будет невозможно!</p>
