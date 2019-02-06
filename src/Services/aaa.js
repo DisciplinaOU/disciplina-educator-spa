@@ -14,12 +14,7 @@ class AAAService implements IAAAService {
     this.httpService = http;
   }
 
-  createUser(
-    email: string,
-    name: string,
-    website: string,
-    password: string
-  ): Promise<Educator> {
+  createUser(email: string, name: string, website: string, password: string): Promise<Educator> {
     return this.httpService.post(BASE_URL, { email, name, website, password });
   }
 

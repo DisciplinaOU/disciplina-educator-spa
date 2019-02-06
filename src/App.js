@@ -9,10 +9,7 @@ import AddFairCV from "./Containers/AddFairCV";
 
 const UserContext = React.createContext({ id: 0, isConfirmed: false });
 
-const withUserContext = (
-  WrappedComponent: Component,
-  isGuardEnabled: boolean
-) => {
+const withUserContext = (WrappedComponent: Component, isGuardEnabled: boolean) => {
   type PrivateContainerProps = {
     history: { push: (url: string) => void },
     location: { pathname: string }
@@ -63,15 +60,10 @@ const Faircv = () => (
 const App = () => {
   return (
     <div className="App">
-      <UserContext.Consumer>
-        {user => <Header user={user} />}
-      </UserContext.Consumer>
+      <UserContext.Consumer>{user => <Header user={user} />}</UserContext.Consumer>
       <main className="main">
         <Switch>
-          <Route
-            path="/auth"
-            component={withUserContext(AuthContainer, false)}
-          />
+          <Route path="/auth" component={withUserContext(AuthContainer, false)} />
           <Route path="/faircv" component={withUserContext(Faircv, true)} />
         </Switch>
         <Link to="/auth">auth</Link>
