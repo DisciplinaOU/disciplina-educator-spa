@@ -19,11 +19,9 @@ export class Message extends PureComponent<MessageProps> {
     const { img, title, text, buttonText = "" } = this.props;
     return (
       <div className="mail_confirmed">
-        {img ? <img className="mail_confirmed__img" src={img} alt="" /> : null}
-        {title ? <h3 className="mail_confirmed__title">{title}</h3> : null}
-        {text && text.length ? (
-          <p className="mail_confirmed__text">{text}</p>
-        ) : null}
+        <img className="mail_confirmed__img" src={img} alt="" />
+        <h3 className="mail_confirmed__title">{title}</h3>
+        {text && text.length ? <p className="mail_confirmed__text">{text}</p> : null}
         {buttonText && buttonText.length ? (
           <Button
             text={buttonText}

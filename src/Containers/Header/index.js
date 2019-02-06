@@ -17,9 +17,7 @@ export const Header = (props: HeaderProps) => {
     <header className="header">
       <img className="header__logo" src={logoIcon} alt="" />
       {user && user.isConfirmed ? (
-        <div className="header__title">
-          Ивановский государственный химико-технологический университет
-        </div>
+        <div className="header__title">Ивановский государственный химико-технологический университет</div>
       ) : null}
       {user ? (
         <button className="header__log-off" onClick={logout} type="button">

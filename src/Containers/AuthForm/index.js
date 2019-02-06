@@ -107,8 +107,7 @@ class AuthForm extends PureComponent<AuthFormProps, AuthFormState> {
     }
   };
 
-  handleEmailInput = (e: SyntheticEvent<HTMLInputElement>) =>
-    this.setState({ email: e.currentTarget.value });
+  handleEmailInput = (e: SyntheticEvent<HTMLInputElement>) => this.setState({ email: e.currentTarget.value });
 
   handlePasswordInput = (e: SyntheticEvent<HTMLInputElement>) => {
     this.setState({ password: e.currentTarget.value });
@@ -130,27 +129,16 @@ class AuthForm extends PureComponent<AuthFormProps, AuthFormState> {
 
   stopLoading = () => this.setState({ isLoading: false });
 
-  goToRegisterTab = () =>
-    this.setState({ currentState: AUTH_FORM_STATES.SIGN_UP });
+  goToRegisterTab = () => this.setState({ currentState: AUTH_FORM_STATES.SIGN_UP });
 
-  goToSigninTab = () =>
-    this.setState({ currentState: AUTH_FORM_STATES.SIGN_IN });
+  goToSigninTab = () => this.setState({ currentState: AUTH_FORM_STATES.SIGN_IN });
 
   goToResetTab = () => this.setState({ currentState: AUTH_FORM_STATES.RESET });
 
-  goToRecoveryTab = () =>
-    this.setState({ currentState: AUTH_FORM_STATES.RECOVERY });
+  goToRecoveryTab = () => this.setState({ currentState: AUTH_FORM_STATES.RECOVERY });
 
   render() {
-    const {
-      currentState,
-      email,
-      password,
-      name,
-      newPassword,
-      url,
-      isLoading
-    } = this.state;
+    const { currentState, email, password, name, newPassword, url, isLoading } = this.state;
 
     return (
       <div className="auth-form">
@@ -166,12 +154,7 @@ class AuthForm extends PureComponent<AuthFormProps, AuthFormState> {
                     <button className="tab active" href="1" type="button">
                       Вход с паролем
                     </button>
-                    <button
-                      className="tab"
-                      href="1"
-                      onClick={this.goToRegisterTab}
-                      type="button"
-                    >
+                    <button className="tab" href="1" onClick={this.goToRegisterTab} type="button">
                       Регистрация
                     </button>
                   </div>
@@ -215,12 +198,7 @@ class AuthForm extends PureComponent<AuthFormProps, AuthFormState> {
               [AUTH_FORM_STATES.SIGN_UP]: (
                 <>
                   <div className="auth-form__tabs">
-                    <button
-                      className="tab"
-                      href="1"
-                      onClick={this.goToSigninTab}
-                      type="button"
-                    >
+                    <button className="tab" href="1" onClick={this.goToSigninTab} type="button">
                       Вход с паролем
                     </button>
                     <button className="tab active" href="1" type="button">
@@ -244,9 +222,7 @@ class AuthForm extends PureComponent<AuthFormProps, AuthFormState> {
                         value={name}
                         onChange={this.handleNameInput}
                       />
-                      <span className="login-form__message">
-                        errormsgsdfdsf
-                      </span>
+                      <span className="login-form__message">errormsgsdfdsf</span>
                     </div>
                     <div className="login-form__input-container">
                       <input

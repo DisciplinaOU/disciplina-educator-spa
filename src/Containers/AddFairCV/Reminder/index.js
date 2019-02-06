@@ -3,15 +3,16 @@ import React from "react";
 import Button from "../../../Common/Components/Button";
 import "./styles.scss";
 
-export const Reminder = () => {
+type ReminderProps = {
+  dispatchSubmit: () => Promise<any>
+};
+
+export const Reminder = ({ dispatchSubmit }: ReminderProps) => {
   return (
     <div className="reminder">
       <div className="reminder__text">
         <span />
-        <p>
-          Внимательно проверьте все данные перед сохранением. Изменить
-          сохраненные записи будет невозможно!
-        </p>
+        <p>Внимательно проверьте все данные перед сохранением. Изменить сохраненные записи будет невозможно!</p>
       </div>
       <Button
         text="Сохранить FairCV"
@@ -19,7 +20,7 @@ export const Reminder = () => {
         modHeight="height-big"
         modStyle="filled"
         modColor="color-main"
-        callback={() => {}}
+        callback={dispatchSubmit}
       />
     </div>
   );

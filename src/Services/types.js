@@ -72,12 +72,7 @@ export interface IFaircvService {
 // TODO return types must be updated when api spec will be ready
 export interface IAAAService {
   httpService: IHttpService;
-  createUser(
-    email: string,
-    name: string,
-    website: string,
-    password: string
-  ): Promise<Educator>;
+  createUser(email: string, name: string, website: string, password: string): Promise<Educator>;
   login(email: string, password: string): Promise<any>;
   resetPassword(email: string): Promise<any>;
   createPassword(password: string, resetPasswordToken: string): Promise<any>;

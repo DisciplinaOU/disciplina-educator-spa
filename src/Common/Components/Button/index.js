@@ -18,14 +18,7 @@ export default class Button extends PureComponent<ButtonProps> {
   };
 
   render() {
-    const {
-      text,
-      modStyle,
-      modHeight = "height-big",
-      modWidth = "width-auto",
-      modColor,
-      callback
-    } = this.props;
+    const { text, modStyle, modHeight = "height-big", modWidth = "width-auto", modColor, callback } = this.props;
     return (
       <button
         className={`btn btn--${modWidth} btn--${modHeight} btn--${modStyle} btn--${modColor}`}

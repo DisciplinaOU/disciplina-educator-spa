@@ -4,20 +4,17 @@ import "./styles.scss";
 
 type DropDownInputProps = {
   title?: string,
-  list: Array<string>,
-  callback: (v: string) => void,
+  list: Array<number | string>,
+  callback: (v: any) => void,
   className?: string
 };
 
 type DropDownInputState = {
   isSelectOpened: boolean,
-  value: string
+  selectedValue: number
 };
 
-export default class DropDownInput extends PureComponent<
-  DropDownInputProps,
-  DropDownInputState
-> {
+export default class DropDownInput extends PureComponent<DropDownInputProps, DropDownInputState> {
   static defaultProps = {
     title: "",
     className: ""
@@ -25,7 +22,7 @@ export default class DropDownInput extends PureComponent<
 
   state = {
     isSelectOpened: false,
-    value: "start"
+    selectedValue: 0
   };
 
   changeSelectState = () => {
@@ -40,29 +37,23 @@ export default class DropDownInput extends PureComponent<
   changeSelectValue = (e: SyntheticEvent<HTMLSelectElement>) => {
     const { callback } = this.props;
     const { value } = e.currentTarget.dataset;
-    this.setState({ value });
+    this.setState({ selectedValue: +value });
     callback(value);
   };
 
   render() {
     const { title, list, className } = this.props;
-    const { isSelectOpened, value } = this.state;
+    const { isSelectOpened, selectedValue } = this.state;
     return (
       <div
-        className={`dropdown-input ${
-          isSelectOpened ? "active" : ""
-        } ${className || ""}`}
+        className={`dropdown-input ${isSelectOpened ? "active" : ""} ${className || ""}`}
         onClick={this.changeSelectState}
       >
         <label className="dropdown-input__label">{title}</label>
-        <input className="dropdown-input__field" type="text" value={value} />
+        <input className="dropdown-input__field" type="text" value={selectedValue} />
         <ul className="dropdown-input__list">
           {list.map(item => (
-            <li
-              className="dropdown-input__item"
-              data-value={item}
-              onClick={this.changeSelectValue}
-            >
+            <li className="dropdown-input__item" data-value={item} onClick={this.changeSelectValue}>
               {item}
             </li>
           ))}

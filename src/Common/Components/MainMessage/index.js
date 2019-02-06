@@ -41,10 +41,7 @@ export default class MainMessage extends PureComponent<MainMessageProps, {}> {
               />
             ),
             [MAIN_MESSAGE_STATE.LIST_EMPTY]: (
-              <Message
-                img={personImg}
-                title="Вы&nbsp;еще не&nbsp;создали ни&nbsp;одного FairCV"
-              />
+              <Message img={personImg} title="Вы&nbsp;еще не&nbsp;создали ни&nbsp;одного FairCV" />
             ),
             [MAIN_MESSAGE_STATE.CHECK_EMAIL]: (
               <Message

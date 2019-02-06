@@ -8,15 +8,95 @@ import DropDownInput from "../../Common/Components/DropDownInput";
 import Scores from "./Scores";
 import Reminder from "./Reminder";
 import "react-datepicker/dist/react-datepicker.css";
+import type { ScoresDataType } from "./Scores";
+
+type EducationFormEnum = "fulltime" | "parttime" | "fullpart";
 
 type AddFairCVState = {
-  startDate: Date
+  grades: Array<ScoresDataType>,
+  startDate: Date,
+  studentName: string,
+  studentBirthDate: string,
+  startYear: number,
+  endYear: number,
+  educationForm: EducationFormEnum,
+  number: string,
+  issueDate: string,
+  title: string,
+  major: string,
+  specialization?: string
 };
 
 export class AddFairCV extends PureComponent<{}, AddFairCVState> {
   state = {
-    startDate: new Date()
+    grades: [],
+    startDate: new Date(),
+    studentName: "",
+    studentBirthDate: "",
+    startYear: 2019,
+    endYear: 2019,
+    educationForm: "fulltime",
+    number: "",
+    issueDate: "",
+    title: "",
+    major: "",
+    specialization: ""
   };
+
+  updateGrades = (grades: Array<ScoresDataType>) => {
+    this.setState({ grades });
+  };
+
+  addNewFaircv = () => {
+    const {
+      grades,
+      studentName,
+      studentBirthDate,
+      startYear,
+      endYear,
+      educationForm,
+      number,
+      issueDate,
+      title,
+      major,
+      specialization
+    } = this.state;
+    return Promise.resolve(
+      console.log({
+        grades,
+        studentName,
+        studentBirthDate,
+        startYear,
+        endYear,
+        educationForm,
+        number,
+        issueDate,
+        title,
+        major,
+        specialization
+      })
+    );
+  };
+
+  handleStudentName = (v: string) => this.setState({ studentName: v });
+
+  handleStudentBirthDate = (v: string) => this.setState({ studentBirthDate: v });
+
+  handleStartYear = (v: number) => this.setState({ startYear: v });
+
+  handleEndYear = (v: number) => this.setState({ endYear: v });
+
+  handleEducationForm = (v: EducationFormEnum) => this.setState({ educationForm: v });
+
+  handleNumber = (v: string) => this.setState({ number: v });
+
+  handleIssueDate = (v: string) => this.setState({ issueDate: v });
+
+  handleTitle = (v: string) => this.setState({ title: v });
+
+  handleMajor = (v: string) => this.setState({ major: v });
+
+  handleSpecialization = (v: string) => this.setState({ specialization: v });
 
   handleChange = (date: Date) => this.setState({ startDate: date });
 
@@ -42,16 +122,13 @@ export class AddFairCV extends PureComponent<{}, AddFairCVState> {
               <div className="input-group">
                 <RegularInput
                   title="Фамилия, имя, отчество"
-                  className="input-sudent"
+                  className="input-student"
                   width="full-width"
-                  dispatchValue={() => {}}
+                  dispatchValue={this.handleStudentName}
                 />
                 <div className="input data-input">
                   <label className="data-input__label">Дата рождения</label>
-                  <DatePicker
-                    selected={startDate}
-                    onChange={this.handleChange}
-                  />
+                  <DatePicker selected={startDate} onChange={this.handleChange} dateFormat="yyyy-MM-dd" />
                 </div>
               </div>
             </div>
@@ -59,22 +136,22 @@ export class AddFairCV extends PureComponent<{}, AddFairCVState> {
               <h2 className="input-container__title text-left">Обучение</h2>
               <div className="input-group">
                 <DropDownInput
-                  list={["1", "2", "3"]}
+                  list={[1, 2, 3]}
                   title="Год поступления"
                   className="input-education-start"
-                  callback={() => {}}
+                  callback={this.handleStartYear}
                 />
                 <DropDownInput
-                  list={["1", "2", "3"]}
+                  list={[1, 2, 3]}
                   title="Год окончания"
                   className="input-education-end"
-                  callback={() => {}}
+                  callback={this.handleEndYear}
                 />
                 <DropDownInput
-                  list={["1", "2", "3"]}
+                  list={[1, 2, 3]}
                   title="Форма обучения"
                   className="input-education-form"
-                  callback={() => {}}
+                  callback={this.handleEducationForm}
                 />
               </div>
             </div>
@@ -85,39 +162,36 @@ export class AddFairCV extends PureComponent<{}, AddFairCVState> {
                   title="Номер"
                   className="input-number"
                   width="full-width"
-                  dispatchValue={() => {}}
+                  dispatchValue={this.handleNumber}
                 />
                 <div className="input data-input">
                   <label className="data-input__label">Дата выдачи</label>
-                  <DatePicker
-                    selected={startDate}
-                    onChange={this.handleChange}
-                  />
+                  <DatePicker selected={startDate} onChange={this.handleChange} dateFormat="yyyy-MM-dd" />
                 </div>
               </div>
               <RegularInput
                 title="Присвоено звание"
                 width="full-width"
                 className="input-rank"
-                dispatchValue={() => {}}
+                dispatchValue={this.handleTitle}
               />
               <RegularInput
                 title="Специальность"
                 width="full-width"
                 className="input-speciality"
-                dispatchValue={() => {}}
+                dispatchValue={this.handleMajor}
               />
               <RegularInput
                 title="Специализация (если есть)"
                 width="full-width"
                 className="input-specialization"
-                dispatchValue={() => {}}
+                dispatchValue={this.handleSpecialization}
               />
             </div>
-            <Scores dispatchScores={() => {}} />
+            <Scores dispatchScores={this.updateGrades} />
           </form>
         </div>
-        <Reminder />
+        <Reminder dispatchSubmit={this.addNewFaircv} />
       </div>
     );
   }

@@ -10,10 +10,7 @@ type AuthContainerProps = {
   location: any
 };
 
-export default class AuthContainer extends PureComponent<
-  AuthContainerProps,
-  {}
-> {
+export default class AuthContainer extends PureComponent<AuthContainerProps, {}> {
   render() {
     const { history, location, user } = this.props;
 
