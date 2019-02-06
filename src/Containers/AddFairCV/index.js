@@ -5,8 +5,9 @@ import Button from '../../Common/Components/Button';
 import RegularInput from '../../Common/Components/RegularInput';
 import DropDownInput from '../../Common/Components/DropDownInput';
 import DatePicker from 'react-datepicker';
-import Scores from './Scores'
-import Reminder from './Reminder'
+import Scores from './Scores';
+import Reminder from './Reminder';
+import Modal from './Modal';
 import 'react-datepicker/dist/react-datepicker.css';
 import scoresData from './scoresData';
 
@@ -15,21 +16,23 @@ type AddFairCVState = {
 }
 
 export class AddFairCV extends PureComponent <{}, AddFairCVState> {
-
   state = {
     startDate: new Date(),
-    scoresData: scoresData
-  }
+    scoresData: scoresData,
+    modalContent: 'SUCCESS'
+  };
 
   handleChange = (date) => {
     this.setState({
       startDate: date
     });
-  }
+  };
 
   render() {
+    const {startDate, scoresData, modalContent} = this.state;
     return (
       <div className="add-form">
+        <Modal mоdalContent={modalContent}/>
         <div className="container">
           <div className="navigation-link text-left">
             <Button
@@ -49,7 +52,7 @@ export class AddFairCV extends PureComponent <{}, AddFairCVState> {
                 <div className="input data-input">
                   <label className="data-input__label">Дата рождения</label>
                   <DatePicker
-                    selected={this.state.startDate}
+                    selected={startDate}
                     onChange={this.handleChange}
                   />
                 </div>
@@ -86,7 +89,7 @@ export class AddFairCV extends PureComponent <{}, AddFairCVState> {
                 <div className="input data-input">
                   <label className="data-input__label">Дата выдачи</label>
                   <DatePicker
-                    selected={this.state.startDate}
+                    selected={startDate}
                     onChange={this.handleChange}
                   />
                 </div>
@@ -109,10 +112,10 @@ export class AddFairCV extends PureComponent <{}, AddFairCVState> {
             <Scores data={scoresData}/>
           </form>
         </div>
-        <Reminder />
+        <Reminder className="container"/>
       </div>
     );
   }
-};
+}
 
-export default AddFairCV;
+export default AddFairCV
