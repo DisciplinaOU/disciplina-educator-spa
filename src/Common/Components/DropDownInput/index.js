@@ -1,22 +1,27 @@
 // @flow
-import React, { PureComponent } from 'react';
-import './styles.scss';
+import React, { PureComponent } from "react";
+import "./styles.scss";
 
 type DropDownInputProps = {
-  value?: string,
   title?: string,
   list: Array<string>,
   callback: (v: string) => void,
-  id?: string,
   className?: string
 };
 
 type DropDownInputState = {
   isSelectOpened: boolean,
   value: string
-}
+};
 
-export default class DropDownInput extends PureComponent<DropDownInputProps, DropDownInputState> {
+export default class DropDownInput extends PureComponent<
+  DropDownInputProps,
+  DropDownInputState
+> {
+  static defaultProps = {
+    title: "",
+    className: ""
+  };
 
   state = {
     isSelectOpened: false,
@@ -28,33 +33,31 @@ export default class DropDownInput extends PureComponent<DropDownInputProps, Dro
     isSelectOpened ? this.closeSelect() : this.openSelect();
   };
 
-  openSelect = () => this.setState ({ isSelectOpened: true });
+  openSelect = () => this.setState({ isSelectOpened: true });
 
   closeSelect = () => this.setState({ isSelectOpened: false });
 
   changeSelectValue = (e: SyntheticEvent<HTMLSelectElement>) => {
     const { callback } = this.props;
-    this.setState({ value: e.currentTarget.dataset.value });
-    callback(e.currentTarget.dataset.value);
+    const { value } = e.currentTarget.dataset;
+    this.setState({ value });
+    callback(value);
   };
 
   render() {
-    const { id, title, list, className } = this.props;
+    const { title, list, className } = this.props;
     const { isSelectOpened, value } = this.state;
     return (
       <div
-        className={`dropdown-input ${isSelectOpened ? 'active' : ''} ${className ? className : ""}`}
+        className={`dropdown-input ${
+          isSelectOpened ? "active" : ""
+        } ${className || ""}`}
         onClick={this.changeSelectState}
       >
         <label className="dropdown-input__label">{title}</label>
-        <input
-          id={id}
-          className="dropdown-input__field"
-          type="text"
-          value={value}
-          />
+        <input className="dropdown-input__field" type="text" value={value} />
         <ul className="dropdown-input__list">
-          { list.map((item) =>
+          {list.map(item => (
             <li
               className="dropdown-input__item"
               data-value={item}
@@ -62,7 +65,7 @@ export default class DropDownInput extends PureComponent<DropDownInputProps, Dro
             >
               {item}
             </li>
-          )}
+          ))}
         </ul>
       </div>
     );

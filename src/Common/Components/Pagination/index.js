@@ -1,6 +1,6 @@
 // @flow
-import React from 'react';
-import './styles.scss';
+import React from "react";
+import "./styles.scss";
 
 export const Pagination = () => {
   return (
@@ -10,7 +10,7 @@ export const Pagination = () => {
       <li className="pagination__item active">33</li>
       <li className="pagination__item">Дальше</li>
     </ul>
-  )
+  );
 };
 
 export default Pagination;
