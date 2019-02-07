@@ -4,7 +4,7 @@ const scoresData = [
     course: "Введение в управление бизнесом",
     language: "ru",
     hours: 72,
-    ectscredits: "",
+    credits: "",
     score: "зачтено"
   },
   {
@@ -12,7 +12,7 @@ const scoresData = [
     course: "Введение в бизнес-управление ",
     language: "ru",
     hours: 7,
-    ectscredits: "",
+    credits: "",
     score: "зачтено"
   },
   {
@@ -20,7 +20,7 @@ const scoresData = [
     course: "Введение в бизнес",
     language: "ru",
     hours: 2,
-    ectscredits: "",
+    credits: "",
     score: "хорошо"
   }
 ];

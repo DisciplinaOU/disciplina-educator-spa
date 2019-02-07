@@ -3,6 +3,7 @@ import React, { PureComponent } from "react";
 import "./styles.scss";
 
 type DropDownInputProps = {
+  selectedValue: any,
   title?: string,
   list: Array<number | string>,
   callback: (v: any) => void,
@@ -10,8 +11,7 @@ type DropDownInputProps = {
 };
 
 type DropDownInputState = {
-  isSelectOpened: boolean,
-  selectedValue: number
+  isSelectOpened: boolean
 };
 
 export default class DropDownInput extends PureComponent<DropDownInputProps, DropDownInputState> {
@@ -21,8 +21,7 @@ export default class DropDownInput extends PureComponent<DropDownInputProps, Dro
   };
 
   state = {
-    isSelectOpened: false,
-    selectedValue: 0
+    isSelectOpened: false
   };
 
   changeSelectState = () => {
@@ -37,23 +36,22 @@ export default class DropDownInput extends PureComponent<DropDownInputProps, Dro
   changeSelectValue = (e: SyntheticEvent<HTMLSelectElement>) => {
     const { callback } = this.props;
     const { value } = e.currentTarget.dataset;
-    this.setState({ selectedValue: +value });
     callback(value);
   };
 
   render() {
-    const { title, list, className } = this.props;
-    const { isSelectOpened, selectedValue } = this.state;
+    const { title, list, className, selectedValue } = this.props;
+    const { isSelectOpened } = this.state;
     return (
       <div
         className={`dropdown-input ${isSelectOpened ? "active" : ""} ${className || ""}`}
         onClick={this.changeSelectState}
       >
         <label className="dropdown-input__label">{title}</label>
-        <input className="dropdown-input__field" type="text" value={selectedValue} />
+        <input className="dropdown-input__field" type="text" readOnly value={selectedValue} />
         <ul className="dropdown-input__list">
           {list.map(item => (
-            <li className="dropdown-input__item" data-value={item} onClick={this.changeSelectValue}>
+            <li className="dropdown-input__item" data-value={item} onClick={this.changeSelectValue} key={item}>
               {item}
             </li>
           ))}
