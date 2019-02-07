@@ -38,9 +38,18 @@ export class Scores extends PureComponent<ScoresProps, ScoresState> {
     dispatchScores(updatedData);
   };
 
+  removeScore = (scoreIndex: number) => {
+    const { dispatchScores } = this.props;
+    this.setState(state => {
+      const newData = [...state.data];
+      newData.splice(scoreIndex, 1);
+      dispatchScores(newData);
+      return { data: newData };
+    });
+  };
+
   render() {
     const { data } = this.state;
-
     return (
       <div className="scores">
         <h2 className="scores__title">Оценки</h2>
@@ -54,18 +63,19 @@ export class Scores extends PureComponent<ScoresProps, ScoresState> {
             <div className="table__item table__item--button">&nbsp;</div>
             <div className="table__item table__item--button">&nbsp;</div>
           </div>
-          {data
+          {data.length
             ? data.map((item, index) => (
                 <ScoreItem
                   scoreIndex={index}
                   isNewScore={false}
                   dispatchScore={this.addNewScore}
+                  remove={this.removeScore}
                   scoreData={item}
                   key={item.subject}
                 />
               ))
             : null}
-          <ScoreItem isNewScore dispatchScore={this.addNewScore} />
+          <ScoreItem isNewScore dispatchScore={this.addNewScore} remove={this.removeScore} />
         </div>
       </div>
     );

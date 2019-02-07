@@ -9,11 +9,12 @@ type ScoreItemProps = {
   isNewScore: boolean,
   dispatchScore: (data: ScoresDataType, scoreIndex?: number) => void,
   scoreData?: ScoresDataType,
-  scoreIndex?: number
+  scoreIndex?: number,
+  remove: (scoreIndex: number) => void
 };
 
 export const ScoreItem = (props: ScoreItemProps) => {
-  const { scoreData, dispatchScore, isNewScore, scoreIndex = -1 } = props;
+  const { scoreData, dispatchScore, isNewScore, scoreIndex = -1, remove } = props;
   const [subject, setSubject] = useState((scoreData && scoreData.subject) || "");
   const [lang, setLanguage] = useState((scoreData && scoreData.lang) || "");
   const [hours, setHours] = useState((scoreData && scoreData.hours) || "");
@@ -36,6 +37,8 @@ export const ScoreItem = (props: ScoreItemProps) => {
     dispatchScore({ subject, lang, hours: +hours, credits: +credits, grade: +grade }, scoreIndex);
     setEditMode(false);
   };
+  
+  const handleRemove = () => remove(scoreIndex);
 
   return isEditMode ? (
     <div className="table__row table__form">
@@ -86,7 +89,7 @@ export const ScoreItem = (props: ScoreItemProps) => {
       <div className="table__item table__item--button" onClick={enableEditMode}>
         <span className="btn btn--edit">&nbsp;</span>
       </div>
-      <div className="table__item table__item--button">
+      <div className="table__item table__item--button" onClick={handleRemove}>
         <span className="btn btn--del">&nbsp;</span>
       </div>
     </div>
