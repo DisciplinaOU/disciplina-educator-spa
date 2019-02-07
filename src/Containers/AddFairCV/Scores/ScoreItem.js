@@ -14,36 +14,36 @@ type ScoreItemProps = {
 
 export const ScoreItem = (props: ScoreItemProps) => {
   const { scoreData, dispatchScore, isNewScore, scoreIndex = -1 } = props;
-  const [course, setCourse] = useState((scoreData && scoreData.course) || "");
-  const [language, setLanguage] = useState((scoreData && scoreData.language) || "");
+  const [subject, setSubject] = useState((scoreData && scoreData.subject) || "");
+  const [lang, setLanguage] = useState((scoreData && scoreData.lang) || "");
   const [hours, setHours] = useState((scoreData && scoreData.hours) || "");
   const [credits, setCredits] = useState((scoreData && scoreData.credits) || "");
-  const [score, setScore] = useState((scoreData && scoreData.score) || "");
+  const [grade, setGrade] = useState((scoreData && scoreData.grade) || "");
   const [isEditMode, setEditMode] = useState(isNewScore);
   const enableEditMode = () => setEditMode(true);
   const clearInputs = () => {
-    setScore("");
+    setGrade("");
     setCredits("");
     setHours("");
     setLanguage("");
-    setCourse("");
+    setSubject("");
   };
   const addNewScore = () => {
-    dispatchScore({ course, language, hours, credits, score });
+    dispatchScore({ subject, lang, hours: +hours, credits: +credits, grade: +grade });
     clearInputs();
   };
   const updateScore = () => {
-    dispatchScore({ course, language, hours, credits, score }, scoreIndex);
+    dispatchScore({ subject, lang, hours: +hours, credits: +credits, grade: +grade }, scoreIndex);
     setEditMode(false);
   };
 
   return isEditMode ? (
     <div className="table__row table__form">
       <div className="table__item table__item--course">
-        <RegularInput value={course} dispatchValue={setCourse} />
+        <RegularInput value={subject} dispatchValue={setSubject} />
       </div>
       <div className="table__item table__item--lang">
-        <DropDownInput selectedValue={language} list={["1", "2", "3"]} callback={setLanguage} />
+        <DropDownInput selectedValue={lang} list={["en", "ru"]} callback={setLanguage} />
       </div>
       <div className="table__item table__item--hours">
         <RegularInput value={hours} dispatchValue={setHours} />
@@ -52,7 +52,7 @@ export const ScoreItem = (props: ScoreItemProps) => {
         <RegularInput value={credits} dispatchValue={setCredits} />
       </div>
       <div className="table__item table__item--score">
-        <DropDownInput selectedValue={score} list={["1", "2", "3"]} callback={setScore} />
+        <DropDownInput selectedValue={grade} list={[1, 2, 3]} callback={setGrade} />
       </div>
       <div className="table__item table__item--submit">
         {isNewScore ? (
@@ -78,11 +78,11 @@ export const ScoreItem = (props: ScoreItemProps) => {
     </div>
   ) : (
     <div className="table__row">
-      <div className="table__item table__item--course">{course}</div>
-      <div className="table__item table__item--lang">{language}</div>
+      <div className="table__item table__item--course">{subject}</div>
+      <div className="table__item table__item--lang">{lang}</div>
       <div className="table__item table__item--hours">{hours}</div>
       <div className="table__item table__item--credits">{credits}</div>
-      <div className="table__item table__item--score">{score}</div>
+      <div className="table__item table__item--score">{grade}</div>
       <div className="table__item table__item--button" onClick={enableEditMode}>
         <span className="btn btn--edit">&nbsp;</span>
       </div>
@@ -95,11 +95,11 @@ export const ScoreItem = (props: ScoreItemProps) => {
 
 ScoreItem.defaultProps = {
   scoreData: {
-    course: "",
-    language: "",
-    hours: "",
-    credits: "",
-    score: ""
+    subject: "",
+    lang: "",
+    hours: null,
+    credits: null,
+    grade: null
   },
   scoreIndex: -1
 };

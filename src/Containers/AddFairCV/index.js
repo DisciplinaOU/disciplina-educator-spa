@@ -7,6 +7,7 @@ import RegularInput from "../../Common/Components/RegularInput";
 import DropDownInput from "../../Common/Components/DropDownInput";
 import Scores from "./Scores";
 import Reminder from "./Reminder";
+import FaircvService from "../../Services/faircv";
 import "react-datepicker/dist/react-datepicker.css";
 import type { ScoresDataType } from "./Scores";
 
@@ -19,7 +20,7 @@ type AddFairCVState = {
   startYear: number,
   endYear: number,
   educationForm: EducationFormEnum,
-  number: string,
+  number: number | string,
   issueDate: Date,
   title: string,
   major: string,
@@ -45,35 +46,9 @@ export class AddFairCV extends PureComponent<{}, AddFairCVState> {
     this.setState({ grades });
   };
 
-  addNewFaircv = () => {
-    const {
-      grades,
-      studentName,
-      studentBirthDate,
-      startYear,
-      endYear,
-      educationForm,
-      number,
-      issueDate,
-      title,
-      major,
-      specialization
-    } = this.state;
-    return Promise.resolve(
-      console.log({
-        grades,
-        studentName,
-        studentBirthDate,
-        startYear,
-        endYear,
-        educationForm,
-        number,
-        issueDate,
-        title,
-        major,
-        specialization
-      })
-    );
+  addNewFaircv = async () => {
+    const newCertificate = this.normalizeRequest();
+    await FaircvService.create(newCertificate);
   };
 
   handleStudentName = (v: string) => this.setState({ studentName: v });
@@ -96,8 +71,57 @@ export class AddFairCV extends PureComponent<{}, AddFairCVState> {
 
   handleSpecialization = (v: string) => this.setState({ specialization: v });
 
+  _formatDate = (date: Date) => {
+    const y = date.getFullYear();
+    const m = date.getMonth();
+    const d = date.getDay();
+    return `${y}-${m < 10 ? `0${m}` : m}-${d < 10 ? `0${d}` : d}`;
+  };
+
+  normalizeRequest = () => {
+    const {
+      studentName,
+      number,
+      title,
+      major,
+      specialization,
+      studentBirthDate,
+      issueDate,
+      startYear,
+      endYear,
+      educationForm,
+      grades
+    } = this.state;
+    return {
+      meta: {
+        studentName,
+        studentBirthDate: this._formatDate(studentBirthDate),
+        startYear: +startYear,
+        endYear: +endYear,
+        educationForm,
+        number: +number,
+        issueDate: this._formatDate(issueDate),
+        title,
+        major,
+        specialization
+      },
+      grades
+    };
+  };
+
   render() {
-    const { studentName, number, title, major, specialization = "", studentBirthDate, issueDate } = this.state;
+    const {
+      studentName,
+      number,
+      title,
+      major,
+      specialization = "",
+      studentBirthDate,
+      issueDate,
+      educationForm,
+      startYear,
+      endYear
+    } = this.state;
     return (
       <div className="add-form">
         <Modal mоdalContent={modalContent}/>
@@ -139,21 +163,21 @@ export class AddFairCV extends PureComponent<{}, AddFairCVState> {
               <div className="input-group">
                 <DropDownInput
                   list={[1, 2, 3]}
-                  selectedValue={0}
+                  selectedValue={startYear}
                   title="Год поступления"
                   className="input-education-start"
                   callback={this.handleStartYear}
                 />
                 <DropDownInput
                   list={[1, 2, 3]}
-                  selectedValue={0}
+                  selectedValue={endYear}
                   title="Год окончания"
                   className="input-education-end"
                   callback={this.handleEndYear}
                 />
                 <DropDownInput
                   list={[1, 2, 3]}
-                  selectedValue={0}
+                  selectedValue={educationForm}
                   title="Форма обучения"
                   className="input-education-form"
                   callback={this.handleEducationForm}
