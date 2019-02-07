@@ -64,7 +64,8 @@ const App = () => {
       <main className="main">
         <Switch>
           <Route path="/auth" component={withUserContext(AuthContainer, false)} />
-          <Route path="/faircv" component={withUserContext(Faircv, true)} />
+          {/* Temp for no auth reuquested */}
+          <Route path="/faircv" component={Faircv} />
         </Switch>
         <Link to="/auth">auth</Link>
         <Link to="/faircv">faircv list</Link>

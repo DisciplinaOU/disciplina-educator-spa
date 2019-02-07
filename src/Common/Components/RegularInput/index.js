@@ -3,7 +3,7 @@ import React, { PureComponent } from "react";
 import "./styles.scss";
 
 type RegularInputProps = {
-  value?: string,
+  value: string,
   title?: string,
   placeholder?: string,
   width?: string,
@@ -13,7 +13,6 @@ type RegularInputProps = {
 
 export default class RegularInput extends PureComponent<RegularInputProps> {
   static defaultProps = {
-    value: "",
     title: "",
     placeholder: "",
     width: " auto-width",

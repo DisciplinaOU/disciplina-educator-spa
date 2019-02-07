@@ -34,6 +34,7 @@ export const FaircvList = () => {
         <>
           <form className="faircv-list__search">
             <RegularInput
+              value=""
               placeholder="Введите имя студента или номер диплома"
               className="faircv-list__search-input"
               width="full-width"

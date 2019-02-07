@@ -14,14 +14,13 @@ type EducationFormEnum = "fulltime" | "parttime" | "fullpart";
 
 type AddFairCVState = {
   grades: Array<ScoresDataType>,
-  startDate: Date,
   studentName: string,
-  studentBirthDate: string,
+  studentBirthDate: Date,
   startYear: number,
   endYear: number,
   educationForm: EducationFormEnum,
   number: string,
-  issueDate: string,
+  issueDate: Date,
   title: string,
   major: string,
   specialization?: string
@@ -30,14 +29,13 @@ type AddFairCVState = {
 export class AddFairCV extends PureComponent<{}, AddFairCVState> {
   state = {
     grades: [],
-    startDate: new Date(),
     studentName: "",
-    studentBirthDate: "",
+    studentBirthDate: new Date(),
     startYear: 2019,
     endYear: 2019,
     educationForm: "fulltime",
     number: "",
-    issueDate: "",
+    issueDate: new Date(),
     title: "",
     major: "",
     specialization: ""
@@ -80,7 +78,7 @@ export class AddFairCV extends PureComponent<{}, AddFairCVState> {
 
   handleStudentName = (v: string) => this.setState({ studentName: v });
 
-  handleStudentBirthDate = (v: string) => this.setState({ studentBirthDate: v });
+  handleStudentBirthDate = (v: Date) => this.setState({ studentBirthDate: v });
 
   handleStartYear = (v: number) => this.setState({ startYear: v });
 
@@ -90,7 +88,7 @@ export class AddFairCV extends PureComponent<{}, AddFairCVState> {
 
   handleNumber = (v: string) => this.setState({ number: v });
 
-  handleIssueDate = (v: string) => this.setState({ issueDate: v });
+  handleIssueDate = (v: Date) => this.setState({ issueDate: v });
 
   handleTitle = (v: string) => this.setState({ title: v });
 
@@ -98,10 +96,8 @@ export class AddFairCV extends PureComponent<{}, AddFairCVState> {
 
   handleSpecialization = (v: string) => this.setState({ specialization: v });
 
-  handleChange = (date: Date) => this.setState({ startDate: date });
-
   render() {
-    const { startDate } = this.state;
+    const { studentName, number, title, major, specialization = "", studentBirthDate, issueDate } = this.state;
     return (
       <div className="add-form">
         <Modal mоdalContent={modalContent}/>
@@ -122,6 +118,7 @@ export class AddFairCV extends PureComponent<{}, AddFairCVState> {
               <h2 className="input-container__title text-left">Студент</h2>
               <div className="input-group">
                 <RegularInput
+                  value={studentName}
                   title="Фамилия, имя, отчество"
                   className="input-student"
                   width="full-width"
@@ -129,7 +126,11 @@ export class AddFairCV extends PureComponent<{}, AddFairCVState> {
                 />
                 <div className="input data-input">
                   <label className="data-input__label">Дата рождения</label>
-                  <DatePicker selected={startDate} onChange={this.handleChange} dateFormat="yyyy-MM-dd" />
+                  <DatePicker
+                    selected={studentBirthDate}
+                    onChange={this.handleStudentBirthDate}
+                    dateFormat="yyyy-MM-dd"
+                  />
                 </div>
               </div>
             </div>
@@ -138,18 +139,21 @@ export class AddFairCV extends PureComponent<{}, AddFairCVState> {
               <div className="input-group">
                 <DropDownInput
                   list={[1, 2, 3]}
+                  selectedValue={0}
                   title="Год поступления"
                   className="input-education-start"
                   callback={this.handleStartYear}
                 />
                 <DropDownInput
                   list={[1, 2, 3]}
+                  selectedValue={0}
                   title="Год окончания"
                   className="input-education-end"
                   callback={this.handleEndYear}
                 />
                 <DropDownInput
                   list={[1, 2, 3]}
+                  selectedValue={0}
                   title="Форма обучения"
                   className="input-education-form"
                   callback={this.handleEducationForm}
@@ -160,6 +164,7 @@ export class AddFairCV extends PureComponent<{}, AddFairCVState> {
               <h2 className="input-container__title text-left">Диплом</h2>
               <div className="input-group">
                 <RegularInput
+                  value={number}
                   title="Номер"
                   className="input-number"
                   width="full-width"
@@ -167,22 +172,25 @@ export class AddFairCV extends PureComponent<{}, AddFairCVState> {
                 />
                 <div className="input data-input">
                   <label className="data-input__label">Дата выдачи</label>
-                  <DatePicker selected={startDate} onChange={this.handleChange} dateFormat="yyyy-MM-dd" />
+                  <DatePicker selected={issueDate} onChange={this.handleIssueDate} dateFormat="yyyy-MM-dd" />
                 </div>
               </div>
               <RegularInput
+                value={title}
                 title="Присвоено звание"
                 width="full-width"
                 className="input-rank"
                 dispatchValue={this.handleTitle}
               />
               <RegularInput
+                value={major}
                 title="Специальность"
                 width="full-width"
                 className="input-speciality"
                 dispatchValue={this.handleMajor}
               />
               <RegularInput
+                value={specialization}
                 title="Специализация (если есть)"
                 width="full-width"
                 className="input-specialization"
