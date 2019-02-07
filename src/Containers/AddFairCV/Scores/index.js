@@ -1,15 +1,14 @@
 // @flow
 import React, { PureComponent } from "react";
-import scoresData from "../scoresData";
 import "./styles.scss";
 import { ScoreItem } from "./ScoreItem";
 
 export type ScoresDataType = {
-  course: string,
-  language: string,
-  hours: string,
-  credits: string,
-  score: string
+  subject: string,
+  lang: string,
+  hours: ?number,
+  credits: ?number,
+  grade: ?number
 };
 
 type ScoresProps = {
@@ -20,12 +19,10 @@ type ScoresState = {
   data: Array<ScoresDataType>
 };
 
-const ScoresInitialState = {
-  data: scoresData
-};
-
 export class Scores extends PureComponent<ScoresProps, ScoresState> {
-  state: ScoresState = ScoresInitialState;
+  state: ScoresState = {
+    data: []
+  };
 
   addNewScore = (scoreItem: ScoresDataType, scoreIndex?: number) => {
     const { dispatchScores } = this.props;
@@ -64,7 +61,7 @@ export class Scores extends PureComponent<ScoresProps, ScoresState> {
                   isNewScore={false}
                   dispatchScore={this.addNewScore}
                   scoreData={item}
-                  key={item.course}
+                  key={item.subject}
                 />
               ))
             : null}

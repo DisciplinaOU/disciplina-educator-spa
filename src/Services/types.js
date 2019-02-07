@@ -31,10 +31,8 @@ export type FaircvQuery = {
 export type Certificate = {
   id?: string,
   meta: {
-    student: {
-      name: string,
-      birthDate: string
-    },
+    studentName: string,
+    studentBirthDate: string,
     startYear: number,
     endYear: number,
     educationForm: EducationForm,

@@ -2,7 +2,8 @@ import axios, { AxiosStatic, AxiosInstance } from "axios";
 import type { IHttpService } from "./types";
 
 // const BASE_URL = 'https://stage-teachmeplease-aaa.stage.tchmpls.com';
-const BASE_URL = "//192.168.1.108:7523";
+// const BASE_URL = "//192.168.1.108:7523";
+const BASE_URL = "//54.93.167.179/api/educator/v1";
 
 class HttpService implements IHttpService {
   httpService: AxiosInstance;
@@ -11,8 +12,11 @@ class HttpService implements IHttpService {
     /*eslint new-cap: ["error", { "properties": false }]*/
     this.httpService = new axiosService.create({
       baseURL: BASE_URL,
-      headers: { "Content-Type": "application/json", "tmp-csrf": "tmp-csrf" },
-      withCredentials: true
+      headers: {
+        "Content-Type": "application/json",
+        Authorization:
+          "Bearer eyJhbGciOiJFZERTQSIsImp3ayI6eyJjcnYiOiJFZDI1NTE5IiwieCI6IjBkUUZRWU5VZk1sMXhrRmhwdld0YVVfOElucE40cGM1Qk5RSC1mSFlONmMiLCJrdHkiOiJPS1AifX0.eyJwYXRoIjoiL2FwaS9lZHVjYXRvci92MS9jZXJ0aWZpY2F0ZXMiLCJ0aW1lIjoiMjAyNS0wMS0wMVQwMDowMDowMFoifQ.tTwvT2kJdf9s8KIwLjOh1uQ9wQ5aSnF3bV3bSwK7lnVksOJpWrNAZdtSUtALS5xc0vKBthmCKbFRPFb78SxuDg"
+      }
     });
 
     this.httpService.interceptors.response.use(
@@ -25,8 +29,8 @@ class HttpService implements IHttpService {
 
     this.httpService.interceptors.request.use(
       config => {
-        const token = localStorage.getItem("token");
-        if (token) config.headers.authorization = token;
+        // const token = localStorage.getItem("token");
+        // if (token) config.headers.authorization = token;
         return config;
       },
       error => Promise.reject(error)
