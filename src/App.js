@@ -1,11 +1,11 @@
-import React, { Component, PureComponent } from 'react';
-import AddFairCV from './Containers/AddFairCV';
-import Header from './Containers/Header';
-import { Route, Link, Switch, Redirect } from 'react-router-dom';
-import './App.scss';
-import AuthContainer from './Containers/Auth';
-import FaircvList from './Containers/FaircvList';
-import AAAService from './Services/aaa';
+import React, { Component, PureComponent } from "react";
+import { Link, Redirect, Route, Switch } from "react-router-dom";
+import Header from "./Containers/Header";
+import "./App.scss";
+import AuthContainer from "./Containers/Auth";
+import FaircvList from "./Containers/FaircvList";
+import AAAService from "./Services/aaa";
+import AddFairCV from "./Containers/AddFairCV";
 
 const UserContext = React.createContext({ id: 0, isConfirmed: false });
 
@@ -24,7 +24,11 @@ const withUserContext = (WrappedComponent: Component, isGuardEnabled: boolean) =
     async componentDidMount() {
       try {
         const userResponse = await AAAService.getCurrentUser();
-        this.setState({ isLoading: false, isAuthenticated: true, user: userResponse.data });
+        this.setState({
+          isLoading: false,
+          isAuthenticated: true,
+          user: userResponse.data
+        });
       } catch (e) {
         this.setState({ isLoading: false, isAuthenticated: false });
       }
@@ -33,14 +37,16 @@ const withUserContext = (WrappedComponent: Component, isGuardEnabled: boolean) =
     render() {
       const { isAuthenticated, isLoading, user } = this.state;
       if (isLoading) return <h5>Loading...</h5>;
-      if ((!isAuthenticated || !user.confirmedAt || !user.confirmedByOrganization) && isGuardEnabled) {
+      if ((!isAuthenticated || !user.confirmedAt) && isGuardEnabled) {
         return <Redirect to="/auth" />;
       }
-      return <UserContext.Provider value={user}>
-        <WrappedComponent {...this.props} user={user} />
-      </UserContext.Provider>;
+      return (
+        <UserContext.Provider value={user}>
+          <WrappedComponent {...this.props} user={user} />
+        </UserContext.Provider>
+      );
     }
-  }
+  };
 };
 
 const Faircv = () => (
@@ -51,25 +57,22 @@ const Faircv = () => (
   </Switch>
 );
 
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <UserContext.Consumer>
-          {user => <Header user={ user } />}
-        </UserContext.Consumer>
-        <main className="main">
-          <Switch>
-            <Route path="/auth" component={withUserContext(AuthContainer, false)} />
-            <Route path="/faircv" component={withUserContext(Faircv, false)} />
-          </Switch>
-          <Link to="/auth">auth</Link>
-          <Link to="/faircv">faircv list</Link>
-          <Link to="/faircv/create">create faircv</Link>
-        </main>
-      </div>
-    );
-  }
+const App = () => {
+  return (
+    <div className="App">
+      <UserContext.Consumer>{user => <Header user={user} />}</UserContext.Consumer>
+      <main className="main">
+        <Switch>
+          <Route path="/auth" component={withUserContext(AuthContainer, false)} />
+          {/* Temp for no auth reuquested */}
+          <Route path="/faircv" component={Faircv} />
+        </Switch>
+        <Link to="/auth">auth</Link>
+        <Link to="/faircv">faircv list</Link>
+        <Link to="/faircv/create">create faircv</Link>
+      </main>
+    </div>
+  );
 };
 
 export default App;

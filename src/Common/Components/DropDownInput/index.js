@@ -1,62 +1,60 @@
 // @flow
-import React, { PureComponent } from 'react';
-import './styles.scss';
+import React, { PureComponent } from "react";
+import "./styles.scss";
 
 type DropDownInputProps = {
-  value?: string,
-  title: string,
-  list: Array<string>,
-  callback: () => void
+  selectedValue: any,
+  title?: string,
+  list: Array<number | string>,
+  callback: (v: any) => void,
+  className?: string
 };
 
 type DropDownInputState = {
-  isSelectOpened: boolean,
-  value: string
-}
+  isSelectOpened: boolean
+};
 
 export default class DropDownInput extends PureComponent<DropDownInputProps, DropDownInputState> {
+  static defaultProps = {
+    title: "",
+    className: ""
+  };
 
   state = {
-    isSelectOpened: false,
-    value: "start"
-  }
+    isSelectOpened: false
+  };
 
   changeSelectState = () => {
     const { isSelectOpened } = this.state;
     isSelectOpened ? this.closeSelect() : this.openSelect();
-  }
+  };
 
-  openSelect = () => this.setState ({ isSelectOpened: true })
+  openSelect = () => this.setState({ isSelectOpened: true });
 
-  closeSelect = () => this.setState({ isSelectOpened: false })
+  closeSelect = () => this.setState({ isSelectOpened: false });
 
   changeSelectValue = (e: SyntheticEvent<HTMLSelectElement>) => {
-    this.setState({ value: e.currentTarget.dataset.value })
-  }
+    const { callback } = this.props;
+    const { value } = e.currentTarget.dataset;
+    callback(value);
+  };
 
   render() {
-    const {  id, title, list, className } = this.props;
-    const { isSelectOpened, value } = this.state;
+    const { title, list, className, selectedValue } = this.props;
+    const { isSelectOpened } = this.state;
     return (
       <div
-        className={`dropdown-input input ${isSelectOpened ? 'active' : ''} ${className ? className : ""}`}
+        className={`dropdown-input ${isSelectOpened ? "active" : ""} ${className || ""}`}
         onClick={this.changeSelectState}
       >
-        {title ? <label className="dropdown-input__label">{title}</label> : null}
-        <input
-          id={id}
-          className="dropdown-input__field"
-          type="text"
-          value={value}
-          />
+        <label className="dropdown-input__label">{title}</label>
+        <input className="dropdown-input__field" type="text" readOnly value={selectedValue} />
         <ul className="dropdown-input__list">
-          { list.map((item) =>
-            <li
-              className="dropdown-input__item"
-              key={item.id} data-value={item}
-              onClick={this.changeSelectValue}>{item}
+          {list.map(item => (
+            <li className="dropdown-input__item" data-value={item} onClick={this.changeSelectValue} key={item}>
+              {item}
             </li>
-          )}
+          ))}
         </ul>
       </div>
     );
