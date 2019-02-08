@@ -124,7 +124,6 @@ export class AddFairCV extends PureComponent<{}, AddFairCVState> {
     } = this.state;
     return (
       <div className="add-form">
-        <Modal mоdalContent={modalContent}/>
         <div className="container">
           <div className="navigation-link text-left">
             <Button
