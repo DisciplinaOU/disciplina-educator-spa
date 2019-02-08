@@ -4,10 +4,11 @@ import Button from "../../../Common/Components/Button";
 import "./styles.scss";
 
 type ReminderProps = {
-  dispatchSubmit: () => Promise<any>
+  dispatchSubmit: () => Promise<any>,
+  className: string
 };
 
-export const Reminder = ({ dispatchSubmit }: ReminderProps) => {
+export const Reminder = ({ dispatchSubmit, className }: ReminderProps) => {
   return (
     <div className={`reminder ${className}`}>
       <div className="reminder__text">

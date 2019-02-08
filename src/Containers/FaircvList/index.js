@@ -15,7 +15,7 @@ type FairCVListDataType = {
 
 export const FaircvList = () => {
   const data = (FairCVListData: Array<FairCVListDataType>);
-  const isDesktop = document.documentElement.clientWidth >= 768;
+  const isDesktop = document.documentElement && document.documentElement.clientWidth >= 768;
   const searchPlaceholder = isDesktop ? "Введите имя студента или номер диплома" : "Поиск";
   return (
     <div className="faircv-list container">
@@ -35,7 +35,7 @@ export const FaircvList = () => {
           <form className="faircv-list__search">
             <RegularInput
               value=""
-              placeholder="Введите имя студента или номер диплома"
+              placeholder={searchPlaceholder}
               className="faircv-list__search-input"
               width="full-width"
               dispatchValue={() => {}}

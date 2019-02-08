@@ -224,10 +224,10 @@ export class AddFairCV extends PureComponent<{}, AddFairCVState> {
             <Scores dispatchScores={this.updateGrades} />
           </form>
         </div>
-        <Reminder dispatchSubmit={this.addNewFaircv} />
+        <Reminder className="container" dispatchSubmit={this.addNewFaircv} />
       </div>
     );
   }
 }
 
-export default AddFairCV
+export default AddFairCV;
