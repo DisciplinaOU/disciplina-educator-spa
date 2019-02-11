@@ -25,5 +25,5 @@ export const Reminder = ({ dispatchSubmit, className }: ReminderProps) => {
       />
     </div>
   );
-}
-export default Reminder
+};
+export default Reminder;

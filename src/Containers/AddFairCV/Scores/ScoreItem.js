@@ -37,7 +37,7 @@ export const ScoreItem = (props: ScoreItemProps) => {
     dispatchScore({ subject, lang, hours: +hours, credits: +credits, grade: +grade }, scoreIndex);
     setEditMode(false);
   };
-  
+
   const handleRemove = () => remove(scoreIndex);
 
   return isEditMode ? (

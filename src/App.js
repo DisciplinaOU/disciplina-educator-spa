@@ -19,7 +19,7 @@ const withUserContext = (WrappedComponent: Component, isGuardEnabled: boolean) =
       isLoading: true,
       isAuthenticated: false,
       user: {}
-    }
+    };
 
     async componentDidMount() {
       try {
