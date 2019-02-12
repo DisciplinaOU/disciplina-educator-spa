@@ -60,6 +60,7 @@ class FaircvList extends PureComponent<FaircvListProps, FaircvListState> {
     const { data } = this.state;
     const arr: Array<Certificate> = [...data];
     if (v.length) {
+      this.goToPage(1);
       return arr.filter(
         (d: Certificate) => d.meta.studentName.indexOf(v) >= 0 || d.meta.number.toString().indexOf(v) >= 0
       );
