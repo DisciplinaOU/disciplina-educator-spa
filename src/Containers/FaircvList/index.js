@@ -58,21 +58,22 @@ class FaircvList extends PureComponent<FaircvListProps, FaircvListState> {
 
   liveSearchArray = (v: string): Array<Certificate> => {
     const { data } = this.state;
+    const arr: Array<Certificate> = [...data];
     if (v.length) {
-      const arr: Array<Certificate> = [...data];
       return arr.filter(
         (d: Certificate) => d.meta.studentName.indexOf(v) >= 0 || d.meta.number.toString().indexOf(v) >= 0
       );
     }
-    return data;
+    return arr;
   };
 
   render() {
     const { currentPage, searchInput } = this.state;
     const isDesktop = document.documentElement && document.documentElement.clientWidth >= 768;
     const searchPlaceholder = isDesktop ? "Введите имя студента или номер диплома" : "Поиск";
-    const normalizedArray = this.liveSearchArray(searchInput).splice((currentPage - 1) * 10, 10);
-    const pages = normalizedArray.length;
+    const filteredArray = this.liveSearchArray(searchInput);
+    const normalizedArray = [...filteredArray].splice((currentPage - 1) * 10, 10);
+    const pages = Math.round(filteredArray.length / 10);
     return (
       <div className="faircv-list container">
         <div className="faircv-list__title">
