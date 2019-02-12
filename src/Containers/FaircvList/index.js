@@ -7,17 +7,10 @@ import Pagination from "../../Common/Components/Pagination";
 import FaircvService from "../../Services/faircv";
 import type { Certificate, IFaircvService } from "../../Services/types";
 
-type FairCVListDataType = {
-  id: number,
-  name: string,
-  degree: string,
-  document: string
-};
-
 type FaircvListState = {
-  data: Array<FairCVListDataType>,
-  pages: number,
-  currentPage: number
+  data: Array<Certificate>,
+  currentPage: number,
+  searchInput: string
 };
 
 type FaircvListProps = {
@@ -29,16 +22,15 @@ class FaircvList extends PureComponent<FaircvListProps, FaircvListState> {
 
   state: FaircvListState = {
     data: [],
-    pages: 0,
-    currentPage: -1
+    currentPage: -1,
+    searchInput: ""
   };
 
   async componentDidMount() {
     const data = await this.api.getList();
-    const { items, count } = data.data;
+    const { items } = data.data;
     this.setState({
       data: items,
-      pages: Math.round(count / 10),
       currentPage: 1
     });
   }
@@ -52,23 +44,35 @@ class FaircvList extends PureComponent<FaircvListProps, FaircvListState> {
 
   goFwd = () => {
     this.setState(s => {
-      if (s.currentPage === s.pages) return null;
       return { currentPage: s.currentPage + 1 };
     });
   };
 
   goBcwd = () => {
     this.setState(s => {
-      if (s.currentPage === 1) return null;
       return { currentPage: s.currentPage - 1 };
     });
   };
 
+  searchInputHandler = (v: string) => this.setState({ searchInput: v });
+
+  liveSearchArray = (v: string): Array<Certificate> => {
+    const { data } = this.state;
+    if (v.length) {
+      const arr: Array<Certificate> = [...data];
+      return arr.filter(
+        (d: Certificate) => d.meta.studentName.indexOf(v) >= 0 || d.meta.number.toString().indexOf(v) >= 0
+      );
+    }
+    return data;
+  };
+
   render() {
-    const { data, pages, currentPage } = this.state;
+    const { currentPage, searchInput } = this.state;
     const isDesktop = document.documentElement && document.documentElement.clientWidth >= 768;
     const searchPlaceholder = isDesktop ? "Введите имя студента или номер диплома" : "Поиск";
-    const normalizedArray = [...data].splice((currentPage - 1) * 10, 10);
+    const normalizedArray = this.liveSearchArray(searchInput).splice((currentPage - 1) * 10, 10);
+    const pages = normalizedArray.length;
     return (
       <div className="faircv-list container">
         <div className="faircv-list__title">
@@ -82,25 +86,17 @@ class FaircvList extends PureComponent<FaircvListProps, FaircvListState> {
             callback={this.createFairHandler}
           />
         </div>
+        <form className="faircv-list__search">
+          <RegularInput
+            value={searchInput}
+            placeholder={searchPlaceholder}
+            className="faircv-list__search-input"
+            width="full-width"
+            dispatchValue={this.searchInputHandler}
+          />
+        </form>
         {normalizedArray.length ? (
           <>
-            <form className="faircv-list__search">
-              <RegularInput
-                value=""
-                placeholder={searchPlaceholder}
-                className="faircv-list__search-input"
-                width="full-width"
-                dispatchValue={() => {}}
-              />
-              <Button
-                text="Найти"
-                modWidth="width-auto"
-                modHeight="height-big"
-                modStyle="filled"
-                modColor="color-main"
-                callback={() => {}}
-              />
-            </form>
             <ul className="list">
               {normalizedArray.map((item: Certificate) => (
                 <li className="list__item" key={item.id}>

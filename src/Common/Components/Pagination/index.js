@@ -17,7 +17,7 @@ export const Pagination = ({ goTo, fwd, bcwd, count, current }: PaginationProps)
   };
   return (
     <ul className="pagination">
-      <li className="pagination__item prev" onClick={bcwd}>
+      <li className={`pagination__item prev ${current === 1 ? "disabled" : ""}`} onClick={bcwd}>
         В начало
       </li>
       {[...Array.from(new Array(count), (v: number, i: number) => i + 1)].map((p: number) => (
@@ -25,7 +25,7 @@ export const Pagination = ({ goTo, fwd, bcwd, count, current }: PaginationProps)
           {p}
         </li>
       ))}
-      <li className="pagination__item next" onClick={fwd}>
+      <li className={`pagination__item next ${current === count ? "disabled" : ""}`} onClick={fwd}>
         Дальше
       </li>
     </ul>
