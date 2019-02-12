@@ -27,7 +27,11 @@ type AddFairCVState = {
   specialization?: string
 };
 
-export class AddFairCV extends PureComponent<{}, AddFairCVState> {
+type AddFairCVProps = {
+  history: any
+};
+
+export class AddFairCV extends PureComponent<AddFairCVProps, AddFairCVState> {
   state = {
     grades: [],
     studentName: "",
@@ -40,6 +44,11 @@ export class AddFairCV extends PureComponent<{}, AddFairCVState> {
     title: "",
     major: "",
     specialization: ""
+  };
+
+  goToListHandler = () => {
+    const { history } = this.props;
+    history.push("/faircv/list");
   };
 
   updateGrades = (grades: Array<ScoresDataType>) => {
@@ -132,7 +141,7 @@ export class AddFairCV extends PureComponent<{}, AddFairCVState> {
               modHeight="height-big"
               modStyle="arrow-back"
               modColor="color-main"
-              callback={() => {}}
+              callback={this.goToListHandler}
             />
           </div>
           <h1 className="add-form__title">Добавление FairCV</h1>

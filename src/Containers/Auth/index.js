@@ -22,4 +22,4 @@ export default class AuthContainer extends PureComponent<AuthContainerProps, {}>
     }
     return <AuthForm history={history} location={location} />;
   }
-};
+}
