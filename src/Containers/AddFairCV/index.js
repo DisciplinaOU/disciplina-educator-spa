@@ -10,6 +10,7 @@ import Reminder from "./Reminder";
 import FaircvService from "../../Services/faircv";
 import "react-datepicker/dist/react-datepicker.css";
 import type { ScoresDataType } from "./Scores";
+import Modal from "./Modal";
 
 type EducationFormEnum = "fulltime" | "parttime" | "fullpart";
 
@@ -24,11 +25,24 @@ type AddFairCVState = {
   issueDate: Date,
   title: string,
   major: string,
-  specialization?: string
+  specialization?: string,
+  modal: {
+    state: string,
+    submit: () => Promise<any>,
+    cancel: () => void
+  }
 };
 
 type AddFairCVProps = {
   history: any
+};
+
+const mockFn = () => {};
+
+const clearModalState = {
+  state: "",
+  submit: async () => Promise.resolve({}),
+  cancel: () => mockFn()
 };
 
 export class AddFairCV extends PureComponent<AddFairCVProps, AddFairCVState> {
@@ -43,7 +57,8 @@ export class AddFairCV extends PureComponent<AddFairCVProps, AddFairCVState> {
     issueDate: new Date(),
     title: "",
     major: "",
-    specialization: ""
+    specialization: "",
+    modal: clearModalState
   };
 
   goToListHandler = () => {
@@ -57,8 +72,23 @@ export class AddFairCV extends PureComponent<AddFairCVProps, AddFairCVState> {
 
   addNewFaircv = async () => {
     const newCertificate = this.normalizeRequest();
-    await FaircvService.create(newCertificate);
+    const { data } = await FaircvService.create(newCertificate);
+    this.openCreatedCertModal(data.id);
   };
+
+  openCreatedCertModal = (id: string) => {
+    this.setState({
+      modal: {
+        state: "SUCCESS",
+        submit: async () => this.downloadCert(id),
+        cancel: () => this.closeModal()
+      }
+    });
+  };
+
+  closeModal = () => this.setState({ modal: clearModalState });
+
+  downloadCert = async (id: string) => FaircvService.get(id);
 
   handleStudentName = (v: string) => this.setState({ studentName: v });
 
@@ -129,111 +159,115 @@ export class AddFairCV extends PureComponent<AddFairCVProps, AddFairCVState> {
       issueDate,
       educationForm,
       startYear,
-      endYear
+      endYear,
+      modal
     } = this.state;
     return (
-      <div className="add-form">
-        <div className="container">
-          <div className="navigation-link text-left">
-            <Button
-              text="Вернуться к списку"
-              modWidth="width-auto"
-              modHeight="height-big"
-              modStyle="arrow-back"
-              modColor="color-main"
-              callback={this.goToListHandler}
-            />
-          </div>
-          <h1 className="add-form__title">Добавление FairCV</h1>
-          <form>
-            <div className="add-form__item input-container">
-              <h2 className="input-container__title text-left">Студент</h2>
-              <div className="input-group">
-                <RegularInput
-                  value={studentName}
-                  title="Фамилия, имя, отчество"
-                  className="input-student"
-                  width="full-width"
-                  dispatchValue={this.handleStudentName}
-                />
-                <div className="input data-input">
-                  <label className="data-input__label">Дата рождения</label>
-                  <DatePicker
-                    selected={studentBirthDate}
-                    onChange={this.handleStudentBirthDate}
-                    dateFormat="yyyy-MM-dd"
+      <>
+        <div className="add-form">
+          <div className="container">
+            <div className="navigation-link text-left">
+              <Button
+                text="Вернуться к списку"
+                modWidth="width-auto"
+                modHeight="height-big"
+                modStyle="arrow-back"
+                modColor="color-main"
+                callback={this.goToListHandler}
+              />
+            </div>
+            <h1 className="add-form__title">Добавление FairCV</h1>
+            <form>
+              <div className="add-form__item input-container">
+                <h2 className="input-container__title text-left">Студент</h2>
+                <div className="input-group">
+                  <RegularInput
+                    value={studentName}
+                    title="Фамилия, имя, отчество"
+                    className="input-student"
+                    width="full-width"
+                    dispatchValue={this.handleStudentName}
+                  />
+                  <div className="input data-input">
+                    <label className="data-input__label">Дата рождения</label>
+                    <DatePicker
+                      selected={studentBirthDate}
+                      onChange={this.handleStudentBirthDate}
+                      dateFormat="yyyy-MM-dd"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div className="add-form__item input-container">
+                <h2 className="input-container__title text-left">Обучение</h2>
+                <div className="input-group">
+                  <DropDownInput
+                    list={[1, 2, 3]}
+                    selectedValue={startYear}
+                    title="Год поступления"
+                    className="input-education-start"
+                    callback={this.handleStartYear}
+                  />
+                  <DropDownInput
+                    list={[1, 2, 3]}
+                    selectedValue={endYear}
+                    title="Год окончания"
+                    className="input-education-end"
+                    callback={this.handleEndYear}
+                  />
+                  <DropDownInput
+                    list={[1, 2, 3]}
+                    selectedValue={educationForm}
+                    title="Форма обучения"
+                    className="input-education-form"
+                    callback={this.handleEducationForm}
                   />
                 </div>
               </div>
-            </div>
-            <div className="add-form__item input-container">
-              <h2 className="input-container__title text-left">Обучение</h2>
-              <div className="input-group">
-                <DropDownInput
-                  list={[1, 2, 3]}
-                  selectedValue={startYear}
-                  title="Год поступления"
-                  className="input-education-start"
-                  callback={this.handleStartYear}
-                />
-                <DropDownInput
-                  list={[1, 2, 3]}
-                  selectedValue={endYear}
-                  title="Год окончания"
-                  className="input-education-end"
-                  callback={this.handleEndYear}
-                />
-                <DropDownInput
-                  list={[1, 2, 3]}
-                  selectedValue={educationForm}
-                  title="Форма обучения"
-                  className="input-education-form"
-                  callback={this.handleEducationForm}
-                />
-              </div>
-            </div>
-            <div className="add-form__item input-container">
-              <h2 className="input-container__title text-left">Диплом</h2>
-              <div className="input-group">
-                <RegularInput
-                  value={number}
-                  title="Номер"
-                  className="input-number"
-                  width="full-width"
-                  dispatchValue={this.handleNumber}
-                />
-                <div className="input data-input">
-                  <label className="data-input__label">Дата выдачи</label>
-                  <DatePicker selected={issueDate} onChange={this.handleIssueDate} dateFormat="yyyy-MM-dd" />
+              <div className="add-form__item input-container">
+                <h2 className="input-container__title text-left">Диплом</h2>
+                <div className="input-group">
+                  <RegularInput
+                    value={number}
+                    title="Номер"
+                    className="input-number"
+                    width="full-width"
+                    dispatchValue={this.handleNumber}
+                  />
+                  <div className="input data-input">
+                    <label className="data-input__label">Дата выдачи</label>
+                    <DatePicker selected={issueDate} onChange={this.handleIssueDate} dateFormat="yyyy-MM-dd" />
+                  </div>
                 </div>
+                <RegularInput
+                  value={title}
+                  title="Присвоено звание"
+                  width="full-width"
+                  className="input-rank"
+                  dispatchValue={this.handleTitle}
+                />
+                <RegularInput
+                  value={major}
+                  title="Специальность"
+                  width="full-width"
+                  className="input-speciality"
+                  dispatchValue={this.handleMajor}
+                />
+                <RegularInput
+                  value={specialization}
+                  title="Специализация (если есть)"
+                  width="full-width"
+                  className="input-specialization"
+                  dispatchValue={this.handleSpecialization}
+                />
               </div>
-              <RegularInput
-                value={title}
-                title="Присвоено звание"
-                width="full-width"
-                className="input-rank"
-                dispatchValue={this.handleTitle}
-              />
-              <RegularInput
-                value={major}
-                title="Специальность"
-                width="full-width"
-                className="input-speciality"
-                dispatchValue={this.handleMajor}
-              />
-              <RegularInput
-                value={specialization}
-                title="Специализация (если есть)"
-                width="full-width"
-                className="input-specialization"
-                dispatchValue={this.handleSpecialization}
-              />
-            </div>
-            <Scores dispatchScores={this.updateGrades} />
-          </form>
+              <Scores dispatchScores={this.updateGrades} />
+            </form>
+          </div>
+          <Reminder className="container" dispatchSubmit={this.addNewFaircv} />
         </div>
-        <Reminder className="container" dispatchSubmit={this.addNewFaircv} />
-      </div>
+        {modal.state.length ? <Modal modalContent={modal.state} submit={modal.submit} cancel={modal.cancel} /> : null}
+      </>
     );
   }
 }
