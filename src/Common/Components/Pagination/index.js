@@ -15,7 +15,7 @@ export const Pagination = ({ goTo, fwd, bcwd, count, current }: PaginationProps)
     const pageNumber = +e.currentTarget.dataset.page;
     goTo(pageNumber);
   };
-  return (
+  return count ? (
     <ul className="pagination">
       <li className={`pagination__item prev ${current === 1 ? "disabled" : ""}`} onClick={bcwd}>
         В начало
@@ -29,7 +29,7 @@ export const Pagination = ({ goTo, fwd, bcwd, count, current }: PaginationProps)
         Дальше
       </li>
     </ul>
-  );
+  ) : null;
 };
 
 export default Pagination;
