@@ -10,11 +10,13 @@ export const MODAL_CONTENT_STATE = {
 };
 
 type ModalProps = {
-  modalContent: string
+  modalContent: string,
+  submit: () => any,
+  cancel: () => any
 };
 
 export const Modal = (props: ModalProps) => {
-  const { modalContent } = props;
+  const { modalContent, submit, cancel } = props;
 
   return (
     <div className="modal">
@@ -38,7 +40,7 @@ export const Modal = (props: ModalProps) => {
                     modHeight="height-big"
                     modStyle="filled"
                     modColor="color-main"
-                    callback={() => {}}
+                    callback={submit}
                   />
                   <Button
                     text="Закрыть и вернуться к списку"
@@ -46,7 +48,7 @@ export const Modal = (props: ModalProps) => {
                     modHeight="height-big"
                     modStyle="empty"
                     modColor="color-main"
-                    callback={() => {}}
+                    callback={cancel}
                   />
                 </div>
               </>
@@ -61,7 +63,7 @@ export const Modal = (props: ModalProps) => {
                   modHeight="height-big"
                   modStyle="filled"
                   modColor="color-red"
-                  callback={() => {}}
+                  callback={submit}
                 />
                 <Button
                   text="Отмена"
@@ -69,7 +71,7 @@ export const Modal = (props: ModalProps) => {
                   modHeight="height-big"
                   modStyle="empty"
                   modColor="color-main"
-                  callback={() => {}}
+                  callback={cancel}
                 />
               </>
             ),
@@ -82,7 +84,7 @@ export const Modal = (props: ModalProps) => {
                   modHeight="height-big"
                   modStyle="filled"
                   modColor="color-red"
-                  callback={() => {}}
+                  callback={submit}
                 />
                 <Button
                   text="Отмена"
@@ -90,7 +92,7 @@ export const Modal = (props: ModalProps) => {
                   modHeight="height-big"
                   modStyle="empty"
                   modColor="color-main"
-                  callback={() => {}}
+                  callback={cancel}
                 />
               </>
             )

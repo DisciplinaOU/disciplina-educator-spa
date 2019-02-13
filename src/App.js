@@ -1,5 +1,5 @@
 import React, { Component, PureComponent } from "react";
-import { Link, Redirect, Route, Switch } from "react-router-dom";
+import { Redirect, Route, Switch } from "react-router-dom";
 import Header from "./Containers/Header";
 import "./App.scss";
 import AuthContainer from "./Containers/Auth";
@@ -67,9 +67,6 @@ const App = () => {
           {/* Temp for no auth reuquested */}
           <Route path="/faircv" component={Faircv} />
         </Switch>
-        <Link to="/auth">auth</Link>
-        <Link to="/faircv">faircv list</Link>
-        <Link to="/faircv/create">create faircv</Link>
       </main>
     </div>
   );
