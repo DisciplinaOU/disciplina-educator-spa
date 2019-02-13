@@ -1,7 +1,7 @@
 import axios, { AxiosStatic, AxiosInstance } from "axios";
 import type { IHttpService } from "./types";
 
-// const BASE_URL = 'https://stage-teachmeplease-aaa.stage.tchmpls.com';
+// const BASE_URL = "https://stage-teachmeplease-aaa.stage.tchmpls.com";
 // const BASE_URL = "//192.168.1.108:7523";
 const BASE_URL = "//54.93.167.179/api/educator/v1";
 
@@ -15,8 +15,13 @@ class HttpService implements IHttpService {
       headers: {
         "Content-Type": "application/json",
         Authorization:
-          "Bearer eyJhbGciOiJFZERTQSIsImp3ayI6eyJjcnYiOiJFZDI1NTE5IiwieCI6IjBkUUZRWU5VZk1sMXhrRmhwdld0YVVfOElucE40cGM1Qk5RSC1mSFlONmMiLCJrdHkiOiJPS1AifX0.eyJwYXRoIjoiL2FwaS9lZHVjYXRvci92MS9jZXJ0aWZpY2F0ZXMiLCJ0aW1lIjoiMjAyNS0wMS0wMVQwMDowMDowMFoifQ.tTwvT2kJdf9s8KIwLjOh1uQ9wQ5aSnF3bV3bSwK7lnVksOJpWrNAZdtSUtALS5xc0vKBthmCKbFRPFb78SxuDg"
+          "Bearer eyJhbGciOiJFRDI1NTE5In0.eyJkYXRhIjp7ImlkIjoiNTIxY2I5NzItMWJkNi00M2RkLWEwMDktNjUwOWI3ZDViZDI1IiwiY29uZmlybWVkQXQiOm51bGwsImNvbmZpcm1lZEJ5T3JnYW5pemF0aW9uIjpmYWxzZSwiZW1haWwiOiJkcnUua3ViYXNvdkBnbWFpbC5jb20iLCJuYW1lIjoiMTExMSIsIndlYnNpdGUiOiIxMTExIn0sImV4cCI6MTU1MDU4OTM5Nn0.xD_jjOsRYM9FtevCfCyI1fyId5TPCLjeg230R5a228HEeopxcpiBTSo5AlYtcPOvgYwmdEbfjfLpxifIUdUVDQ"
       }
+      // headers: {
+      //   "Content-Type": "application/json",
+      //   "tmp-csrf": "tmp-csrf"
+      // },
+      // withCredentials: true
     });
 
     this.httpService.interceptors.response.use(
