@@ -86,6 +86,15 @@ export class AddFairCV extends PureComponent<AddFairCVProps, AddFairCVState> {
     });
   };
 
+  openExitModal = () =>
+    this.setState({
+      modal: {
+        state: "CLOSE",
+        submit: async () => Promise.resolve(this.goToListHandler()),
+        cancel: () => this.closeModal()
+      }
+    });
+
   closeModal = () => this.setState({ modal: clearModalState });
 
   downloadCert = async (id: string) => FaircvService.get(id);
@@ -173,7 +182,7 @@ export class AddFairCV extends PureComponent<AddFairCVProps, AddFairCVState> {
                 modHeight="height-big"
                 modStyle="arrow-back"
                 modColor="color-main"
-                callback={this.goToListHandler}
+                callback={this.openExitModal}
               />
             </div>
             <h1 className="add-form__title">Добавление FairCV</h1>
