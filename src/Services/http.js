@@ -1,9 +1,9 @@
 import axios, { AxiosStatic, AxiosInstance } from "axios";
 import type { IHttpService } from "./types";
 
-// const BASE_URL = "https://stage-teachmeplease-aaa.stage.tchmpls.com";
+const BASE_URL = "https://stage-teachmeplease-aaa.stage.tchmpls.com";
 // const BASE_URL = "//192.168.1.108:7523";
-const BASE_URL = "//54.93.167.179/api/educator/v1";
+// const BASE_URL = "//54.93.167.179/api/educator/v1";
 
 class HttpService implements IHttpService {
   httpService: AxiosInstance;
@@ -12,16 +12,16 @@ class HttpService implements IHttpService {
     /*eslint new-cap: ["error", { "properties": false }]*/
     this.httpService = new axiosService.create({
       baseURL: BASE_URL,
-      headers: {
-        "Content-Type": "application/json",
-        Authorization:
-          "Bearer eyJhbGciOiJFRDI1NTE5In0.eyJkYXRhIjp7ImlkIjoiNTIxY2I5NzItMWJkNi00M2RkLWEwMDktNjUwOWI3ZDViZDI1IiwiY29uZmlybWVkQXQiOm51bGwsImNvbmZpcm1lZEJ5T3JnYW5pemF0aW9uIjpmYWxzZSwiZW1haWwiOiJkcnUua3ViYXNvdkBnbWFpbC5jb20iLCJuYW1lIjoiMTExMSIsIndlYnNpdGUiOiIxMTExIn0sImV4cCI6MTU1MDU4OTM5Nn0.xD_jjOsRYM9FtevCfCyI1fyId5TPCLjeg230R5a228HEeopxcpiBTSo5AlYtcPOvgYwmdEbfjfLpxifIUdUVDQ"
-      }
       // headers: {
       //   "Content-Type": "application/json",
-      //   "tmp-csrf": "tmp-csrf"
-      // },
-      // withCredentials: true
+      //   Authorization:
+      //     "Bearer eyJhbGciOiJFRDI1NTE5In0.eyJkYXRhIjp7ImlkIjoiNTIxY2I5NzItMWJkNi00M2RkLWEwMDktNjUwOWI3ZDViZDI1IiwiY29uZmlybWVkQXQiOm51bGwsImNvbmZpcm1lZEJ5T3JnYW5pemF0aW9uIjpmYWxzZSwiZW1haWwiOiJkcnUua3ViYXNvdkBnbWFpbC5jb20iLCJuYW1lIjoiMTExMSIsIndlYnNpdGUiOiIxMTExIn0sImV4cCI6MTU1MDU4OTM5Nn0.xD_jjOsRYM9FtevCfCyI1fyId5TPCLjeg230R5a228HEeopxcpiBTSo5AlYtcPOvgYwmdEbfjfLpxifIUdUVDQ"
+      // }
+      headers: {
+        "Content-Type": "application/json",
+        "tmp-csrf": "tmp-csrf"
+      },
+      withCredentials: true
     });
 
     this.httpService.interceptors.response.use(
@@ -34,8 +34,8 @@ class HttpService implements IHttpService {
 
     this.httpService.interceptors.request.use(
       config => {
-        // const token = localStorage.getItem("token");
-        // if (token) config.headers.authorization = token;
+        const token = localStorage.getItem("token");
+        if (token) config.headers.authorization = token;
         return config;
       },
       error => Promise.reject(error)
