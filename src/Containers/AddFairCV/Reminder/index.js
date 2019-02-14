@@ -5,25 +5,32 @@ import "./styles.scss";
 
 type ReminderProps = {
   dispatchSubmit: () => Promise<any>,
-  className: string
+  className?: string
 };
 
-export const Reminder = ({ dispatchSubmit, className }: ReminderProps) => {
+export const Reminder = ({ dispatchSubmit, className = "" }: ReminderProps) => {
   return (
     <div className={`reminder ${className}`}>
-      <div className="reminder__text">
-        <span />
-        <p>Внимательно проверьте все данные перед сохранением. Изменить сохраненные записи будет невозможно!</p>
+      <div className="container">
+        <div className="reminder__text">
+          <span />
+          <p>Внимательно проверьте все данные перед сохранением. Изменить сохраненные записи будет невозможно!</p>
+        </div>
+        <Button
+          text="Сохранить FairCV"
+          modWidth="width-auto"
+          modHeight="height-big"
+          modStyle="filled"
+          modColor="color-main"
+          callback={dispatchSubmit}
+        />
       </div>
-      <Button
-        text="Сохранить FairCV"
-        modWidth="width-auto"
-        modHeight="height-big"
-        modStyle="filled"
-        modColor="color-main"
-        callback={dispatchSubmit}
-      />
     </div>
   );
 };
+
+Reminder.defaultProps = {
+  className: ""
+};
+
 export default Reminder;

@@ -273,7 +273,7 @@ export class AddFairCV extends PureComponent<AddFairCVProps, AddFairCVState> {
               <Scores dispatchScores={this.updateGrades} />
             </form>
           </div>
-          <Reminder className="container" dispatchSubmit={this.addNewFaircv} />
+          <Reminder dispatchSubmit={this.addNewFaircv} />
         </div>
         {modal.state.length ? <Modal modalContent={modal.state} submit={modal.submit} cancel={modal.cancel} /> : null}
       </>

@@ -47,7 +47,7 @@ export default class DropDownInput extends PureComponent<DropDownInputProps, Dro
         className={`dropdown-input ${isSelectOpened ? "active" : ""} ${className || ""}`}
         onClick={this.changeSelectState}
       >
-        <label className="dropdown-input__label">{title}</label>
+        {title ? <label className="dropdown-input__label">{title}</label> : null}
         <input className="dropdown-input__field" type="text" readOnly value={selectedValue} />
         <ul className="dropdown-input__list">
           {list.map(item => (
