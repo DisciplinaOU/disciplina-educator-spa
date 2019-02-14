@@ -7,8 +7,6 @@ import FaircvList from "./Containers/FaircvList";
 import AAAService from "./Services/aaa";
 import AddFairCV from "./Containers/AddFairCV";
 
-const UserContext = React.createContext({ id: 0, isConfirmed: false });
-
 const withUserContext = (WrappedComponent: Component, isGuardEnabled: boolean) => {
   type PrivateContainerProps = {
     history: { push: (url: string) => void },
@@ -41,9 +39,11 @@ const withUserContext = (WrappedComponent: Component, isGuardEnabled: boolean) =
         return <Redirect to="/auth" />;
       }
       return (
-        <UserContext.Provider value={user}>
+        <>
+          {/* TODO while no redux accept header inside HoC */}
+          <Header user={user} />
           <WrappedComponent {...this.props} user={user} />
-        </UserContext.Provider>
+        </>
       );
     }
   };
@@ -60,12 +60,10 @@ const Faircv = () => (
 const App = () => {
   return (
     <div className="App">
-      <UserContext.Consumer>{user => <Header user={user} />}</UserContext.Consumer>
       <main className="main">
         <Switch>
           <Route path="/auth" component={withUserContext(AuthContainer, false)} />
-          {/* Temp for no auth reuquested */}
-          <Route path="/faircv" component={Faircv} />
+          <Route path="/faircv" component={withUserContext(Faircv, true)} />
         </Switch>
       </main>
     </div>
