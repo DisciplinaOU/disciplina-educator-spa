@@ -33,6 +33,7 @@ const withUserContext = (WrappedComponent: Component, isGuardEnabled: boolean) =
     }
 
     render() {
+      // TODO while no redux accept header inside HoC
       const { isAuthenticated, isLoading, user } = this.state;
       if (isLoading) return <h5>Loading...</h5>;
       if ((!isAuthenticated || !user.confirmedAt) && isGuardEnabled) {
@@ -40,7 +41,6 @@ const withUserContext = (WrappedComponent: Component, isGuardEnabled: boolean) =
       }
       return (
         <>
-          {/* TODO while no redux accept header inside HoC */}
           <Header user={user} />
           <WrappedComponent {...this.props} user={user} />
         </>
@@ -51,7 +51,7 @@ const withUserContext = (WrappedComponent: Component, isGuardEnabled: boolean) =
 
 const Faircv = () => (
   <Switch>
-    <Route exact path="/faircv" render={() => <h2>Welcome fair list...</h2>} />
+    <Redirect exact from="/faircv" to="/faircv/list" />
     <Route exact path="/faircv/create" component={AddFairCV} />
     <Route exact path="/faircv/list" component={FaircvList} />
   </Switch>
