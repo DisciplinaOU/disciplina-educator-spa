@@ -36,7 +36,7 @@ const withUserContext = (WrappedComponent: Component, isGuardEnabled: boolean) =
       // TODO while no redux accept header inside HoC
       const { isAuthenticated, isLoading, user } = this.state;
       if (isLoading) return <h5>Loading...</h5>;
-      if ((!isAuthenticated || user.confirmedAt) && isGuardEnabled) {
+      if ((!isAuthenticated || !user.confirmedAt) && isGuardEnabled) {
         return <Redirect to="/auth" />;
       }
       return (
