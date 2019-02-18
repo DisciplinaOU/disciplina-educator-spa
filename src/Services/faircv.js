@@ -1,24 +1,34 @@
-import type {
-  Certificate,
-  FaircvListResponse,
-  FaircvQuery,
-  IFaircvService,
-  IHttpService,
-  NewCertificate
-} from "./types";
-import HttpService from "./http";
+import axios, { AxiosStatic, AxiosInstance } from "axios";
+import type { Certificate, FaircvListResponse, FaircvQuery, IFaircvService, NewCertificate } from "./types";
 
-const BASE_URL = "/certificates";
+const API_URL = "//54.93.167.179/api/educator/v1";
+const BASE_URL = `${API_URL}/certificates`;
+/*eslint new-cap: ["error", { "properties": false }]*/
+const http = new axios.create({
+  baseURL: BASE_URL,
+  headers: {
+    "Content-Type": "application/json"
+  }
+});
 
 class FaircvService implements IFaircvService {
-  httpService: typeof HttpService;
+  httpService: AxiosInstance;
 
-  constructor(http: IHttpService) {
-    this.httpService = http;
+  constructor(httpInstance: AxiosStatic) {
+    this.httpService = httpInstance;
+
+    this.httpService.interceptors.request.use(
+      config => {
+        const token = localStorage.getItem("token");
+        if (token) config.headers.authorization = `Bearer ${token}`;
+        return config;
+      },
+      error => Promise.reject(error)
+    );
   }
 
   getList(filter?: FaircvQuery): Promise<FaircvListResponse> {
-    return this.httpService.get(BASE_URL, filter);
+    return this.httpService.get(`${BASE_URL}${this._serializefilter(filter)}`);
   }
 
   get(id: number): Promise<File> {
@@ -28,6 +38,15 @@ class FaircvService implements IFaircvService {
   create(cert: NewCertificate): Promise<Certificate> {
     return this.httpService.post(BASE_URL, cert);
   }
+
+  _serializefilter(filter: {}): string {
+    if (!filter) return "";
+    const urlParams = Object.keys(filter)
+      .map(key => (filter[key] ? `${key}=${filter[key]}` : ""))
+      .filter(Boolean)
+      .join("&");
+    return `?${urlParams}`;
+  }
 }
 
-export default new FaircvService(HttpService);
+export default new FaircvService(http);
