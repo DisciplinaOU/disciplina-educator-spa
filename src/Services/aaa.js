@@ -10,7 +10,7 @@ const RESET_PASSWORD = `${BASE_URL}/send_reset_instructions`;
 
 /*eslint new-cap: ["error", { "properties": false }]*/
 const http = new axios.create({
-  baseURL: BASE_URL,
+  baseURL: API_URL,
   withCredentials: true,
   headers: {
     "Content-Type": "application/json",

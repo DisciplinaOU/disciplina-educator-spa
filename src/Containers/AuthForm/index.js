@@ -72,10 +72,12 @@ class AuthForm extends PureComponent<AuthFormProps, AuthFormState> {
   };
 
   signUp = async () => {
+    const { history } = this.props;
     const { email, password, name, url } = this.state;
     this.startLoading();
     try {
       await this.Service.createUser(email, name, url, password);
+      history.push("/auth/check_email");
     } catch (e) {
       console.log(e);
     } finally {

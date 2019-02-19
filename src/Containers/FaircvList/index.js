@@ -6,6 +6,7 @@ import RegularInput from "../../Common/Components/RegularInput";
 import Pagination from "../../Common/Components/Pagination";
 import FaircvService from "../../Services/faircv";
 import type { Certificate, IFaircvService } from "../../Services/types";
+import MainMessage from "../../Common/Components/MainMessage";
 
 type FaircvListState = {
   data: Array<Certificate>,
@@ -92,17 +93,17 @@ class FaircvList extends PureComponent<FaircvListProps, FaircvListState> {
             callback={this.createFairHandler}
           />
         </div>
-        <form className="faircv-list__search">
-          <RegularInput
-            value={searchInput}
-            placeholder={searchPlaceholder}
-            className="faircv-list__search-input"
-            width="full-width"
-            dispatchValue={this.searchInputHandler}
-          />
-        </form>
         {normalizedArray.length ? (
           <>
+            <form className="faircv-list__search">
+              <RegularInput
+                value={searchInput}
+                placeholder={searchPlaceholder}
+                className="faircv-list__search-input"
+                width="full-width"
+                dispatchValue={this.searchInputHandler}
+              />
+            </form>
             <ul className="list">
               {normalizedArray.map((item: Certificate) => (
                 <li className="list__item" key={item.id}>
@@ -125,7 +126,7 @@ class FaircvList extends PureComponent<FaircvListProps, FaircvListState> {
               ))}
             </ul>
           </>
-        ) : null}
+        ) : <MainMessage type="LIST_EMPTY" />}
         <Pagination goTo={this.goToPage} fwd={this.goFwd} bcwd={this.goBcwd} count={+pages} current={+currentPage} />
       </div>
     );
