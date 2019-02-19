@@ -1,7 +1,7 @@
 import axios, { AxiosStatic, AxiosInstance } from "axios";
 import type { Educator, IAAAService } from "./types";
 
-const API_URL = "https://stage-teachmeplease-aaa.stage.tchmpls.com";
+const API_URL = process.env.REACT_APP_AAA;
 const BASE_URL = `${API_URL}/educators`;
 const USER_CURRENT = `${BASE_URL}/current`;
 const USER_LOGIN = "/educator_session";
