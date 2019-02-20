@@ -3,6 +3,7 @@ import type { Certificate, FaircvListResponse, FaircvQuery, IFaircvService, NewC
 
 const API_URL = process.env.REACT_APP_EDUCATOR;
 const BASE_URL = `${API_URL}/certificates`;
+const DOWNLOAD = `${API_URL}/certificate`;
 /*eslint new-cap: ["error", { "properties": false }]*/
 const http = new axios.create({
   baseURL: BASE_URL,
@@ -19,8 +20,8 @@ class FaircvService implements IFaircvService {
 
     this.httpService.interceptors.request.use(
       config => {
-        const token = localStorage.getItem("token");
-        if (token) config.headers.authorization = `Bearer ${token}`;
+        // const token = localStorage.getItem("token");
+        // if (token) config.headers.authorization = `Bearer eyJhbGciOiJFZERTQSIsImp3ayI6eyJjcnYiOiJFZDI1NTE5IiwieCI6IlI2Qlo3OGx5bHRVdEdBT012bFR4dG9ZeXRYS1E0OXQxSUNxb1EwQWtLWVUiLCJrdHkiOiJPS1AifX0.eyJwYXRoIjoiL2FwaS9lZHVjYXRvci92MS9jZXJ0aWZpY2F0ZXMiLCJ0aW1lIjoiMjAyNS0wMS0wMVQwMDowMDowMFoifQ.ifQScfwBi8EQunBpHkLg5eoDA2YYWvKcg1UepHisSGa4kh1yP0e4gbn-ZZufAmECyk4_x35uOmaJSn9mI92_Dw`;
         return config;
       },
       error => Promise.reject(error)
@@ -28,11 +29,11 @@ class FaircvService implements IFaircvService {
   }
 
   getList(filter?: FaircvQuery): Promise<FaircvListResponse> {
-    return this.httpService.get(`${BASE_URL}${this._serializefilter(filter)}`);
+    return this.httpService.get(`${BASE_URL}${this._serializefilter(filter)}`, { headers: { 'Authorization': 'Bearer eyJhbGciOiJFZERTQSIsImp3ayI6eyJjcnYiOiJFZDI1NTE5IiwieCI6IlI2Qlo3OGx5bHRVdEdBT012bFR4dG9ZeXRYS1E0OXQxSUNxb1EwQWtLWVUiLCJrdHkiOiJPS1AifX0.eyJwYXRoIjoiL2FwaS9lZHVjYXRvci92MS9jZXJ0aWZpY2F0ZXMiLCJ0aW1lIjoiMjAyNS0wMS0wMVQwMDowMDowMFoifQ.ifQScfwBi8EQunBpHkLg5eoDA2YYWvKcg1UepHisSGa4kh1yP0e4gbn-ZZufAmECyk4_x35uOmaJSn9mI92_Dw' } });
   }
 
   get(id: number): Promise<File> {
-    return this.httpService.get(`${BASE_URL}/${id}`);
+    return this.httpService.get(`${DOWNLOAD}/${id}`, { headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer eyJhbGciOiJFZERTQSIsImp3ayI6eyJjcnYiOiJFZDI1NTE5IiwieCI6IlI2Qlo3OGx5bHRVdEdBT012bFR4dG9ZeXRYS1E0OXQxSUNxb1EwQWtLWVUiLCJrdHkiOiJPS1AifX0.eyJwYXRoIjoiL2FwaS9lZHVjYXRvci92MS9jZXJ0aWZpY2F0ZSIsInRpbWUiOiIyMDI1LTAxLTAxVDAwOjAwOjAwWiJ9.7vja7dC0q2HcPHthSoDCwu4rW9Ioto3AU5R2eIKWuFm3HjkhGKNBjn06CXSG2LCj-Mo_kAD_gTS0od_GT5O8Bg' } });
   }
 
   create(cert: NewCertificate): Promise<Certificate> {

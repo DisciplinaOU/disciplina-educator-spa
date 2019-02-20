@@ -73,6 +73,28 @@ class FaircvList extends PureComponent<FaircvListProps, FaircvListState> {
     return arr;
   };
 
+  // downloadPdf = async (id: string) => {
+  //   const pdf = await FaircvService.get(id);
+  //   const downloadLink = document.createElement("a");
+  //   downloadLink.target = "_blank";
+  //   downloadLink.download = "name_to_give_saved_file.pdf";
+  //
+  //   const blob = new Blob([pdf.data], { type: "application/pdf" });
+  //
+  //   const URL = window.URL || window.webkitURL;
+  //   const downloadUrl = URL.createObjectURL(blob);
+  //
+  //   downloadLink.href = downloadUrl;
+  //   if (document.body) {
+  //     document.body.appendChild(downloadLink);
+  //
+  //     downloadLink.click();
+  //
+  //     document.body.removeChild(downloadLink);
+  //     URL.revokeObjectURL(downloadUrl);
+  //   }
+  // };
+
   render() {
     const { currentPage, searchInput } = this.state;
     const isDesktop = document.documentElement && document.documentElement.clientWidth >= 768;
@@ -126,7 +148,9 @@ class FaircvList extends PureComponent<FaircvListProps, FaircvListState> {
               ))}
             </ul>
           </>
-        ) : <MainMessage type="LIST_EMPTY" />}
+        ) : (
+          <MainMessage type="LIST_EMPTY" />
+        )}
         <Pagination goTo={this.goToPage} fwd={this.goFwd} bcwd={this.goBcwd} count={+pages} current={+currentPage} />
       </div>
     );
