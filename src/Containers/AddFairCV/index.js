@@ -1,5 +1,5 @@
 // @flow
-import React, { PureComponent } from "react";
+import * as React from "react";
 import "./styles.scss";
 import DatePicker, { registerLocale, setDefaultLocale } from "react-datepicker";
 import ru from "date-fns/locale/ru";
@@ -47,7 +47,11 @@ const clearModalState = {
   cancel: () => mockFn()
 };
 
-export class AddFairCV extends PureComponent<AddFairCVProps, AddFairCVState> {
+export class AddFairCV extends React.PureComponent<AddFairCVProps, AddFairCVState> {
+  _dataPickerBirthElement: React.ElementRef<any> = React.createRef();
+
+  _dataPickerDiplomElement: React.ElementRef<any> = React.createRef();
+
   state = {
     grades: [],
     studentName: "",
@@ -109,6 +113,22 @@ export class AddFairCV extends PureComponent<AddFairCVProps, AddFairCVState> {
         cancel: () => this.closeModal()
       }
     });
+
+  getDataPickerBirthRef = (node: any) => {
+    this._dataPickerBirthElement = node;
+  };
+
+  getDataPickerDiplomRef = (node: any) => {
+    this._dataPickerDiplomElement = node;
+  };
+
+  openDataPickerBirthDate = () => {
+    this._dataPickerBirthElement.setOpen(true);
+  };
+
+  openDataPickerDiplomDate = () => {
+    this._dataPickerDiplomElement.setOpen(true);
+  };
 
   closeModal = () => this.setState({ modal: clearModalState });
 
@@ -219,11 +239,17 @@ export class AddFairCV extends PureComponent<AddFairCVProps, AddFairCVState> {
                   />
                   <div className="input data-input">
                     <label className="data-input__label">Дата рождения</label>
-                    <DatePicker
-                      selected={studentBirthDate}
-                      onChange={this.handleStudentBirthDate}
-                      dateFormat="yyyy-MM-dd"
-                    />
+                    <div className="data-input__wrapper">
+                      <DatePicker
+                        selected={studentBirthDate}
+                        onChange={this.handleStudentBirthDate}
+                        dateFormat="yyyy-MM-dd"
+                        ref={this.getDataPickerBirthRef}
+                      />
+                      <span className="data-input__icon" onClick={this.openDataPickerBirthDate}>
+                        &nbsp;
+                      </span>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -265,7 +291,17 @@ export class AddFairCV extends PureComponent<AddFairCVProps, AddFairCVState> {
                   />
                   <div className="input data-input">
                     <label className="data-input__label">Дата выдачи</label>
-                    <DatePicker selected={issueDate} onChange={this.handleIssueDate} dateFormat="yyyy-MM-dd" />
+                    <div className="data-input__wrapper">
+                      <DatePicker
+                        selected={issueDate}
+                        onChange={this.handleIssueDate}
+                        dateFormat="yyyy-MM-dd"
+                        ref={this.getDataPickerDiplomRef}
+                      />
+                      <span className="data-input__icon" onClick={this.openDataPickerDiplomDate}>
+                        &nbsp;
+                      </span>
+                    </div>
                   </div>
                 </div>
                 <RegularInput
