@@ -10,7 +10,7 @@ build:
   script:
       - export API_URL="https://api.example.com/"
       - yarn install
-      - yarn test
+      #- yarn test
       - yarn build
       - echo "BUILD SUCCESSFULLY"
   cache: &deps-cache
