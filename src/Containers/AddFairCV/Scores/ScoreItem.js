@@ -30,11 +30,11 @@ export const ScoreItem = (props: ScoreItemProps) => {
     setSubject("");
   };
   const addNewScore = () => {
-    dispatchScore({ subject, lang, hours: +hours, credits: +credits, grade: +grade });
+    dispatchScore({ subject, lang, hours: +hours, credits: +credits, grade });
     clearInputs();
   };
   const updateScore = () => {
-    dispatchScore({ subject, lang, hours: +hours, credits: +credits, grade: +grade }, scoreIndex);
+    dispatchScore({ subject, lang, hours: +hours, credits: +credits, grade }, scoreIndex);
     setEditMode(false);
   };
 
@@ -55,7 +55,11 @@ export const ScoreItem = (props: ScoreItemProps) => {
         <RegularInput value={credits} dispatchValue={setCredits} />
       </div>
       <div className="table__item table__item--score">
-        <DropDownInput selectedValue={grade} list={[1, 2, 3]} callback={setGrade} />
+        <DropDownInput
+          selectedValue={grade}
+          list={["отлично", "хорошо", "удовлетворительно", "зачтено"]}
+          callback={setGrade}
+        />
       </div>
       <div className="table__item table__item--submit">
         {isNewScore ? (

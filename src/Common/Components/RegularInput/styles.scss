@@ -16,4 +16,7 @@
     @include largerString();
     padding: 7px 8px 9px;
   }
+  &.input-student {
+    width: 100%;
+  }
 }

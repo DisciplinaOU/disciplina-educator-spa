@@ -1,7 +1,8 @@
 // @flow
 import * as React from "react";
 import "./styles.scss";
-import DatePicker from "react-datepicker";
+import DatePicker, { registerLocale, setDefaultLocale } from "react-datepicker";
+import ru from "date-fns/locale/ru";
 import Button from "../../Common/Components/Button";
 import RegularInput from "../../Common/Components/RegularInput";
 import DropDownInput from "../../Common/Components/DropDownInput";
@@ -12,7 +13,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import type { ScoresDataType } from "./Scores";
 import Modal from "./Modal";
 
-type EducationFormEnum = "fulltime" | "parttime" | "fullpart";
+type EducationFormEnum = "очная" | "заочная" | "очно-заочная";
 
 type AddFairCVState = {
   grades: Array<ScoresDataType>,
@@ -30,7 +31,8 @@ type AddFairCVState = {
     state: string,
     submit: () => Promise<any>,
     cancel: () => void
-  }
+  },
+  yearsArray: Array<number>
 };
 
 type AddFairCVProps = {
@@ -56,14 +58,27 @@ export class AddFairCV extends React.PureComponent<AddFairCVProps, AddFairCVStat
     studentBirthDate: new Date(),
     startYear: 2019,
     endYear: 2019,
-    educationForm: "fulltime",
+    educationForm: "очная",
     number: "",
     issueDate: new Date(),
     title: "",
     major: "",
     specialization: "",
-    modal: clearModalState
+    modal: clearModalState,
+    yearsArray: []
   };
+
+  componentDidMount() {
+    const yearsArray = [];
+    for (let i = 2019; i > 1949; i--) {
+      yearsArray.push(i);
+    }
+    registerLocale("ru", ru);
+    setDefaultLocale("ru", ru);
+    this.setState({
+      yearsArray
+    });
+  }
 
   goToListHandler = () => {
     const { history } = this.props;
@@ -85,7 +100,7 @@ export class AddFairCV extends React.PureComponent<AddFairCVProps, AddFairCVStat
       modal: {
         state: "SUCCESS",
         submit: async () => this.downloadCert(id),
-        cancel: () => this.closeModal()
+        cancel: () => this.goToListHandler()
       }
     });
   };
@@ -160,13 +175,17 @@ export class AddFairCV extends React.PureComponent<AddFairCVProps, AddFairCVStat
       educationForm,
       grades
     } = this.state;
+    let edform;
+    if (educationForm === "очная") edform = "fulltime";
+    if (educationForm === "заочная") edform = "parttime";
+    if (educationForm === "очно-заочная") edform = "fullpart";
     return {
       meta: {
         studentName,
         studentBirthDate: this._formatDate(studentBirthDate),
         startYear: +startYear,
         endYear: +endYear,
-        educationForm,
+        educationForm: edform,
         number: +number,
         issueDate: this._formatDate(issueDate),
         title,
@@ -189,7 +208,8 @@ export class AddFairCV extends React.PureComponent<AddFairCVProps, AddFairCVStat
       educationForm,
       startYear,
       endYear,
-      modal
+      modal,
+      yearsArray
     } = this.state;
     return (
       <>
@@ -237,21 +257,21 @@ export class AddFairCV extends React.PureComponent<AddFairCVProps, AddFairCVStat
                 <h2 className="input-container__title text-left">Обучение</h2>
                 <div className="input-group">
                   <DropDownInput
-                    list={[1, 2, 3]}
+                    list={yearsArray}
                     selectedValue={startYear}
                     title="Год поступления"
                     className="input-education-start"
                     callback={this.handleStartYear}
                   />
                   <DropDownInput
-                    list={[1, 2, 3]}
+                    list={yearsArray}
                     selectedValue={endYear}
                     title="Год окончания"
                     className="input-education-end"
                     callback={this.handleEndYear}
                   />
                   <DropDownInput
-                    list={[1, 2, 3]}
+                    list={["очная", "заочная", "очно-заочная"]}
                     selectedValue={educationForm}
                     title="Форма обучения"
                     className="input-education-form"

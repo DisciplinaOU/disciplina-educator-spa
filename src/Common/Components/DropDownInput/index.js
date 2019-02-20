@@ -1,11 +1,11 @@
 // @flow
-import React, { PureComponent } from "react";
+import * as React from "react";
 import "./styles.scss";
 
 type DropDownInputProps = {
   selectedValue: any,
   title?: string,
-  list: Array<number | string>,
+  list: Array<any>,
   callback: (v: any) => void,
   className?: string
 };
@@ -14,7 +14,9 @@ type DropDownInputState = {
   isSelectOpened: boolean
 };
 
-export default class DropDownInput extends PureComponent<DropDownInputProps, DropDownInputState> {
+export default class DropDownInput extends React.PureComponent<DropDownInputProps, DropDownInputState> {
+  node: React.ElementRef<any> = React.createRef();
+
   static defaultProps = {
     title: "",
     className: ""
@@ -24,9 +26,22 @@ export default class DropDownInput extends PureComponent<DropDownInputProps, Dro
     isSelectOpened: false
   };
 
+  handleOutsideClick = (e: { target: EventTarget }) => {
+    if (this.node.contains(e.target)) {
+      return;
+    }
+    this.changeSelectState();
+  };
+
   changeSelectState = () => {
     const { isSelectOpened } = this.state;
-    isSelectOpened ? this.closeSelect() : this.openSelect();
+    if (isSelectOpened) {
+      document.removeEventListener("click", this.handleOutsideClick, false);
+      this.closeSelect();
+    } else {
+      document.addEventListener("click", this.handleOutsideClick, false);
+      this.openSelect();
+    }
   };
 
   openSelect = () => this.setState({ isSelectOpened: true });
@@ -46,6 +61,9 @@ export default class DropDownInput extends PureComponent<DropDownInputProps, Dro
       <div
         className={`dropdown-input ${isSelectOpened ? "active" : ""} ${className || ""}`}
         onClick={this.changeSelectState}
+        ref={node => {
+          this.node = node;
+        }}
       >
         {title ? <label className="dropdown-input__label">{title}</label> : null}
         <input className="dropdown-input__field" type="text" readOnly value={selectedValue} />
