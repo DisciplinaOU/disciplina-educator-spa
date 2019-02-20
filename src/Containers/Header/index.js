@@ -14,7 +14,9 @@ export const Header = (props: HeaderProps) => {
   const logout = () => AAAService.logout();
   return (
     <header className="header">
-      <img className="header__logo" src={logoIcon} alt="disciplina.io" />
+      <a className="header__logo" href="124">
+        <img src={logoIcon} alt="disciplina.io" />
+      </a>
       {user && user.confirmedAt ? <div className="header__title">{user.name}</div> : null}
       {user ? (
         <button className="header__log-off" onClick={logout} type="button">

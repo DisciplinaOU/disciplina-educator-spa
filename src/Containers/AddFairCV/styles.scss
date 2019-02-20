@@ -51,8 +51,6 @@
   }
 
   .react-datepicker-wrapper {
-    position: relative;
-
     input {
       display: block;
       border: 0;
@@ -61,18 +59,22 @@
       @include largerString();
       padding: 7px 8px 9px;
     }
+  }
 
-    &:after {
-      content: '';
-      display: block;
-      width: 20px;
-      height: 17px;
-      background-image: url('../../Common/Assets/icons/calendar-icon.svg');
-      position: absolute;
-      right: -28px;
-      top: 8px;
-      cursor: pointer;
-    }
+  &__wrapper {
+    position: relative;
+  }
+
+  &__icon {
+    content: '';
+    display: block;
+    width: 20px;
+    height: 17px;
+    background-image: url('../../Common/Assets/icons/calendar-icon.svg');
+    position: absolute;
+    right: -28px;
+    top: 8px;
+    cursor: pointer;
   }
 }
 
@@ -150,6 +152,11 @@
 
   @media screen and (max-width: $phablet) {
     .input {
+      margin-bottom: 16px;
+    }
+
+    .input-education-end,
+    .input-education-start {
       margin-bottom: 16px;
     }
   }

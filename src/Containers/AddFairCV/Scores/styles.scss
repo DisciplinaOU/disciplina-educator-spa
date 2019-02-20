@@ -60,7 +60,7 @@
     }
 
     &__item--button-edit,
-    &__item--button-del {
+    &__item--button-remove {
       flex: 0 0 20px;
     }
 
@@ -142,7 +142,7 @@
           margin-top: 4px;
         }
 
-        .table__item--button-del {
+        .table__item--button-remove {
           order: 3;
           margin-top: 4px;
         }
@@ -222,8 +222,18 @@
 }
 
 .react-datepicker-popper {
+  z-index: 99 !important;
+
   .react-datepicker {
     border-radius: 3px;
+    border: 0;
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.25);
+
+    &__current-month {
+      padding-bottom: 16px;
+      @include titleH4();
+      font-weight: 500;
+    }
 
     &__header {
       background-color: transparent;
@@ -233,6 +243,10 @@
 
     &__triangle {
       border-bottom-color: $color-white !important;
+
+      &:before {
+        border-bottom-color: #DFDFDF !important;
+      }
     }
 
     &__navigation {
@@ -265,21 +279,41 @@
     }
 
     &__day-name {
-      font-weight: 500;
       text-transform: uppercase;
       @include smallerString($color-gray-text);
+      font-weight: 500;
     }
 
     &__day {
-      width: 33px;
-      height: 33px;
-      line-height: 2.2;
+      width: 38px;
+      height: 38px;
+      @include normalString();
+      line-height: 37px;
+
+      &:hover {
+        border-radius: 50%;
+      }
     }
 
     &__day--today {
+      color: $color-blue;
+      font-weight: 700;
+    }
+
+    &__day--selected {
       border-radius: 50%;
       background-color: $color-blue;
       font-weight: 400;
+      color: $color-white;
+
+      &:hover {
+        background-color: $color-blue;
+        border-radius: 50%;
+      }
+    }
+
+    &__day--outside-month {
+      color: $color-gray-text;
     }
   }
 }
