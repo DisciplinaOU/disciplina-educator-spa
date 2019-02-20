@@ -43,7 +43,7 @@ export class Scores extends PureComponent<ScoresProps, ScoresState> {
     const { dispatchScores } = this.props;
     const { data } = this.state;
     let updatedData;
-    if (scoreIndex) {
+    if (scoreIndex || scoreIndex === 0) {
       data[scoreIndex] = scoreItem;
       updatedData = data;
     } else {
