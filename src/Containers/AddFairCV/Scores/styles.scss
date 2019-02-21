@@ -221,99 +221,111 @@
   }
 }
 
-.react-datepicker-popper {
-  z-index: 99 !important;
+.data-input__wrapper {
+  .react-datepicker-popper {
+    z-index: 99;
 
-  .react-datepicker {
-    border-radius: 3px;
-    border: 0;
-    box-shadow: 0 0 2px rgba(0, 0, 0, 0.25);
-
-    &__current-month {
-      padding-bottom: 16px;
-      @include titleH4();
-      font-weight: 500;
-    }
-
-    &__header {
-      background-color: transparent;
+    .react-datepicker {
+      border-radius: 3px;
       border: 0;
-      padding-top: 24px;
-    }
+      box-shadow: 0 0 2px rgba(0, 0, 0, 0.25);
 
-    &__triangle {
-      border-bottom-color: $color-white !important;
-
-      &:before {
-        border-bottom-color: #DFDFDF !important;
+      &__current-month {
+        padding-bottom: 16px;
+        @include titleH4();
+        font-weight: 500;
       }
-    }
 
-    &__navigation {
-      top: 27px;
-      border: 0;
-      border-bottom: 2px solid $color-blue;
-      border-right: 2px solid $color-blue;
-    }
+      &__header {
+        background-color: transparent;
+        border: 0;
+        padding-top: 24px;
+      }
 
-    &__navigation--next {
-      right: 30px;
-      transform: rotate(-45deg);
-    }
+      &__triangle {
+        border-bottom-color: $color-white !important;
+        left: 50px;
 
-    &__navigation--previous {
-      left: 30px;
-      transform: rotate(135deg);
-    }
+        &:before {
+          border-bottom-color: #DFDFDF !important;
+          border-top-color: #DFDFDF !important;
+        }
+      }
 
-    &__month {
-      margin: 0;
-      padding: 18px;
-    }
+      &__navigation {
+        top: 27px;
+        border: 0;
+        border-bottom: 2px solid $color-blue;
+        border-right: 2px solid $color-blue;
+      }
 
-    &__day-names {
-      margin-top: 5px;
-      display: flex;
-      justify-content: space-between;
-      padding: 0 24px;
-    }
+      &__navigation--next {
+        right: 30px;
+        transform: rotate(-45deg);
+      }
 
-    &__day-name {
-      text-transform: uppercase;
-      @include smallerString($color-gray-text);
-      font-weight: 500;
-    }
+      &__navigation--previous {
+        left: 30px;
+        transform: rotate(135deg);
+      }
 
-    &__day {
-      width: 38px;
-      height: 38px;
-      @include normalString();
-      line-height: 37px;
+      &__month {
+        margin: 0;
+        padding: 18px;
+      }
 
-      &:hover {
+      &__day-names {
+        margin-top: 5px;
+        display: flex;
+        justify-content: space-between;
+        padding: 0 24px;
+      }
+
+      &__day-name {
+        text-transform: uppercase;
+        @include smallerString($color-gray-text);
+        font-weight: 500;
+      }
+
+      &__day {
+        width: 38px;
+        height: 38px;
+        @include normalString();
+        line-height: 37px;
+
+        &:hover {
+          border-radius: 50%;
+        }
+      }
+
+      &__day--today {
+        color: $color-blue;
+        font-weight: 700;
+      }
+
+      &__day--selected {
         border-radius: 50%;
-      }
-    }
-
-    &__day--today {
-      color: $color-blue;
-      font-weight: 700;
-    }
-
-    &__day--selected {
-      border-radius: 50%;
-      background-color: $color-blue;
-      font-weight: 400;
-      color: $color-white;
-
-      &:hover {
         background-color: $color-blue;
-        border-radius: 50%;
-      }
-    }
+        font-weight: 400;
+        color: $color-white;
 
-    &__day--outside-month {
-      color: $color-gray-text;
+        &:hover {
+          background-color: $color-blue;
+          border-radius: 50%;
+        }
+      }
+
+      &__day--outside-month {
+        color: $color-gray-text;
+      }
+
+      @media screen and (max-width: $mobile) {
+        &__day {
+          width: 32px;
+          height: 32px;
+          line-height: 31px;
+        }
+      }
     }
   }
 }

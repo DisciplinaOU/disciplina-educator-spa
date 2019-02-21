@@ -42,7 +42,6 @@
 
 .data-input {
   display: inline-block;
-  padding-right: 30px;
 
   &__label {
     display: block;
@@ -63,18 +62,35 @@
 
   &__wrapper {
     position: relative;
+    max-width: 230px;
+    line-height: 1;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
   }
 
   &__icon {
-    content: '';
-    display: block;
+    display: inline-block;
     width: 20px;
     height: 17px;
-    background-image: url('../../Common/Assets/icons/calendar-icon.svg');
-    position: absolute;
-    right: -28px;
-    top: 8px;
     cursor: pointer;
+    margin-left: 8px;
+  }
+
+  &--calendar {
+    min-width: 326px;
+  }
+
+  @media screen and (max-width: $mobile) {
+    &--calendar {
+      width: 100%;
+      min-width: 0;
+    }
+
+    &__wrapper {
+      max-width: calc(100%);
+    }
   }
 }
 
@@ -143,7 +159,7 @@
 
   .input-rank {
     width: 100%;
-    max-width: 608px;
+    max-width: 900px;
   }
 
   .reminder {
@@ -167,6 +183,15 @@
       margin-top: 12px;
     }
 
+    .input-number {
+      max-width: none;
+      margin-right: 0;
+    }
+
+    .input-student {
+      margin-right: 0;
+    }
+
     .input-education-end {
       margin-right: 0;
 
@@ -177,10 +202,6 @@
 
     .input-education-start {
       margin-right: 28px;
-    }
-
-    .input-number {
-      margin-right: 0;
     }
   }
 }

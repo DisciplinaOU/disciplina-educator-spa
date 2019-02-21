@@ -12,6 +12,7 @@ import FaircvService from "../../Services/faircv";
 import "react-datepicker/dist/react-datepicker.css";
 import type { ScoresDataType } from "./Scores";
 import Modal from "./Modal";
+import iconCalendar from "../../Common/Assets/icons/calendar-icon.svg";
 
 type EducationFormEnum = "очная" | "заочная" | "очно-заочная";
 
@@ -237,7 +238,7 @@ export class AddFairCV extends React.PureComponent<AddFairCVProps, AddFairCVStat
                     width="full-width"
                     dispatchValue={this.handleStudentName}
                   />
-                  <div className="input data-input">
+                  <div className="input data-input data-input--calendar">
                     <label className="data-input__label">Дата рождения</label>
                     <div className="data-input__wrapper">
                       <DatePicker
@@ -246,9 +247,12 @@ export class AddFairCV extends React.PureComponent<AddFairCVProps, AddFairCVStat
                         dateFormat="yyyy-MM-dd"
                         ref={this.getDataPickerBirthRef}
                       />
-                      <span className="data-input__icon" onClick={this.openDataPickerBirthDate}>
-                        &nbsp;
-                      </span>
+                      <img
+                        className="data-input__icon"
+                        src={iconCalendar}
+                        onClick={this.openDataPickerBirthDate}
+                        alt=""
+                      />
                     </div>
                   </div>
                 </div>
@@ -289,7 +293,7 @@ export class AddFairCV extends React.PureComponent<AddFairCVProps, AddFairCVStat
                     width="full-width"
                     dispatchValue={this.handleNumber}
                   />
-                  <div className="input data-input">
+                  <div className="input data-input data-input--calendar">
                     <label className="data-input__label">Дата выдачи</label>
                     <div className="data-input__wrapper">
                       <DatePicker
@@ -298,9 +302,12 @@ export class AddFairCV extends React.PureComponent<AddFairCVProps, AddFairCVStat
                         dateFormat="yyyy-MM-dd"
                         ref={this.getDataPickerDiplomRef}
                       />
-                      <span className="data-input__icon" onClick={this.openDataPickerDiplomDate}>
-                        &nbsp;
-                      </span>
+                      <img
+                        className="data-input__icon"
+                        src={iconCalendar}
+                        onClick={this.openDataPickerDiplomDate}
+                        alt=""
+                      />
                     </div>
                   </div>
                 </div>
