@@ -1,0 +1,51 @@
+image: docker:latest
+
+stages:
+  - build
+  - deploy
+
+build:
+  stage: build
+  image: &base-image node:10-slim
+  script:
+      - export API_URL="https://api.example.com/"
+      - yarn install
+      #- yarn test
+      - yarn build
+      - echo "BUILD SUCCESSFULLY"
+  cache: &deps-cache
+    key: "teachmeplease-frontend-node-deps"
+    paths:
+      - node_modules
+  artifacts:
+    paths:
+      - build/
+    expire_in: 20 mins
+  environment:
+    name: production
+  only:
+    - master
+    - develop
+
+deploy:
+  stage: deploy
+  image: python:3.5
+  dependencies:
+    - build
+  script:
+    - export AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID_STAGE
+    - export AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_STAGE
+    - export S3_BUCKET_NAME=$S3_BUCKET_NAME_STAGE
+    - export CFN_DISTRIBUTION_ID=$CFN_DISTRIBUTION_ID_STAGE
+    - export REACT_APP_AAA=$REACT_APP_AAA
+    - export REACT_APP_EDUCATOR=$REACT_APP_EDUCATOR
+    - pip install awscli --upgrade --user
+    - export PATH=~/.local/bin:$PATH
+    - aws s3 sync --delete build/ s3://$S3_BUCKET_NAME/
+    - aws cloudfront create-invalidation --distribution-id $CFN_DISTRIBUTION_ID --paths '/*'
+    - echo "DEPLOYED SUCCESSFULLY"
+  environment:
+    name: production
+  only:
+    - master
+    - develop

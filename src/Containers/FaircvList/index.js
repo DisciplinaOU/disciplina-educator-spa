@@ -1,11 +1,13 @@
 // @flow
 import React, { PureComponent } from "react";
+import base64url from "base64url";
 import "./styles.scss";
 import Button from "../../Common/Components/Button";
 import RegularInput from "../../Common/Components/RegularInput";
 import Pagination from "../../Common/Components/Pagination";
 import FaircvService from "../../Services/faircv";
 import type { Certificate, IFaircvService } from "../../Services/types";
+import MainMessage from "../../Common/Components/MainMessage";
 
 type FaircvListState = {
   data: Array<Certificate>,
@@ -72,8 +74,33 @@ class FaircvList extends PureComponent<FaircvListProps, FaircvListState> {
     return arr;
   };
 
+  downloadPdf = async (id: string) => {
+    const downloadLink = document.createElement("a");
+    downloadLink.target = "_blank";
+    downloadLink.download = "certificate.pdf";
+
+    const downloadUrl = `/cert/${this.makeCertId(id)}.pdf`;
+
+    downloadLink.href = downloadUrl;
+    if (document.body) {
+      document.body.appendChild(downloadLink);
+      downloadLink.click();
+    }
+  };
+
+  makeCertId = (hash: string): string => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      const baseEducatorData = token.split(".")[1];
+      const decodedEducatorData = base64url.decode(baseEducatorData);
+      const educator = JSON.parse(decodedEducatorData.toString());
+      return base64url.encode(`${educator.data.id}:${hash}`);
+    }
+    return "";
+  };
+
   render() {
-    const { currentPage, searchInput } = this.state;
+    const { currentPage, searchInput, data } = this.state;
     const isDesktop = document.documentElement && document.documentElement.clientWidth >= 768;
     const searchPlaceholder = isDesktop ? "Введите имя студента или номер диплома" : "Поиск";
     const filteredArray = this.liveSearchArray(searchInput);
@@ -92,17 +119,17 @@ class FaircvList extends PureComponent<FaircvListProps, FaircvListState> {
             callback={this.createFairHandler}
           />
         </div>
-        <form className="faircv-list__search">
-          <RegularInput
-            value={searchInput}
-            placeholder={searchPlaceholder}
-            className="faircv-list__search-input"
-            width="full-width"
-            dispatchValue={this.searchInputHandler}
-          />
-        </form>
-        {normalizedArray.length ? (
+        {data.length ? (
           <>
+            <form className="faircv-list__search">
+              <RegularInput
+                value={searchInput}
+                placeholder={searchPlaceholder}
+                className="faircv-list__search-input"
+                width="full-width"
+                dispatchValue={this.searchInputHandler}
+              />
+            </form>
             <ul className="list">
               {normalizedArray.map((item: Certificate) => (
                 <li className="list__item" key={item.id}>
@@ -119,13 +146,15 @@ class FaircvList extends PureComponent<FaircvListProps, FaircvListState> {
                     modHeight="height-small"
                     modStyle="empty"
                     modColor="color-main"
-                    callback={() => {}}
+                    callback={() => this.downloadPdf(item.id)}
                   />
                 </li>
               ))}
             </ul>
           </>
-        ) : null}
+        ) : (
+          <MainMessage type="LIST_EMPTY" />
+        )}
         <Pagination goTo={this.goToPage} fwd={this.goFwd} bcwd={this.goBcwd} count={+pages} current={+currentPage} />
       </div>
     );

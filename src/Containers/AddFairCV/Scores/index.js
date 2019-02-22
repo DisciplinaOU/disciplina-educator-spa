@@ -9,7 +9,8 @@ export type ScoresDataType = {
   lang: string,
   hours: ?number,
   credits: ?number,
-  grade: ?number
+  grade: ?string,
+  scale?: string
 };
 
 type ScoresProps = {
@@ -43,7 +44,7 @@ export class Scores extends PureComponent<ScoresProps, ScoresState> {
     const { dispatchScores } = this.props;
     const { data } = this.state;
     let updatedData;
-    if (scoreIndex) {
+    if (scoreIndex || scoreIndex === 0) {
       data[scoreIndex] = scoreItem;
       updatedData = data;
     } else {

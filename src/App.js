@@ -6,6 +6,7 @@ import AuthContainer from "./Containers/Auth";
 import FaircvList from "./Containers/FaircvList";
 import AAAService from "./Services/aaa";
 import AddFairCV from "./Containers/AddFairCV";
+import MainMessage from "./Common/Components/MainMessage";
 
 const withUserContext = (WrappedComponent: Component, isGuardEnabled: boolean) => {
   type PrivateContainerProps = {
@@ -36,7 +37,7 @@ const withUserContext = (WrappedComponent: Component, isGuardEnabled: boolean) =
       // TODO while no redux accept header inside HoC
       const { isAuthenticated, isLoading, user } = this.state;
       if (isLoading) return <h5>Loading...</h5>;
-      if ((!isAuthenticated || !user.confirmedAt) && isGuardEnabled) {
+      if ((!isAuthenticated || !user.confirmedAt || !user.confirmedByOrganization) && isGuardEnabled) {
         return <Redirect to="/auth" />;
       }
       return (
@@ -57,11 +58,28 @@ const Faircv = () => (
   </Switch>
 );
 
+const Confirmation = () => (
+  <>
+    <Header user={{}} />
+    <MainMessage type="CONFIRMED" />
+  </>
+);
+
+const CheckEmail = () => (
+  <>
+    <Header user={{}} />
+    <MainMessage type="CHECK_EMAIL" />
+  </>
+);
+
 const App = () => {
   return (
     <div className="App">
       <main className="main">
         <Switch>
+          <Redirect exact from="/" to="/faircv" />
+          <Route path="/auth/check_email" component={CheckEmail} />
+          <Route path="/auth/confirmation" component={Confirmation} />
           <Route path="/auth" component={withUserContext(AuthContainer, false)} />
           <Route path="/faircv" component={withUserContext(Faircv, true)} />
         </Switch>

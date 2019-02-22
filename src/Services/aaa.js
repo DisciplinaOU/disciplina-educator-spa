@@ -1,17 +1,45 @@
-import type { Educator, IAAAService, IHttpService } from "./types";
-import HttpService from "./http";
+import axios, { AxiosStatic, AxiosInstance } from "axios";
+import type { Educator, IAAAService } from "./types";
 
-const BASE_URL = "/educators";
+const API_URL = process.env.REACT_APP_AAA;
+const BASE_URL = `${API_URL}/educators`;
 const USER_CURRENT = `${BASE_URL}/current`;
 const USER_LOGIN = "/educator_session";
 const CREATE_PASS = `${BASE_URL}/password`;
 const RESET_PASSWORD = `${BASE_URL}/send_reset_instructions`;
 
-class AAAService implements IAAAService {
-  httpService: typeof HttpService;
+/*eslint new-cap: ["error", { "properties": false }]*/
+const http = new axios.create({
+  baseURL: API_URL,
+  withCredentials: true,
+  headers: {
+    "Content-Type": "application/json",
+    "tmp-csrf": "tmp-csrf"
+  }
+});
 
-  constructor(http: IHttpService) {
-    this.httpService = http;
+class AAAService implements IAAAService {
+  httpService: AxiosInstance;
+
+  constructor(httpInstance: AxiosStatic) {
+    this.httpService = httpInstance;
+
+    this.httpService.interceptors.response.use(
+      response => {
+        if (response.data.token) localStorage.setItem("token", response.data.token);
+        return response;
+      },
+      error => Promise.reject(error)
+    );
+
+    this.httpService.interceptors.request.use(
+      config => {
+        const token = localStorage.getItem("token");
+        if (token) config.headers.authorization = token;
+        return config;
+      },
+      error => Promise.reject(error)
+    );
   }
 
   createUser(email: string, name: string, website: string, password: string): Promise<Educator> {
@@ -19,7 +47,6 @@ class AAAService implements IAAAService {
   }
 
   getCurrentUser(): Promise<Educator> {
-    // return Promise.resolve({id: 1, isConfirmed: true, isOrganizationConfirmed: true });
     return this.httpService.get(USER_CURRENT);
   }
 
@@ -41,4 +68,4 @@ class AAAService implements IAAAService {
   }
 }
 
-export default new AAAService(HttpService);
+export default new AAAService(http);

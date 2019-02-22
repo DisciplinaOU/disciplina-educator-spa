@@ -1,7 +1,8 @@
 // @flow
-import React, { PureComponent } from "react";
+import * as React from "react";
 import "./styles.scss";
-import DatePicker from "react-datepicker";
+import DatePicker, { registerLocale, setDefaultLocale } from "react-datepicker";
+import ru from "date-fns/locale/ru";
 import Button from "../../Common/Components/Button";
 import RegularInput from "../../Common/Components/RegularInput";
 import DropDownInput from "../../Common/Components/DropDownInput";
@@ -11,8 +12,9 @@ import FaircvService from "../../Services/faircv";
 import "react-datepicker/dist/react-datepicker.css";
 import type { ScoresDataType } from "./Scores";
 import Modal from "./Modal";
+import iconCalendar from "../../Common/Assets/icons/calendar-icon.svg";
 
-type EducationFormEnum = "fulltime" | "parttime" | "fullpart";
+type EducationFormEnum = "очная" | "заочная" | "очно-заочная";
 
 type AddFairCVState = {
   grades: Array<ScoresDataType>,
@@ -30,7 +32,8 @@ type AddFairCVState = {
     state: string,
     submit: () => Promise<any>,
     cancel: () => void
-  }
+  },
+  yearsArray: Array<number>
 };
 
 type AddFairCVProps = {
@@ -45,21 +48,38 @@ const clearModalState = {
   cancel: () => mockFn()
 };
 
-export class AddFairCV extends PureComponent<AddFairCVProps, AddFairCVState> {
+export class AddFairCV extends React.PureComponent<AddFairCVProps, AddFairCVState> {
+  _dataPickerBirthElement: React.ElementRef<any> = React.createRef();
+
+  _dataPickerDiplomElement: React.ElementRef<any> = React.createRef();
+
   state = {
     grades: [],
     studentName: "",
     studentBirthDate: new Date(),
     startYear: 2019,
     endYear: 2019,
-    educationForm: "fulltime",
+    educationForm: "очная",
     number: "",
     issueDate: new Date(),
     title: "",
     major: "",
     specialization: "",
-    modal: clearModalState
+    modal: clearModalState,
+    yearsArray: []
   };
+
+  componentDidMount() {
+    const yearsArray = [];
+    for (let i = 2019; i > 1949; i--) {
+      yearsArray.push(i);
+    }
+    registerLocale("ru", ru);
+    setDefaultLocale("ru", ru);
+    this.setState({
+      yearsArray
+    });
+  }
 
   goToListHandler = () => {
     const { history } = this.props;
@@ -81,7 +101,7 @@ export class AddFairCV extends PureComponent<AddFairCVProps, AddFairCVState> {
       modal: {
         state: "SUCCESS",
         submit: async () => this.downloadCert(id),
-        cancel: () => this.closeModal()
+        cancel: () => this.goToListHandler()
       }
     });
   };
@@ -94,6 +114,22 @@ export class AddFairCV extends PureComponent<AddFairCVProps, AddFairCVState> {
         cancel: () => this.closeModal()
       }
     });
+
+  getDataPickerBirthRef = (node: any) => {
+    this._dataPickerBirthElement = node;
+  };
+
+  getDataPickerDiplomRef = (node: any) => {
+    this._dataPickerDiplomElement = node;
+  };
+
+  openDataPickerBirthDate = () => {
+    this._dataPickerBirthElement.setOpen(true);
+  };
+
+  openDataPickerDiplomDate = () => {
+    this._dataPickerDiplomElement.setOpen(true);
+  };
 
   closeModal = () => this.setState({ modal: clearModalState });
 
@@ -140,13 +176,36 @@ export class AddFairCV extends PureComponent<AddFairCVProps, AddFairCVState> {
       educationForm,
       grades
     } = this.state;
+    let edform;
+    if (educationForm === "очная") edform = "fulltime";
+    if (educationForm === "заочная") edform = "parttime";
+    if (educationForm === "очно-заочная") edform = "fullpart";
+    for (let i = 0; i < grades.length; i++) {
+      // i could make switch, but i'v already committed this =]
+      if (grades[i].grade === "отлично") {
+        grades[i].grade = "100";
+        grades[i].scale = "rusDiff";
+      }
+      if (grades[i].grade === "хорошо") {
+        grades[i].grade = "80";
+        grades[i].scale = "rusDiff";
+      }
+      if (grades[i].grade === "удовлетворительно") {
+        grades[i].grade = "60";
+        grades[i].scale = "rusDiff";
+      }
+      if (grades[i].grade === "зачет") {
+        grades[i].grade = "100";
+        grades[i].scale = "rusNonDiff";
+      }
+    }
     return {
       meta: {
         studentName,
         studentBirthDate: this._formatDate(studentBirthDate),
         startYear: +startYear,
         endYear: +endYear,
-        educationForm,
+        educationForm: edform,
         number: +number,
         issueDate: this._formatDate(issueDate),
         title,
@@ -169,7 +228,8 @@ export class AddFairCV extends PureComponent<AddFairCVProps, AddFairCVState> {
       educationForm,
       startYear,
       endYear,
-      modal
+      modal,
+      yearsArray
     } = this.state;
     return (
       <>
@@ -197,13 +257,22 @@ export class AddFairCV extends PureComponent<AddFairCVProps, AddFairCVState> {
                     width="full-width"
                     dispatchValue={this.handleStudentName}
                   />
-                  <div className="input data-input">
+                  <div className="input data-input data-input--calendar">
                     <label className="data-input__label">Дата рождения</label>
-                    <DatePicker
-                      selected={studentBirthDate}
-                      onChange={this.handleStudentBirthDate}
-                      dateFormat="yyyy-MM-dd"
-                    />
+                    <div className="data-input__wrapper">
+                      <DatePicker
+                        selected={studentBirthDate}
+                        onChange={this.handleStudentBirthDate}
+                        dateFormat="yyyy-MM-dd"
+                        ref={this.getDataPickerBirthRef}
+                      />
+                      <img
+                        className="data-input__icon"
+                        src={iconCalendar}
+                        onClick={this.openDataPickerBirthDate}
+                        alt=""
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
@@ -211,21 +280,21 @@ export class AddFairCV extends PureComponent<AddFairCVProps, AddFairCVState> {
                 <h2 className="input-container__title text-left">Обучение</h2>
                 <div className="input-group">
                   <DropDownInput
-                    list={[1, 2, 3]}
+                    list={yearsArray}
                     selectedValue={startYear}
                     title="Год поступления"
                     className="input-education-start"
                     callback={this.handleStartYear}
                   />
                   <DropDownInput
-                    list={[1, 2, 3]}
+                    list={yearsArray}
                     selectedValue={endYear}
                     title="Год окончания"
                     className="input-education-end"
                     callback={this.handleEndYear}
                   />
                   <DropDownInput
-                    list={[1, 2, 3]}
+                    list={["очная", "заочная", "очно-заочная"]}
                     selectedValue={educationForm}
                     title="Форма обучения"
                     className="input-education-form"
@@ -243,9 +312,22 @@ export class AddFairCV extends PureComponent<AddFairCVProps, AddFairCVState> {
                     width="full-width"
                     dispatchValue={this.handleNumber}
                   />
-                  <div className="input data-input">
+                  <div className="input data-input data-input--calendar">
                     <label className="data-input__label">Дата выдачи</label>
-                    <DatePicker selected={issueDate} onChange={this.handleIssueDate} dateFormat="yyyy-MM-dd" />
+                    <div className="data-input__wrapper">
+                      <DatePicker
+                        selected={issueDate}
+                        onChange={this.handleIssueDate}
+                        dateFormat="yyyy-MM-dd"
+                        ref={this.getDataPickerDiplomRef}
+                      />
+                      <img
+                        className="data-input__icon"
+                        src={iconCalendar}
+                        onClick={this.openDataPickerDiplomDate}
+                        alt=""
+                      />
+                    </div>
                   </div>
                 </div>
                 <RegularInput

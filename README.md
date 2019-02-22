@@ -24,3 +24,7 @@ It correctly bundles React in production mode and optimizes the build for the be
 
 The build is minified and the filenames include the hashes.<br>
 Your app is ready to be deployed!
+
+### ENV
+Current environment variables are: 
+REACT_APP_AAA=https://stage-teachmeplease-aaa.stage.tchmpls.com REACT_APP_EDUCATOR=http://educator.dev.net.disciplina.io/api/educator/v1

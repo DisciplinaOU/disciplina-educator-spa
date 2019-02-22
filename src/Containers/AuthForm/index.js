@@ -21,7 +21,8 @@ type AuthFormState = {
   newPassword: string,
   name: string,
   url: string,
-  token: string
+  token: string,
+  isError: boolean
 };
 
 type AuthFormProps = {
@@ -34,6 +35,7 @@ class AuthForm extends PureComponent<AuthFormProps, AuthFormState> {
 
   state: AuthFormState = {
     currentState: AUTH_FORM_STATES.SIGN_IN,
+    isError: false,
     isLoading: false,
     email: "",
     password: "",
@@ -57,27 +59,39 @@ class AuthForm extends PureComponent<AuthFormProps, AuthFormState> {
     }
   }
 
-  login = async () => {
+  setError = () => this.setState({ isError: true });
+
+  clearError = () => this.setState({ isError: false });
+
+  login = async (e: SyntheticEvent<HTMLFormElement>) => {
+    e.preventDefault();
     const { email, password } = this.state;
     const { history } = this.props;
+    this.clearError();
     this.startLoading();
     try {
       await this.Service.login(email, password);
       history.push("/faircv");
-    } catch (e) {
-      console.log(e);
+    } catch (loginError) {
+      console.log(loginError);
+      this.setError();
     } finally {
       this.stopLoading();
     }
   };
 
-  signUp = async () => {
+  signUp = async (e: SyntheticEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const { history } = this.props;
     const { email, password, name, url } = this.state;
+    this.clearError();
     this.startLoading();
     try {
       await this.Service.createUser(email, name, url, password);
-    } catch (e) {
-      console.log(e);
+      history.push("/auth/check_email");
+    } catch (signupError) {
+      console.log(signupError);
+      this.setError();
     } finally {
       this.stopLoading();
     }
@@ -85,11 +99,13 @@ class AuthForm extends PureComponent<AuthFormProps, AuthFormState> {
 
   setNewPassword = async () => {
     const { newPassword, token } = this.state;
+    this.clearError();
     this.startLoading();
     try {
       await this.Service.createPassword(newPassword, token);
     } catch (e) {
       console.log(e);
+      this.setError();
     } finally {
       this.stopLoading();
     }
@@ -97,11 +113,13 @@ class AuthForm extends PureComponent<AuthFormProps, AuthFormState> {
 
   resetPassword = async () => {
     const { email } = this.state;
+    this.clearError();
     this.startLoading();
     try {
       await this.Service.resetPassword(email);
     } catch (e) {
       console.log(e);
+      this.setError();
     } finally {
       this.stopLoading();
     }
@@ -129,189 +147,210 @@ class AuthForm extends PureComponent<AuthFormProps, AuthFormState> {
 
   stopLoading = () => this.setState({ isLoading: false });
 
-  goToRegisterTab = () => this.setState({ currentState: AUTH_FORM_STATES.SIGN_UP });
+  goToRegisterTab = () =>
+    this.setState({
+      currentState: AUTH_FORM_STATES.SIGN_UP,
+      isError: false
+    });
 
-  goToSigninTab = () => this.setState({ currentState: AUTH_FORM_STATES.SIGN_IN });
+  goToSigninTab = () =>
+    this.setState({
+      currentState: AUTH_FORM_STATES.SIGN_IN,
+      isError: false
+    });
 
-  goToResetTab = () => this.setState({ currentState: AUTH_FORM_STATES.RESET });
+  goToResetTab = () =>
+    this.setState({
+      currentState: AUTH_FORM_STATES.RESET,
+      isError: false
+    });
 
-  goToRecoveryTab = () => this.setState({ currentState: AUTH_FORM_STATES.RECOVERY });
+  goToRecoveryTab = () =>
+    this.setState({
+      currentState: AUTH_FORM_STATES.RECOVERY,
+      isError: false
+    });
 
   render() {
-    const { currentState, email, password, name, newPassword, url, isLoading } = this.state;
+    const { currentState, email, password, name, newPassword, url, isLoading, isError } = this.state;
 
     return (
-      <div className="auth-form">
-        <div className="auth-form__header">
-          <img className="auth-form__logo" src={logoIcon} alt="" />
-        </div>
-        <div className="auth-form__main">
-          {
+      <div className="container">
+        <div className="auth-form">
+          <div className="auth-form__header">
+            <img className="auth-form__logo" src={logoIcon} alt="" />
+          </div>
+          <div className="auth-form__main">
             {
-              [AUTH_FORM_STATES.SIGN_IN]: (
-                <>
-                  <div className="auth-form__tabs">
-                    <button className="tab active" href="1" type="button">
-                      Вход с паролем
-                    </button>
-                    <button className="tab" href="1" onClick={this.goToRegisterTab} type="button">
-                      Регистрация
-                    </button>
-                  </div>
-                  <form className="secret__key-auth login-form">
-                    <div className="login-form__input-container">
-                      <input
-                        className="login-form__input login-form__input--email"
-                        placeholder="Электронная почта"
-                        value={email}
-                        onChange={this.handleEmailInput}
-                      />
-                      <span className="login-form__message">errormsg</span>
+              {
+                [AUTH_FORM_STATES.SIGN_IN]: (
+                  <>
+                    <div className="auth-form__tabs">
+                      <button className="tab active" href="1" type="button">
+                        Вход с паролем
+                      </button>
+                      <button className="tab" href="1" onClick={this.goToRegisterTab} type="button">
+                        Регистрация
+                      </button>
                     </div>
-                    <div className="login-form__input-container">
-                      <input
-                        className="login-form__input login-form__input--password"
-                        placeholder="Пароль"
-                        value={password}
-                        onChange={this.handlePasswordInput}
+                    <form className="secret__key-auth login-form" onSubmit={this.login}>
+                      <div className="login-form__input-container">
+                        <input
+                          className="login-form__input login-form__input--email"
+                          placeholder="Электронная почта"
+                          value={email}
+                          onChange={this.handleEmailInput}
+                        />
+                      </div>
+                      <div className="login-form__input-container">
+                        <input
+                          className="login-form__input login-form__input--password"
+                          placeholder="Пароль"
+                          value={password}
+                          onChange={this.handlePasswordInput}
+                          type="password"
+                        />
+                        {isError ? <span className="login-form__message">Credentials error</span> : null}
+                      </div>
+                      <Button
+                        type="submit"
+                        text="Войти"
+                        modWidth="width-full"
+                        modHeight="height-big"
+                        modStyle="filled"
+                        modColor="color-main"
+                        callback={this.login}
+                        disabled={isLoading}
                       />
-                      <span className="login-form__message">errormsg</span>
+                      <Button
+                        text="Я забыл пароль"
+                        modStyle="simple"
+                        modColor="color-main"
+                        callback={this.goToRecoveryTab}
+                      />
+                    </form>
+                  </>
+                ),
+                [AUTH_FORM_STATES.SIGN_UP]: (
+                  <>
+                    <div className="auth-form__tabs">
+                      <button className="tab" href="1" onClick={this.goToSigninTab} type="button">
+                        Вход с паролем
+                      </button>
+                      <button className="tab active" href="1" type="button">
+                        Регистрация
+                      </button>
                     </div>
+                    <form className="secret__key-auth login-form" onSubmit={this.signUp}>
+                      <div className="login-form__input-container">
+                        <input
+                          className="login-form__input login-form__input--email"
+                          placeholder="Электронная почта"
+                          value={email}
+                          onChange={this.handleEmailInput}
+                        />
+                        {isError ? <span className="login-form__message">Check email</span> : null}
+                      </div>
+                      <div className="login-form__input-container">
+                        <input
+                          className="login-form__input login-form__input--org-name"
+                          placeholder="Название организации"
+                          value={name}
+                          onChange={this.handleNameInput}
+                        />
+                        {isError ? <span className="login-form__message">Check organization name</span> : null}
+                      </div>
+                      <div className="login-form__input-container">
+                        <input
+                          className="login-form__input login-form__input--site"
+                          placeholder="Сайт организации"
+                          value={url}
+                          onChange={this.handleUrlInput}
+                        />
+                        {isError ? <span className="login-form__message">Check website</span> : null}
+                      </div>
+                      <div className="login-form__input-container">
+                        <input
+                          className="login-form__input login-form__input--password"
+                          placeholder="Пароль"
+                          value={password}
+                          onChange={this.handlePasswordInput}
+                          type="password"
+                        />
+                        {isError ? <span className="login-form__message">Check password</span> : null}
+                      </div>
+                      <Button
+                        type="submit"
+                        text="Зарегистрироваться"
+                        modWidth="width-full"
+                        modHeight="height-big"
+                        modStyle="filled"
+                        modColor="color-main"
+                        callback={this.signUp}
+                        disabled={isLoading}
+                      />
+                    </form>
+                  </>
+                ),
+                [AUTH_FORM_STATES.RESET]: (
+                  <>
+                    <p className="auth-form__title">Создание нового пароля</p>
+                    <form className="login-form">
+                      <div className="login-form__input-container">
+                        <input
+                          className="login-form__input login-form__input--password"
+                          placeholder="Новый пароль"
+                          value={newPassword}
+                          onChange={this.handleNewPasswordInput}
+                        />
+                        {isError ? <span className="login-form__message">Check password</span> : null}
+                      </div>
+                      <Button
+                        text="Сохранить"
+                        modWidth="width-full"
+                        modHeight="height-big"
+                        modStyle="filled"
+                        modColor="color-main"
+                        callback={this.setNewPassword}
+                        disabled={isLoading}
+                      />
+                    </form>
+                  </>
+                ),
+                [AUTH_FORM_STATES.RECOVERY]: (
+                  <>
                     <Button
-                      text="Войти"
-                      modWidth="width-full"
-                      modHeight="height-big"
-                      modStyle="filled"
+                      callback={this.goToSigninTab}
+                      text="Вернуться назад"
+                      modStyle="arrow-back"
                       modColor="color-main"
-                      callback={this.login}
-                      disabled={isLoading}
                     />
-                    <Button
-                      text="Я забыл пароль"
-                      modStyle="simple"
-                      modColor="color-main"
-                      callback={this.goToRecoveryTab}
-                    />
-                  </form>
-                </>
-              ),
-              [AUTH_FORM_STATES.SIGN_UP]: (
-                <>
-                  <div className="auth-form__tabs">
-                    <button className="tab" href="1" onClick={this.goToSigninTab} type="button">
-                      Вход с паролем
-                    </button>
-                    <button className="tab active" href="1" type="button">
-                      Регистрация
-                    </button>
-                  </div>
-                  <form className="secret__key-auth login-form">
-                    <div className="login-form__input-container">
-                      <input
-                        className="login-form__input login-form__input--email"
-                        placeholder="Электронная почта"
-                        value={email}
-                        onChange={this.handleEmailInput}
+                    <p className="auth-form__title">Восстановление пароля</p>
+                    <form className="login-form">
+                      <div className="login-form__input-container">
+                        <input
+                          className="login-form__input login-form__input--email"
+                          placeholder="Электронная почта"
+                          value={email}
+                          onChange={this.handleEmailInput}
+                        />
+                        {isError ? <span className="login-form__message">Check email</span> : null}
+                      </div>
+                      <Button
+                        text="Отправить"
+                        modWidth="width-full"
+                        modHeight="height-big"
+                        modStyle="filled"
+                        modColor="color-main"
+                        callback={this.resetPassword}
+                        disabled={isLoading}
                       />
-                      <span className="login-form__message">errormsg</span>
-                    </div>
-                    <div className="login-form__input-container">
-                      <input
-                        className="login-form__input login-form__input--org-name"
-                        placeholder="Название организации"
-                        value={name}
-                        onChange={this.handleNameInput}
-                      />
-                      <span className="login-form__message">errormsgsdfdsf</span>
-                    </div>
-                    <div className="login-form__input-container">
-                      <input
-                        className="login-form__input login-form__input--site"
-                        placeholder="Сайт организации"
-                        value={url}
-                        onChange={this.handleUrlInput}
-                      />
-                      <span className="login-form__message">errormsg</span>
-                    </div>
-                    <div className="login-form__input-container">
-                      <input
-                        className="login-form__input login-form__input--password"
-                        placeholder="Пароль"
-                        value={password}
-                        onChange={this.handlePasswordInput}
-                      />
-                      <span className="login-form__message">errormsg</span>
-                    </div>
-                    <Button
-                      text="Зарегистрироваться"
-                      modWidth="width-full"
-                      modHeight="height-big"
-                      modStyle="filled"
-                      modColor="color-main"
-                      callback={this.signUp}
-                      disabled={isLoading}
-                    />
-                  </form>
-                </>
-              ),
-              [AUTH_FORM_STATES.RESET]: (
-                <>
-                  <p className="auth-form__title">Создание нового пароля</p>
-                  <form className="login-form">
-                    <div className="login-form__input-container">
-                      <input
-                        className="login-form__input login-form__input--password"
-                        placeholder="Новый пароль"
-                        value={newPassword}
-                        onChange={this.handleNewPasswordInput}
-                      />
-                      <span className="login-form__message">errormsg</span>
-                    </div>
-                    <Button
-                      text="Сохранить"
-                      modWidth="width-full"
-                      modHeight="height-big"
-                      modStyle="filled"
-                      modColor="color-main"
-                      callback={this.setNewPassword}
-                      disabled={isLoading}
-                    />
-                  </form>
-                </>
-              ),
-              [AUTH_FORM_STATES.RECOVERY]: (
-                <>
-                  <Button
-                    callback={this.goToSigninTab}
-                    text="Вернуться назад"
-                    modStyle="arrow-back"
-                    modColor="color-main"
-                  />
-                  <p className="auth-form__title">Восстановление пароля</p>
-                  <form className="login-form">
-                    <div className="login-form__input-container">
-                      <input
-                        className="login-form__input login-form__input--email"
-                        placeholder="Электронная почта"
-                        value={email}
-                        onChange={this.handleEmailInput}
-                      />
-                      <span className="login-form__message">errormsg</span>
-                    </div>
-                    <Button
-                      text="Отправить"
-                      modWidth="width-full"
-                      modHeight="height-big"
-                      modStyle="filled"
-                      modColor="color-main"
-                      callback={this.resetPassword}
-                      disabled={isLoading}
-                    />
-                  </form>
-                </>
-              )
-            }[currentState]
-          }
+                    </form>
+                  </>
+                )
+              }[currentState]
+            }
+          </div>
         </div>
       </div>
     );

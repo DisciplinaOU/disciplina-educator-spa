@@ -15,6 +15,11 @@ export class Message extends PureComponent<MessageProps> {
     buttonText: ""
   };
 
+  goToAuth = () => {
+    window.history.replaceState(null, null, window.location.pathname);
+    window.location.pathname = "/auth";
+  };
+
   render() {
     const { img, title, text, buttonText = "" } = this.props;
     return (
@@ -29,7 +34,7 @@ export class Message extends PureComponent<MessageProps> {
             modHeight="height-big"
             modStyle="filled"
             modColor="color-main"
-            callback={() => {}}
+            callback={this.goToAuth}
           />
         ) : null}
       </div>
