@@ -72,8 +72,8 @@ class AuthForm extends PureComponent<AuthFormProps, AuthFormState> {
     try {
       await this.Service.login(email, password);
       history.push("/faircv");
-    } catch (e) {
-      console.log(e);
+    } catch (loginError) {
+      console.log(loginError);
       this.setError();
     } finally {
       this.stopLoading();
@@ -89,8 +89,8 @@ class AuthForm extends PureComponent<AuthFormProps, AuthFormState> {
     try {
       await this.Service.createUser(email, name, url, password);
       history.push("/auth/check_email");
-    } catch (e) {
-      console.log(e);
+    } catch (signupError) {
+      console.log(signupError);
       this.setError();
     } finally {
       this.stopLoading();
@@ -99,11 +99,13 @@ class AuthForm extends PureComponent<AuthFormProps, AuthFormState> {
 
   setNewPassword = async () => {
     const { newPassword, token } = this.state;
+    this.clearError();
     this.startLoading();
     try {
       await this.Service.createPassword(newPassword, token);
     } catch (e) {
       console.log(e);
+      this.setError();
     } finally {
       this.stopLoading();
     }
@@ -111,11 +113,13 @@ class AuthForm extends PureComponent<AuthFormProps, AuthFormState> {
 
   resetPassword = async () => {
     const { email } = this.state;
+    this.clearError();
     this.startLoading();
     try {
       await this.Service.resetPassword(email);
     } catch (e) {
       console.log(e);
+      this.setError();
     } finally {
       this.stopLoading();
     }
