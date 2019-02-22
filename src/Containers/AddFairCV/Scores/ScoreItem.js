@@ -1,5 +1,5 @@
 // @flow
-import React, { memo, useState, useEffect } from "react";
+import React, { memo, useState } from "react";
 import type { ScoresDataType } from "./index";
 import RegularInput from "../../../Common/Components/RegularInput";
 import DropDownInput from "../../../Common/Components/DropDownInput";
