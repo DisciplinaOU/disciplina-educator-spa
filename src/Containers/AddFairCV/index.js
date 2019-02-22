@@ -1,5 +1,5 @@
 // @flow
-import React, { PureComponent } from "react";
+import * as React from "react";
 import "./styles.scss";
 import DatePicker, { registerLocale, setDefaultLocale } from "react-datepicker";
 import ru from "date-fns/locale/ru";
@@ -12,6 +12,7 @@ import FaircvService from "../../Services/faircv";
 import "react-datepicker/dist/react-datepicker.css";
 import type { ScoresDataType } from "./Scores";
 import Modal from "./Modal";
+import iconCalendar from "../../Common/Assets/icons/calendar-icon.svg";
 
 type EducationFormEnum = "очная" | "заочная" | "очно-заочная";
 
@@ -47,7 +48,11 @@ const clearModalState = {
   cancel: () => mockFn()
 };
 
-export class AddFairCV extends PureComponent<AddFairCVProps, AddFairCVState> {
+export class AddFairCV extends React.PureComponent<AddFairCVProps, AddFairCVState> {
+  _dataPickerBirthElement: React.ElementRef<any> = React.createRef();
+
+  _dataPickerDiplomElement: React.ElementRef<any> = React.createRef();
+
   state = {
     grades: [],
     studentName: "",
@@ -109,6 +114,22 @@ export class AddFairCV extends PureComponent<AddFairCVProps, AddFairCVState> {
         cancel: () => this.closeModal()
       }
     });
+
+  getDataPickerBirthRef = (node: any) => {
+    this._dataPickerBirthElement = node;
+  };
+
+  getDataPickerDiplomRef = (node: any) => {
+    this._dataPickerDiplomElement = node;
+  };
+
+  openDataPickerBirthDate = () => {
+    this._dataPickerBirthElement.setOpen(true);
+  };
+
+  openDataPickerDiplomDate = () => {
+    this._dataPickerDiplomElement.setOpen(true);
+  };
 
   closeModal = () => this.setState({ modal: clearModalState });
 
@@ -217,13 +238,22 @@ export class AddFairCV extends PureComponent<AddFairCVProps, AddFairCVState> {
                     width="full-width"
                     dispatchValue={this.handleStudentName}
                   />
-                  <div className="input data-input">
+                  <div className="input data-input data-input--calendar">
                     <label className="data-input__label">Дата рождения</label>
-                    <DatePicker
-                      selected={studentBirthDate}
-                      onChange={this.handleStudentBirthDate}
-                      dateFormat="yyyy-MM-dd"
-                    />
+                    <div className="data-input__wrapper">
+                      <DatePicker
+                        selected={studentBirthDate}
+                        onChange={this.handleStudentBirthDate}
+                        dateFormat="yyyy-MM-dd"
+                        ref={this.getDataPickerBirthRef}
+                      />
+                      <img
+                        className="data-input__icon"
+                        src={iconCalendar}
+                        onClick={this.openDataPickerBirthDate}
+                        alt=""
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
@@ -263,9 +293,22 @@ export class AddFairCV extends PureComponent<AddFairCVProps, AddFairCVState> {
                     width="full-width"
                     dispatchValue={this.handleNumber}
                   />
-                  <div className="input data-input">
+                  <div className="input data-input data-input--calendar">
                     <label className="data-input__label">Дата выдачи</label>
-                    <DatePicker selected={issueDate} onChange={this.handleIssueDate} dateFormat="yyyy-MM-dd" />
+                    <div className="data-input__wrapper">
+                      <DatePicker
+                        selected={issueDate}
+                        onChange={this.handleIssueDate}
+                        dateFormat="yyyy-MM-dd"
+                        ref={this.getDataPickerDiplomRef}
+                      />
+                      <img
+                        className="data-input__icon"
+                        src={iconCalendar}
+                        onClick={this.openDataPickerDiplomDate}
+                        alt=""
+                      />
+                    </div>
                   </div>
                 </div>
                 <RegularInput
