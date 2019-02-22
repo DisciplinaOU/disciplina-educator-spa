@@ -88,7 +88,7 @@ class FaircvList extends PureComponent<FaircvListProps, FaircvListState> {
     }
   };
 
-  makeCertId(hash: string): string {
+  makeCertId = (hash: string): string => {
     const token = localStorage.getItem("token");
     if (token) {
       const baseEducatorData = token.split(".")[1];
@@ -97,7 +97,7 @@ class FaircvList extends PureComponent<FaircvListProps, FaircvListState> {
       return base64url.encode(`${educator.data.id}:${hash}`);
     }
     return "";
-  }
+  };
 
   render() {
     const { currentPage, searchInput, data } = this.state;
