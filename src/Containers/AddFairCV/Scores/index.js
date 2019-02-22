@@ -9,7 +9,8 @@ export type ScoresDataType = {
   lang: string,
   hours: ?number,
   credits: ?number,
-  grade: ?string
+  grade: ?string,
+  scale?: string
 };
 
 type ScoresProps = {
