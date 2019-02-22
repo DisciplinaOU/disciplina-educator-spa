@@ -26,6 +26,7 @@ build:
   only:
     - master
     - develop
+    - feature/rc1
 
 deploy:
   stage: deploy
@@ -37,6 +38,8 @@ deploy:
     - export AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_STAGE
     - export S3_BUCKET_NAME=$S3_BUCKET_NAME_STAGE
     - export CFN_DISTRIBUTION_ID=$CFN_DISTRIBUTION_ID_STAGE
+    - export REACT_APP_AAA=$REACT_APP_AAA
+    - export REACT_APP_EDUCATOR=$REACT_APP_EDUCATOR
     - pip install awscli --upgrade --user
     - export PATH=~/.local/bin:$PATH
     - aws s3 sync --delete build/ s3://$S3_BUCKET_NAME/
@@ -47,3 +50,4 @@ deploy:
   only:
     - master
     - develop
+    - feature/rc1
