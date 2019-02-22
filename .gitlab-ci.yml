@@ -26,7 +26,6 @@ build:
   only:
     - master
     - develop
-    - feature/rc1
 
 deploy:
   stage: deploy
@@ -50,4 +49,3 @@ deploy:
   only:
     - master
     - develop
-    - feature/rc1
