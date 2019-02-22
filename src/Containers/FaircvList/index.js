@@ -1,5 +1,6 @@
 // @flow
 import React, { PureComponent } from "react";
+import base64url from "base64url";
 import "./styles.scss";
 import Button from "../../Common/Components/Button";
 import RegularInput from "../../Common/Components/RegularInput";
@@ -73,30 +74,33 @@ class FaircvList extends PureComponent<FaircvListProps, FaircvListState> {
     return arr;
   };
 
-  // downloadPdf = async (id: string) => {
-  //   const pdf = await FaircvService.get(id);
-  //   const downloadLink = document.createElement("a");
-  //   downloadLink.target = "_blank";
-  //   downloadLink.download = "name_to_give_saved_file.pdf";
-  //
-  //   const blob = new Blob([pdf.data], { type: "application/pdf" });
-  //
-  //   const URL = window.URL || window.webkitURL;
-  //   const downloadUrl = URL.createObjectURL(blob);
-  //
-  //   downloadLink.href = downloadUrl;
-  //   if (document.body) {
-  //     document.body.appendChild(downloadLink);
-  //
-  //     downloadLink.click();
-  //
-  //     document.body.removeChild(downloadLink);
-  //     URL.revokeObjectURL(downloadUrl);
-  //   }
-  // };
+  downloadPdf = async (id: string) => {
+    const downloadLink = document.createElement("a");
+    downloadLink.target = "_blank";
+    downloadLink.download = "certificate.pdf";
+
+    const downloadUrl = `/cert/${this.makeCertId(id)}.pdf`;
+
+    downloadLink.href = downloadUrl;
+    if (document.body) {
+      document.body.appendChild(downloadLink);
+      downloadLink.click();
+    }
+  };
+
+  makeCertId(hash: string): string {
+    const token = localStorage.getItem("token");
+    if (token) {
+      const baseEducatorData = token.split(".")[1];
+      const decodedEducatorData = base64url.decode(baseEducatorData);
+      const educator = JSON.parse(decodedEducatorData.toString());
+      return base64url.encode(`${educator.data.id}:${hash}`);
+    }
+    return "";
+  }
 
   render() {
-    const { currentPage, searchInput } = this.state;
+    const { currentPage, searchInput, data } = this.state;
     const isDesktop = document.documentElement && document.documentElement.clientWidth >= 768;
     const searchPlaceholder = isDesktop ? "Введите имя студента или номер диплома" : "Поиск";
     const filteredArray = this.liveSearchArray(searchInput);
@@ -115,7 +119,7 @@ class FaircvList extends PureComponent<FaircvListProps, FaircvListState> {
             callback={this.createFairHandler}
           />
         </div>
-        {normalizedArray.length ? (
+        {data.length ? (
           <>
             <form className="faircv-list__search">
               <RegularInput
@@ -142,7 +146,7 @@ class FaircvList extends PureComponent<FaircvListProps, FaircvListState> {
                     modHeight="height-small"
                     modStyle="empty"
                     modColor="color-main"
-                    callback={() => {}}
+                    callback={() => this.downloadPdf(item.id)}
                   />
                 </li>
               ))}
