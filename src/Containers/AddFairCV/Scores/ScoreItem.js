@@ -1,5 +1,5 @@
 // @flow
-import React, { memo, useState } from "react";
+import React, { memo, useState, useEffect } from "react";
 import type { ScoresDataType } from "./index";
 import RegularInput from "../../../Common/Components/RegularInput";
 import DropDownInput from "../../../Common/Components/DropDownInput";
@@ -21,6 +21,7 @@ export const ScoreItem = (props: ScoreItemProps) => {
   const [credits, setCredits] = useState((scoreData && scoreData.credits) || "");
   const [grade, setGrade] = useState((scoreData && scoreData.grade) || "");
   const [isEditMode, setEditMode] = useState(isNewScore);
+  const [isScoresSaveAvailable, setScoresAvailable] = useState(true);
   const enableEditMode = () => setEditMode(true);
   const clearInputs = () => {
     setGrade("");
@@ -29,13 +30,28 @@ export const ScoreItem = (props: ScoreItemProps) => {
     setLanguage("");
     setSubject("");
   };
+
+  const checkScoreSaveAvailable = () => subject.length && lang.length && hours.length && credits.length && grade.length;
+
   const addNewScore = () => {
-    dispatchScore({ subject, lang, hours: +hours, credits: +credits, grade });
-    clearInputs();
+    setScoresAvailable(true);
+    const isAvailable = checkScoreSaveAvailable();
+    if (isAvailable) {
+      dispatchScore({ subject, lang, hours: +hours, credits: +credits, grade });
+      clearInputs();
+    } else {
+      setScoresAvailable(false);
+    }
   };
   const updateScore = () => {
-    dispatchScore({ subject, lang, hours: +hours, credits: +credits, grade }, scoreIndex);
-    setEditMode(false);
+    setScoresAvailable(true);
+    const isAvailable = checkScoreSaveAvailable();
+    if (isAvailable) {
+      dispatchScore({ subject, lang, hours: +hours, credits: +credits, grade }, scoreIndex);
+      setEditMode(false);
+    } else {
+      setScoresAvailable(false);
+    }
   };
 
   const handleRemove = () => remove(scoreIndex);
@@ -44,6 +60,9 @@ export const ScoreItem = (props: ScoreItemProps) => {
     <div className="table__row table__form">
       <div className="table__item table__item--course">
         <RegularInput value={subject} dispatchValue={setSubject} />
+        {!isScoresSaveAvailable ? (
+          <span className="login-form__message login-form__message--scores">Fill all inputs</span>
+        ) : null}
       </div>
       <div className="table__item table__item--lang">
         <DropDownInput selectedValue={lang} list={["en", "ru"]} callback={setLanguage} />
