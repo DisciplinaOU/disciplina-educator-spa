@@ -183,19 +183,19 @@ export class AddFairCV extends React.PureComponent<AddFairCVProps, AddFairCVStat
     for (let i = 0; i < grades.length; i++) {
       // i could make switch, but i'v already committed this =]
       if (grades[i].grade === "отлично") {
-        grades[i].grade = "100";
+        grades[i].grade = 100;
         grades[i].scale = "rusDiff";
       }
       if (grades[i].grade === "хорошо") {
-        grades[i].grade = "80";
+        grades[i].grade = 80;
         grades[i].scale = "rusDiff";
       }
       if (grades[i].grade === "удовлетворительно") {
-        grades[i].grade = "60";
+        grades[i].grade = 60;
         grades[i].scale = "rusDiff";
       }
       if (grades[i].grade === "зачет") {
-        grades[i].grade = "100";
+        grades[i].grade = 100;
         grades[i].scale = "rusNonDiff";
       }
     }

@@ -11,6 +11,8 @@ type EducationForm = "fulltime" | "parttime";
 
 type Language = "en" | "ru";
 
+type GradingScale = "rusDiff" | "rusNonDiff";
+
 export type Educator = {
   id?: number,
   email: string,
@@ -49,6 +51,7 @@ export type Grades = {
   lan: Language,
   hours: number,
   credits: number,
+  scale: GradingScale,
   grade: number
 };
 
