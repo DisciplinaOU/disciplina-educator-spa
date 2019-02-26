@@ -1,5 +1,6 @@
 // @flow
 import * as React from "react";
+import base64url from "base64url";
 import "./styles.scss";
 import DatePicker, { registerLocale, setDefaultLocale } from "react-datepicker";
 import ru from "date-fns/locale/ru";
@@ -100,7 +101,7 @@ export class AddFairCV extends React.PureComponent<AddFairCVProps, AddFairCVStat
     this.setState({
       modal: {
         state: "SUCCESS",
-        submit: async () => this.downloadCert(id),
+        submit: async () => await this.downloadPdf(id),
         cancel: () => this.goToListHandler()
       }
     });
@@ -133,7 +134,31 @@ export class AddFairCV extends React.PureComponent<AddFairCVProps, AddFairCVStat
 
   closeModal = () => this.setState({ modal: clearModalState });
 
-  downloadCert = async (id: string) => FaircvService.get(id);
+  downloadPdf = async (id: string) => {
+    const downloadLink = document.createElement("a");
+    downloadLink.target = "_blank";
+    downloadLink.download = "certificate.pdf";
+
+    const API_URL = process.env.REACT_APP_EDUCATOR;
+    const downloadUrl = `${API_URL}/api/certificates/v1/cert/${this.makeCertId(id)}.pdf`;
+
+    downloadLink.href = downloadUrl;
+    if (document.body) {
+      document.body.appendChild(downloadLink);
+      downloadLink.click();
+    }
+  };
+
+  makeCertId = (hash: string): string => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      const baseEducatorData = token.split(".")[1];
+      const decodedEducatorData = base64url.decode(baseEducatorData);
+      const educator = JSON.parse(decodedEducatorData.toString());
+      return base64url.encode(`${educator.data.id}:${hash}`);
+    }
+    return "";
+  };
 
   handleStudentName = (v: string) => this.setState({ studentName: v });
 
