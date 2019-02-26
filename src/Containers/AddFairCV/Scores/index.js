@@ -92,8 +92,8 @@ export class Scores extends PureComponent<ScoresProps, ScoresState> {
               <div className="table__item table__item--hours">Часов</div>
               <div className="table__item table__item--credits">ECTS credits</div>
               <div className="table__item table__item--score">Оценка</div>
-              <div className="table__item table__item--button">&nbsp;</div>
-              <div className="table__item table__item--button">&nbsp;</div>
+              <div className="table__item table__item--button table__item--button-edit">&nbsp;</div>
+              <div className="table__item table__item--button table__item--button-remove">&nbsp;</div>
             </div>
             {data.length
               ? data.map((item, index) => (
