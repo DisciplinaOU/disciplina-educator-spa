@@ -92,7 +92,7 @@
 
       .table__item--score {
         flex-basis: 232px;
-        margin-right: 40px;
+        margin-right: 72px;
       }
 
       .table__item--course {
@@ -131,13 +131,6 @@
           }
         }
 
-        .table__item--course {
-          flex-basis: calc(100% - 80px);
-          order: 1;
-          font-weight: 500;
-          margin-bottom: 10px;
-        }
-
         .table__item--button-edit {
           order: 2;
           margin-top: 4px;
@@ -173,9 +166,16 @@
           }
         }
 
+        .table__item--course {
+          flex-basis: calc(100% - 80px);
+          order: 1;
+          font-weight: 500;
+          margin-bottom: 10px;
+        }
+
         .table__item--score {
           order: 7;
-          flex-basis: 150px;
+          flex-basis: 184px;
 
           &:before {
             content: 'Оценка';
@@ -206,6 +206,8 @@
           }
 
           .table__item--course {
+            margin-right: 0;
+
             &:before {
               content: 'Курс';
             }
