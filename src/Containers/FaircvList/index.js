@@ -79,7 +79,7 @@ class FaircvList extends PureComponent<FaircvListProps, FaircvListState> {
     downloadLink.target = "_blank";
     downloadLink.download = "certificate.pdf";
 
-    const API_URL = process.env.REACT_APP_EDUCATOR;
+    const API_URL = process.env.REACT_APP_EDUCATOR || "";
     const downloadUrl = `${API_URL}/api/certificates/v1/cert/${this.makeCertId(id)}.pdf`;
 
     downloadLink.href = downloadUrl;

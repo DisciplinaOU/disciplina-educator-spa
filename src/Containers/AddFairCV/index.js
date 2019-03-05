@@ -101,7 +101,7 @@ export class AddFairCV extends React.PureComponent<AddFairCVProps, AddFairCVStat
     this.setState({
       modal: {
         state: "SUCCESS",
-        submit: async () => await this.downloadPdf(id),
+        submit: async () => this.downloadPdf(id),
         cancel: () => this.goToListHandler()
       }
     });
@@ -139,7 +139,7 @@ export class AddFairCV extends React.PureComponent<AddFairCVProps, AddFairCVStat
     downloadLink.target = "_blank";
     downloadLink.download = "certificate.pdf";
 
-    const API_URL = process.env.REACT_APP_EDUCATOR;
+    const API_URL = process.env.REACT_APP_EDUCATOR || "";
     const downloadUrl = `${API_URL}/api/certificates/v1/cert/${this.makeCertId(id)}.pdf`;
 
     downloadLink.href = downloadUrl;
@@ -182,8 +182,8 @@ export class AddFairCV extends React.PureComponent<AddFairCVProps, AddFairCVStat
 
   _formatDate = (date: Date) => {
     const y = date.getFullYear();
-    const m = date.getMonth();
-    const d = date.getDay();
+    const m = date.getMonth() + 1;
+    const d = date.getDate();
     return `${y}-${m < 10 ? `0${m}` : m}-${d < 10 ? `0${d}` : d}`;
   };
 
@@ -205,23 +205,29 @@ export class AddFairCV extends React.PureComponent<AddFairCVProps, AddFairCVStat
     if (educationForm === "очная") edform = "fulltime";
     if (educationForm === "заочная") edform = "parttime";
     if (educationForm === "очно-заочная") edform = "fullpart";
+
+    const castedGrades: Array<{ grade: number, scale: string }> = ([...grades]: Array<any>);
+
     for (let i = 0; i < grades.length; i++) {
-      // i could make switch, but i'v already committed this =]
-      if (grades[i].grade === "отлично") {
-        grades[i].grade = 100;
-        grades[i].scale = "rusDiff";
-      }
-      if (grades[i].grade === "хорошо") {
-        grades[i].grade = 80;
-        grades[i].scale = "rusDiff";
-      }
-      if (grades[i].grade === "удовлетворительно") {
-        grades[i].grade = 60;
-        grades[i].scale = "rusDiff";
-      }
-      if (grades[i].grade === "зачет") {
-        grades[i].grade = 100;
-        grades[i].scale = "rusNonDiff";
+      switch (grades[i].grade) {
+        case "отлично":
+          castedGrades[i].grade = 100;
+          castedGrades[i].scale = "rusDiff";
+          break;
+        case "хорошо":
+          castedGrades[i].grade = 80;
+          castedGrades[i].scale = "rusDiff";
+          break;
+        case "удовлетворительно":
+          castedGrades[i].grade = 60;
+          castedGrades[i].scale = "rusDiff";
+          break;
+        case "зачет":
+          castedGrades[i].grade = 100;
+          castedGrades[i].scale = "rusNonDiff";
+          break;
+        default:
+          return false;
       }
     }
     return {
@@ -286,6 +292,8 @@ export class AddFairCV extends React.PureComponent<AddFairCVProps, AddFairCVStat
                     <label className="data-input__label">Дата рождения</label>
                     <div className="data-input__wrapper">
                       <DatePicker
+                        showDisabledYearNavigation
+                        forceShowYearNavigation
                         selected={studentBirthDate}
                         onChange={this.handleStudentBirthDate}
                         dateFormat="yyyy-MM-dd"
