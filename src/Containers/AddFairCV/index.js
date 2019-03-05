@@ -310,6 +310,18 @@ export class AddFairCV extends React.PureComponent<AddFairCVProps, AddFairCVStat
                         onChange={this.handleStudentBirthDate}
                         dateFormat="yyyy-MM-dd"
                         ref={this.getDataPickerBirthRef}
+                        popperPlacement="bottom-start"
+                        popperModifiers={{
+                          flip: {
+                            behavior: ["bottom"]
+                          },
+                          preventOverflow: {
+                            enabled: false
+                          },
+                          hide: {
+                            enabled: false
+                          }
+                        }}
                       />
                       <img
                         className="data-input__icon"
