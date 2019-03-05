@@ -258,18 +258,36 @@
       &__navigation {
         top: 27px;
         border: 0;
-        border-bottom: 2px solid $color-blue;
-        border-right: 2px solid $color-blue;
+        width: 14px;
+        height: 14px;
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: right;
+        // border-bottom: 2px solid $color-blue;
+        // border-right: 2px solid $color-blue;
       }
 
       &__navigation--next {
-        right: 30px;
-        transform: rotate(-45deg);
+        right: 50px;
+        // transform: rotate(-45deg);
+        background-image: url('../../../Common/Assets/icons/arrow-icon.svg');
+      }
+
+      &__navigation--next-year {
+        right: 25px;
+        background-image: url('../../../Common/Assets/icons/double-arrow-icon.svg');
       }
 
       &__navigation--previous {
-        left: 30px;
-        transform: rotate(135deg);
+        left: 50px;
+        background-image: url('../../../Common/Assets/icons/arrow-icon.svg');
+        transform: rotate(180deg);
+      }
+
+      &__navigation--previous-year {
+        left: 25px;
+        background-image: url('../../../Common/Assets/icons/double-arrow-icon.svg');
+        transform: rotate(180deg);
       }
 
       &__month {
