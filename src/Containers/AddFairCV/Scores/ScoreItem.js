@@ -125,7 +125,7 @@ ScoreItem.defaultProps = {
     lang: "",
     hours: null,
     credits: null,
-    grade: null,
+    grade: "",
     scale: ""
   },
   scoreIndex: -1
