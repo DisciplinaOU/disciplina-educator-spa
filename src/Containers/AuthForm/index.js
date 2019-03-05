@@ -196,7 +196,11 @@ class AuthForm extends PureComponent<AuthFormProps, AuthFormState> {
                     <form className="secret__key-auth login-form" onSubmit={this.login}>
                       <div className="login-form__input-container">
                         <input
-                          className="login-form__input login-form__input--email"
+                          className={`
+                            login-form__input
+                            login-form__input--email
+                            ${email ? "login-form__input--filled" : ""}
+                          `}
                           placeholder="Электронная почта"
                           value={email}
                           onChange={this.handleEmailInput}
@@ -204,7 +208,11 @@ class AuthForm extends PureComponent<AuthFormProps, AuthFormState> {
                       </div>
                       <div className="login-form__input-container">
                         <input
-                          className="login-form__input login-form__input--password"
+                          className={`
+                            login-form__input
+                            login-form__input--password
+                            ${password ? "login-form__input--filled" : ""}
+                          `}
                           placeholder="Пароль"
                           value={password}
                           onChange={this.handlePasswordInput}
@@ -244,7 +252,11 @@ class AuthForm extends PureComponent<AuthFormProps, AuthFormState> {
                     <form className="secret__key-auth login-form" onSubmit={this.signUp}>
                       <div className="login-form__input-container">
                         <input
-                          className="login-form__input login-form__input--email"
+                          className={`
+                            login-form__input
+                            login-form__input--email
+                            ${email ? "login-form__input--filled" : ""}
+                          `}
                           placeholder="Электронная почта"
                           value={email}
                           onChange={this.handleEmailInput}
@@ -253,7 +265,11 @@ class AuthForm extends PureComponent<AuthFormProps, AuthFormState> {
                       </div>
                       <div className="login-form__input-container">
                         <input
-                          className="login-form__input login-form__input--org-name"
+                          className={`
+                            login-form__input
+                            login-form__input--org-name
+                            ${name ? "login-form__input--filled" : ""}
+                          `}
                           placeholder="Название организации"
                           value={name}
                           onChange={this.handleNameInput}
@@ -262,7 +278,11 @@ class AuthForm extends PureComponent<AuthFormProps, AuthFormState> {
                       </div>
                       <div className="login-form__input-container">
                         <input
-                          className="login-form__input login-form__input--site"
+                          className={`
+                            login-form__input
+                            login-form__input--site
+                            ${url ? "login-form__input--filled" : ""}
+                          `}
                           placeholder="Сайт организации"
                           value={url}
                           onChange={this.handleUrlInput}
@@ -271,7 +291,11 @@ class AuthForm extends PureComponent<AuthFormProps, AuthFormState> {
                       </div>
                       <div className="login-form__input-container">
                         <input
-                          className="login-form__input login-form__input--password"
+                          className={`
+                            login-form__input
+                            login-form__input--password
+                            ${password ? "login-form__input--filled" : ""}
+                          `}
                           placeholder="Пароль"
                           value={password}
                           onChange={this.handlePasswordInput}
@@ -298,7 +322,11 @@ class AuthForm extends PureComponent<AuthFormProps, AuthFormState> {
                     <form className="login-form">
                       <div className="login-form__input-container">
                         <input
-                          className="login-form__input login-form__input--password"
+                          className={`
+                            login-form__input
+                            login-form__input--password
+                            ${newPassword ? "login-form__input--filled" : ""}
+                          `}
                           placeholder="Новый пароль"
                           value={newPassword}
                           onChange={this.handleNewPasswordInput}
@@ -329,7 +357,11 @@ class AuthForm extends PureComponent<AuthFormProps, AuthFormState> {
                     <form className="login-form">
                       <div className="login-form__input-container">
                         <input
-                          className="login-form__input login-form__input--email"
+                          className={`
+                            login-form__input
+                            login-form__input--email
+                            ${email ? "login-form__input--filled" : ""}
+                          `}
                           placeholder="Электронная почта"
                           value={email}
                           onChange={this.handleEmailInput}
