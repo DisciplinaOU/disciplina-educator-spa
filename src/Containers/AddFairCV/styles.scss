@@ -175,6 +175,10 @@
     .input-education-start {
       margin-bottom: 16px;
     }
+
+    .input-student {
+      margin-right: 0;
+    }
   }
 
   @media screen and (max-width: $mobile) {
@@ -185,10 +189,6 @@
 
     .input-number {
       max-width: none;
-      margin-right: 0;
-    }
-
-    .input-student {
       margin-right: 0;
     }
 

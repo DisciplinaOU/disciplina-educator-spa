@@ -95,6 +95,14 @@
         margin-right: 72px;
       }
 
+      .table__item--lang,
+      .table__item--score {
+        .dropdown-input__list {
+          max-height: auto;
+          overflow-y: auto;
+        }
+      }
+
       .table__item--course {
         padding-right: 0;
       }

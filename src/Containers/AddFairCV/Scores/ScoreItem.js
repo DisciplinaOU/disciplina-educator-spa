@@ -110,10 +110,10 @@ export const ScoreItem = (props: ScoreItemProps) => {
       <div className="table__item table__item--credits">{credits}</div>
       <div className="table__item table__item--score">{grade}</div>
       <div className="table__item table__item--button table__item--button-edit" onClick={enableEditMode}>
-        <span className="btn btn--edit">&nbsp;</span>
+        <span className="btn btn--edit" />
       </div>
       <div className="table__item table__item--button table__item--button-remove" onClick={handleRemove}>
-        <span className="btn btn--remove">&nbsp;</span>
+        <span className="btn btn--remove" />
       </div>
     </div>
   );
