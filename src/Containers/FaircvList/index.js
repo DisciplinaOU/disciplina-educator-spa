@@ -111,7 +111,7 @@ class FaircvList extends PureComponent<FaircvListProps, FaircvListState> {
 
   render() {
     const { currentPage, searchInput, data, isLoading } = this.state;
-    const isDesktop = document.documentElement && document.documentElement.clientWidth >= 768;
+    const isDesktop = window.innerWidth >= 768;
     const searchPlaceholder = isDesktop ? "Введите имя студента или номер диплома" : "Поиск";
     const filteredArray = this.liveSearchArray(searchInput);
     const normalizedArray = [...filteredArray].splice((currentPage - 1) * 10, 10);
