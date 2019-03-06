@@ -36,8 +36,24 @@ export const ScoreItem = (props: ScoreItemProps) => {
     setSubject("");
   };
 
-  const checkScoreSaveAvailable = () =>
-    subject.length && lang.length && hours.toString().length && credits.toString().length && grade.length;
+  const checkIsNumber = value => {
+    const regexp = /^\d+$/;
+    return value.match(regexp);
+  };
+
+  const checkScoreSaveAvailable = () => {
+    const isHoursAvailable = checkIsNumber(hours.toString());
+    const isCreditsAvailable = checkIsNumber(credits.toString());
+    return (
+      subject.length &&
+      lang.length &&
+      hours.toString().length &&
+      credits.toString().length &&
+      grade.length &&
+      isHoursAvailable &&
+      isCreditsAvailable
+    );
+  };
 
   const addNewScore = () => {
     setScoresAvailable(true);
@@ -67,7 +83,7 @@ export const ScoreItem = (props: ScoreItemProps) => {
       <div className="table__item table__item--course">
         <RegularInput value={subject} dispatchValue={setSubject} />
         {!isScoresSaveAvailable ? (
-          <span className="login-form__message login-form__message--scores">Fill all inputs</span>
+          <span className="login-form__message login-form__message--scores">Check all inputs</span>
         ) : null}
       </div>
       <div className="table__item table__item--lang">
