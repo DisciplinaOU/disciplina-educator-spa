@@ -68,7 +68,8 @@ class FaircvList extends PureComponent<FaircvListProps, FaircvListState> {
     const arr: Array<Certificate> = [...data];
     if (v.length) {
       return arr.filter(
-        (d: Certificate) => d.meta.studentName.indexOf(v) >= 0 || d.meta.number.toString().indexOf(v) >= 0
+        (d: Certificate) =>
+          d.meta.studentName.toLowerCase().indexOf(v.toLowerCase()) >= 0 || d.meta.number.toString().indexOf(v) >= 0
       );
     }
     return arr;
@@ -156,7 +157,9 @@ class FaircvList extends PureComponent<FaircvListProps, FaircvListState> {
         ) : (
           <MainMessage type="LIST_EMPTY" />
         )}
-        <Pagination goTo={this.goToPage} fwd={this.goFwd} bcwd={this.goBcwd} count={+pages} current={+currentPage} />
+        {+pages > 1 ? (
+          <Pagination goTo={this.goToPage} fwd={this.goFwd} bcwd={this.goBcwd} count={+pages} current={+currentPage} />
+        ) : null}
       </div>
     );
   }
