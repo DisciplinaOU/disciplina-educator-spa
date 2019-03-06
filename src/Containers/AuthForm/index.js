@@ -75,7 +75,6 @@ class AuthForm extends PureComponent<AuthFormProps, AuthFormState> {
     } catch (loginError) {
       console.log(loginError);
       this.setError();
-    } finally {
       this.stopLoading();
     }
   };
@@ -92,7 +91,6 @@ class AuthForm extends PureComponent<AuthFormProps, AuthFormState> {
     } catch (signupError) {
       console.log(signupError);
       this.setError();
-    } finally {
       this.stopLoading();
     }
   };
