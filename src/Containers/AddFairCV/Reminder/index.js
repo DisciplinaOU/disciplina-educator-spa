@@ -1,5 +1,5 @@
 // @flow
-import React from "react";
+import React, { memo } from "react";
 import Button from "../../../Common/Components/Button";
 import "./styles.scss";
 
@@ -33,4 +33,4 @@ Reminder.defaultProps = {
   className: ""
 };
 
-export default Reminder;
+export default memo<ReminderProps>(Reminder);

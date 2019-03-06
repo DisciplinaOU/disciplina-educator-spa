@@ -16,6 +16,7 @@ import Modal from "./Modal";
 import iconCalendar from "../../Common/Assets/icons/calendar-icon.svg";
 
 type EducationFormEnum = "очная" | "заочная" | "очно-заочная";
+const EDUCATION_FORM_LIST = ["очная", "заочная", "очно-заочная"];
 
 type AddFairCVState = {
   grades: Array<ScoresDataType>,
@@ -351,7 +352,7 @@ export class AddFairCV extends React.PureComponent<AddFairCVProps, AddFairCVStat
                     callback={this.handleEndYear}
                   />
                   <DropDownInput
-                    list={["очная", "заочная", "очно-заочная"]}
+                    list={EDUCATION_FORM_LIST}
                     selectedValue={educationForm}
                     title="Форма обучения"
                     className="input-education-form"

@@ -13,6 +13,9 @@ type ScoreItemProps = {
   remove: (scoreIndex: number) => void
 };
 
+const LANGUAGES_LIST = ["en", "ru"];
+const SCORES_LIST = ["отлично", "хорошо", "удовлетворительно", "зачтено"];
+
 export const ScoreItem = (props: ScoreItemProps) => {
   const { scoreData, dispatchScore, isNewScore, scoreIndex = -1, remove } = props;
   const [subject, setSubject] = useState((scoreData && scoreData.subject) || "");
@@ -66,7 +69,7 @@ export const ScoreItem = (props: ScoreItemProps) => {
         ) : null}
       </div>
       <div className="table__item table__item--lang">
-        <DropDownInput selectedValue={lang} list={["en", "ru"]} callback={setLanguage} />
+        <DropDownInput selectedValue={lang} list={LANGUAGES_LIST} callback={setLanguage} />
       </div>
       <div className="table__item table__item--hours">
         <RegularInput value={hours} dispatchValue={setHours} />
@@ -75,11 +78,7 @@ export const ScoreItem = (props: ScoreItemProps) => {
         <RegularInput value={credits} dispatchValue={setCredits} />
       </div>
       <div className="table__item table__item--score">
-        <DropDownInput
-          selectedValue={grade}
-          list={["отлично", "хорошо", "удовлетворительно", "зачтено"]}
-          callback={setGrade}
-        />
+        <DropDownInput selectedValue={grade} list={SCORES_LIST} callback={setGrade} />
       </div>
       <div className="table__item table__item--submit">
         {isNewScore ? (
