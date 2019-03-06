@@ -113,7 +113,11 @@
     background-size: 20px;
 
     &:focus {
-      color: $color-blue-2;
+      color: $color-black;
+    }
+
+    &--filled {
+      color: $color-black;
     }
 
     &--password {
