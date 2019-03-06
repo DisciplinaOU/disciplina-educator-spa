@@ -10,11 +10,17 @@
 
   &__field {
     display: block;
-    border: 0;
     background-color: $color-gray-2;
     border-radius: $border-radius;
     @include largerString();
     padding: 7px 8px 9px;
+    border: 1px solid transparent;
+    transition: border-color $transition;
+    outline: 0;
+
+    &:focus {
+      border-color: $color-blue;
+    }
   }
 
   &.input-student {

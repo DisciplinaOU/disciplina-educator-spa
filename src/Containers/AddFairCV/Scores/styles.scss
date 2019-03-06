@@ -63,6 +63,13 @@
     &__item--button-edit,
     &__item--button-remove {
       flex: 0 0 20px;
+
+      .button--edit,
+      .button--remove {
+        width: 20px;
+        height: 20px;
+        cursor: pointer;
+      }
     }
 
     &__row--head {

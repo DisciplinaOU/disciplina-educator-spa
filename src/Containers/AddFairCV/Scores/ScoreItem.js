@@ -4,6 +4,8 @@ import type { ScoresDataType } from "./index";
 import RegularInput from "../../../Common/Components/RegularInput";
 import DropDownInput from "../../../Common/Components/DropDownInput";
 import Button from "../../../Common/Components/Button";
+import editIcon from "../../../Common/Assets/icons/edit-icon.svg";
+import removeIcon from "../../../Common/Assets/icons/del-icon.svg";
 
 type ScoreItemProps = {
   isNewScore: boolean,
@@ -110,10 +112,10 @@ export const ScoreItem = (props: ScoreItemProps) => {
       <div className="table__item table__item--credits">{credits}</div>
       <div className="table__item table__item--score">{grade}</div>
       <div className="table__item table__item--button table__item--button-edit" onClick={enableEditMode}>
-        <span className="btn btn--edit" />
+        <img src={editIcon} alt="" className="button--edit" />
       </div>
       <div className="table__item table__item--button table__item--button-remove" onClick={handleRemove}>
-        <span className="btn btn--remove" />
+        <img src={removeIcon} alt="" className="button--remove" />
       </div>
     </div>
   );

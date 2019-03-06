@@ -155,20 +155,6 @@
     }
   }
 
-  &--edit {
-    width: 19px;
-    height: 20px;
-    background-image: url('../../Assets/icons/edit-icon.svg');
-    background-size: cover;
-  }
-
-  &--remove {
-    width: 20px;
-    height: 20px;
-    background-image: url('../../Assets/icons/del-icon.svg');
-    background-size: cover;
-  }
-
   @media screen and (max-width: $mobile) {
     &--empty,
     &--filled {
