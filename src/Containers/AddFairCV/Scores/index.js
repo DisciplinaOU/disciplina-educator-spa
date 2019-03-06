@@ -1,7 +1,7 @@
 // @flow
 import React, { PureComponent } from "react";
 import "./styles.scss";
-import { ScoreItem } from "./ScoreItem";
+import ScoreItem from "./ScoreItem";
 import Modal from "../Modal";
 
 export type ScoresDataType = {
@@ -34,11 +34,13 @@ const clearModalState = {
   cancel: () => mockFn()
 };
 
+const ScoresInitialState = {
+  data: [],
+  modal: clearModalState
+};
+
 export class Scores extends PureComponent<ScoresProps, ScoresState> {
-  state: ScoresState = {
-    data: [],
-    modal: clearModalState
-  };
+  state: ScoresState = ScoresInitialState;
 
   addNewScore = (scoreItem: ScoresDataType, scoreIndex?: number) => {
     const { dispatchScores } = this.props;
