@@ -12,7 +12,8 @@ import MainMessage from "../../Common/Components/MainMessage";
 type FaircvListState = {
   data: Array<Certificate>,
   currentPage: number,
-  searchInput: string
+  searchInput: string,
+  isLoading: boolean
 };
 
 type FaircvListProps = {
@@ -23,19 +24,26 @@ class FaircvList extends PureComponent<FaircvListProps, FaircvListState> {
   api: IFaircvService = FaircvService;
 
   state: FaircvListState = {
+    isLoading: false,
     data: [],
     currentPage: -1,
     searchInput: ""
   };
 
   async componentDidMount() {
+    this.startLoading();
     const data = await this.api.getList();
     const { items } = data.data;
     this.setState({
       data: items,
       currentPage: 1
     });
+    this.stopLoading();
   }
+
+  startLoading = () => this.setState({ isLoading: true });
+
+  stopLoading = () => this.setState({ isLoading: false });
 
   createFairHandler = () => {
     const { history } = this.props;
@@ -102,12 +110,49 @@ class FaircvList extends PureComponent<FaircvListProps, FaircvListState> {
   };
 
   render() {
-    const { currentPage, searchInput, data } = this.state;
+    const { currentPage, searchInput, data, isLoading } = this.state;
     const isDesktop = document.documentElement && document.documentElement.clientWidth >= 768;
     const searchPlaceholder = isDesktop ? "Введите имя студента или номер диплома" : "Поиск";
     const filteredArray = this.liveSearchArray(searchInput);
     const normalizedArray = [...filteredArray].splice((currentPage - 1) * 10, 10);
     const pages = Math.round(filteredArray.length / 10);
+
+    const renderData = () =>
+      data.length ? (
+        <>
+          <form className="faircv-list__search">
+            <RegularInput
+              value={searchInput}
+              placeholder={searchPlaceholder}
+              className="faircv-list__search-input"
+              width="full-width"
+              dispatchValue={this.searchInputHandler}
+            />
+          </form>
+          <ul className="list">
+            {normalizedArray.map((item: Certificate) => (
+              <li className="list__item" key={item.id}>
+                <div className="list__item-content">
+                  <div className="list__item-name">{item.meta.studentName}</div>
+                  <div className="list__item-degree">{item.meta.major}</div>
+                  <div className="list__item-document">{`Диплом ${item.meta.number} выдан ${item.meta.issueDate}`}</div>
+                </div>
+                <Button
+                  text="Скачать"
+                  modWidth="width-auto"
+                  modHeight="height-small"
+                  modStyle="empty"
+                  modColor="color-main"
+                  callback={() => this.downloadPdf(item.id)}
+                />
+              </li>
+            ))}
+          </ul>
+        </>
+      ) : (
+        <MainMessage type="LIST_EMPTY" />
+      );
+
     return (
       <div className="faircv-list container">
         <div className="faircv-list__title">
@@ -121,42 +166,7 @@ class FaircvList extends PureComponent<FaircvListProps, FaircvListState> {
             callback={this.createFairHandler}
           />
         </div>
-        {data.length ? (
-          <>
-            <form className="faircv-list__search">
-              <RegularInput
-                value={searchInput}
-                placeholder={searchPlaceholder}
-                className="faircv-list__search-input"
-                width="full-width"
-                dispatchValue={this.searchInputHandler}
-              />
-            </form>
-            <ul className="list">
-              {normalizedArray.map((item: Certificate) => (
-                <li className="list__item" key={item.id}>
-                  <div className="list__item-content">
-                    <div className="list__item-name">{item.meta.studentName}</div>
-                    <div className="list__item-degree">{item.meta.major}</div>
-                    <div className="list__item-document">
-                      {`Диплом ${item.meta.number} выдан ${item.meta.issueDate}`}
-                    </div>
-                  </div>
-                  <Button
-                    text="Скачать"
-                    modWidth="width-auto"
-                    modHeight="height-small"
-                    modStyle="empty"
-                    modColor="color-main"
-                    callback={() => this.downloadPdf(item.id)}
-                  />
-                </li>
-              ))}
-            </ul>
-          </>
-        ) : (
-          <MainMessage type="LIST_EMPTY" />
-        )}
+        {isLoading ? <h5>Loading...</h5> : renderData()}
         {+pages > 1 ? (
           <Pagination goTo={this.goToPage} fwd={this.goFwd} bcwd={this.goBcwd} count={+pages} current={+currentPage} />
         ) : null}
