@@ -31,7 +31,8 @@ export const ScoreItem = (props: ScoreItemProps) => {
     setSubject("");
   };
 
-  const checkScoreSaveAvailable = () => subject.length && lang.length && hours.length && credits.length && grade.length;
+  const checkScoreSaveAvailable = () =>
+    subject.length && lang.length && hours.toString().length && credits.toString().length && grade.length;
 
   const addNewScore = () => {
     setScoresAvailable(true);
