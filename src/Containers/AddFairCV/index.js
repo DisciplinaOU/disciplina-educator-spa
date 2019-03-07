@@ -182,9 +182,8 @@ export class AddFairCV extends React.PureComponent<AddFairCVProps, AddFairCVStat
     return "";
   };
 
-  handleStudentName = (v: string) => {
+  handleStudentName = (v: string) =>
     this.setState(state => (state.isFormError ? { studentName: v, isFormError: false } : { studentName: v }));
-  }
 
   handleStudentBirthDate = (v: Date) => this.setState({ studentBirthDate: v });
 
@@ -194,15 +193,19 @@ export class AddFairCV extends React.PureComponent<AddFairCVProps, AddFairCVStat
 
   handleEducationForm = (v: EducationFormEnum) => this.setState({ educationForm: v });
 
-  handleNumber = (v: string) => this.setState({ number: v });
+  handleNumber = (v: string) =>
+    this.setState(state => (state.isFormError ? { number: v, isFormError: false } : { number: v }));
 
   handleIssueDate = (v: Date) => this.setState({ issueDate: v });
 
-  handleTitle = (v: string) => this.setState({ title: v });
+  handleTitle = (v: string) =>
+    this.setState(state => (state.isFormError ? { title: v, isFormError: false } : { title: v }));
 
-  handleMajor = (v: string) => this.setState({ major: v });
+  handleMajor = (v: string) =>
+    this.setState(state => (state.isFormError ? { major: v, isFormError: false } : { major: v }));
 
-  handleSpecialization = (v: string) => this.setState({ specialization: v });
+  handleSpecialization = (v: string) =>
+    this.setState(state => (state.isFormError ? { specialization: v, isFormError: false } : { specialization: v }));
 
   _formatDate = (date: Date) => {
     const y = date.getFullYear();
