@@ -35,7 +35,8 @@ type AddFairCVState = {
     submit: () => Promise<any>,
     cancel: () => void
   },
-  yearsArray: Array<number>
+  yearsArray: Array<number>,
+  isFormError: boolean
 };
 
 type AddFairCVProps = {
@@ -68,7 +69,8 @@ export class AddFairCV extends React.PureComponent<AddFairCVProps, AddFairCVStat
     major: "",
     specialization: "",
     modal: clearModalState,
-    yearsArray: []
+    yearsArray: [],
+    isFormError: false
   };
 
   componentDidMount() {
@@ -93,9 +95,24 @@ export class AddFairCV extends React.PureComponent<AddFairCVProps, AddFairCVStat
   };
 
   addNewFaircv = async () => {
-    const newCertificate = this.normalizeRequest();
-    const { data } = await FaircvService.create(newCertificate);
-    this.openCreatedCertModal(data.id);
+    this.clearFormError();
+
+    if (this.checkFormValid()) {
+      const newCertificate = this.normalizeRequest();
+      const { data } = await FaircvService.create(newCertificate);
+      this.openCreatedCertModal(data.id);
+    } else {
+      this.setState({ isFormError: true });
+    }
+  };
+
+  clearFormError = () => {
+    this.setState({ isFormError: false });
+  };
+
+  checkFormValid = () => {
+    const { grades, studentName, number, title, major, yearsArray } = this.state;
+    return grades && studentName && number && title && major && yearsArray;
   };
 
   openCreatedCertModal = (id: string) => {
@@ -161,7 +178,7 @@ export class AddFairCV extends React.PureComponent<AddFairCVProps, AddFairCVStat
     return "";
   };
 
-  handleStudentName = (v: string) => this.setState({ studentName: v });
+  handleStudentName = (v: string) => this.setState({ studentName: v, isFormError: false });
 
   handleStudentBirthDate = (v: Date) => this.setState({ studentBirthDate: v });
 
@@ -273,7 +290,8 @@ export class AddFairCV extends React.PureComponent<AddFairCVProps, AddFairCVStat
       startYear,
       endYear,
       modal,
-      yearsArray
+      yearsArray,
+      isFormError
     } = this.state;
     return (
       <>
@@ -300,6 +318,8 @@ export class AddFairCV extends React.PureComponent<AddFairCVProps, AddFairCVStat
                     className="input-student"
                     width="full-width"
                     dispatchValue={this.handleStudentName}
+                    existErrorCondition
+                    isFormError={isFormError}
                   />
                   <div className="input data-input data-input--calendar">
                     <label className="data-input__label">Дата рождения</label>
@@ -369,6 +389,8 @@ export class AddFairCV extends React.PureComponent<AddFairCVProps, AddFairCVStat
                     className="input-number"
                     width="full-width"
                     dispatchValue={this.handleNumber}
+                    existErrorCondition
+                    isFormError={isFormError}
                   />
                   <div className="input data-input data-input--calendar">
                     <label className="data-input__label">Дата выдачи</label>
@@ -394,6 +416,8 @@ export class AddFairCV extends React.PureComponent<AddFairCVProps, AddFairCVStat
                   width="full-width"
                   className="input-rank"
                   dispatchValue={this.handleTitle}
+                  existErrorCondition
+                  isFormError={isFormError}
                 />
                 <RegularInput
                   value={major}
@@ -401,6 +425,8 @@ export class AddFairCV extends React.PureComponent<AddFairCVProps, AddFairCVStat
                   width="full-width"
                   className="input-speciality"
                   dispatchValue={this.handleMajor}
+                  existErrorCondition
+                  isFormError={isFormError}
                 />
                 <RegularInput
                   value={specialization}
@@ -410,10 +436,10 @@ export class AddFairCV extends React.PureComponent<AddFairCVProps, AddFairCVStat
                   dispatchValue={this.handleSpecialization}
                 />
               </div>
-              <Scores dispatchScores={this.updateGrades} />
+              <Scores dispatchScores={this.updateGrades} isFormError={isFormError} />
             </form>
           </div>
-          <Reminder dispatchSubmit={this.addNewFaircv} />
+          <Reminder dispatchSubmit={this.addNewFaircv} isFormError={isFormError} />
         </div>
         {modal.state.length ? <Modal modalContent={modal.state} submit={modal.submit} cancel={modal.cancel} /> : null}
       </>

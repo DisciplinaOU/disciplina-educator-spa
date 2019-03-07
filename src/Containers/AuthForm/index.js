@@ -216,7 +216,7 @@ class AuthForm extends PureComponent<AuthFormProps, AuthFormState> {
                           onChange={this.handlePasswordInput}
                           type="password"
                         />
-                        {isError ? <span className="login-form__message">Credentials error</span> : null}
+                        {isError ? <span className="login-form__message valid-message">Credentials error</span> : null}
                       </div>
                       <Button
                         type="submit"
@@ -259,7 +259,7 @@ class AuthForm extends PureComponent<AuthFormProps, AuthFormState> {
                           value={email}
                           onChange={this.handleEmailInput}
                         />
-                        {isError ? <span className="login-form__message">Check email</span> : null}
+                        {isError ? <span className="login-form__message valid-message">Check email</span> : null}
                       </div>
                       <div className="login-form__input-container">
                         <input
@@ -272,7 +272,9 @@ class AuthForm extends PureComponent<AuthFormProps, AuthFormState> {
                           value={name}
                           onChange={this.handleNameInput}
                         />
-                        {isError ? <span className="login-form__message">Check organization name</span> : null}
+                        {isError ? (
+                          <span className="login-form__message valid-message">Check organization name</span>
+                        ) : null}
                       </div>
                       <div className="login-form__input-container">
                         <input
@@ -285,7 +287,7 @@ class AuthForm extends PureComponent<AuthFormProps, AuthFormState> {
                           value={url}
                           onChange={this.handleUrlInput}
                         />
-                        {isError ? <span className="login-form__message">Check website</span> : null}
+                        {isError ? <span className="login-form__message valid-message">Check website</span> : null}
                       </div>
                       <div className="login-form__input-container">
                         <input
@@ -299,7 +301,7 @@ class AuthForm extends PureComponent<AuthFormProps, AuthFormState> {
                           onChange={this.handlePasswordInput}
                           type="password"
                         />
-                        {isError ? <span className="login-form__message">Check password</span> : null}
+                        {isError ? <span className="login-form__message valid-message">Check password</span> : null}
                       </div>
                       <Button
                         type="submit"
@@ -329,7 +331,7 @@ class AuthForm extends PureComponent<AuthFormProps, AuthFormState> {
                           value={newPassword}
                           onChange={this.handleNewPasswordInput}
                         />
-                        {isError ? <span className="login-form__message">Check password</span> : null}
+                        {isError ? <span className="login-form__message valid-message">Check password</span> : null}
                       </div>
                       <Button
                         text="Сохранить"
@@ -364,7 +366,7 @@ class AuthForm extends PureComponent<AuthFormProps, AuthFormState> {
                           value={email}
                           onChange={this.handleEmailInput}
                         />
-                        {isError ? <span className="login-form__message">Check email</span> : null}
+                        {isError ? <span className="login-form__message valid-message">Check email</span> : null}
                       </div>
                       <Button
                         text="Отправить"

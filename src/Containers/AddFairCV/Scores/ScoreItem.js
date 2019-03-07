@@ -82,9 +82,7 @@ export const ScoreItem = (props: ScoreItemProps) => {
     <div className="table__row table__form">
       <div className="table__item table__item--course">
         <RegularInput value={subject} dispatchValue={setSubject} />
-        {!isScoresSaveAvailable ? (
-          <span className="login-form__message login-form__message--scores">Check all inputs</span>
-        ) : null}
+        {!isScoresSaveAvailable ? <span className="valid-message valid-message--scores">Check all inputs</span> : null}
       </div>
       <div className="table__item table__item--lang">
         <DropDownInput selectedValue={lang} list={LANGUAGES_LIST} callback={setLanguage} />

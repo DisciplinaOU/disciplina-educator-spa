@@ -21,6 +21,10 @@
     &:focus {
       border-color: $color-blue;
     }
+
+    &--error {
+      border-color: $color-rose;
+    }
   }
 
   &.input-student {

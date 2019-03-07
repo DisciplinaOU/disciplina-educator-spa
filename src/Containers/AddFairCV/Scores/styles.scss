@@ -116,6 +116,12 @@
     }
   }
 
+  &--error {
+    input {
+      border-color: $color-red;
+    }
+  }
+
   @media screen and (max-width: $desktop) {
     .table {
       &__row--head.active {

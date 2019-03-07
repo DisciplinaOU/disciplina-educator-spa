@@ -1,6 +1,10 @@
 // @flow
-import React, { memo } from "react";
+import React from "react";
 import "./styles.scss";
+
+type RegularInputState = {
+  showErrorClass: boolean
+};
 
 type RegularInputProps = {
   value: any,
@@ -8,33 +12,60 @@ type RegularInputProps = {
   placeholder?: string,
   width?: string,
   dispatchValue: (value: any) => void,
-  className?: string
+  className?: string,
+  existErrorCondition?: boolean,
+  isFormError?: boolean
 };
 
-const RegularInput = (props: RegularInputProps) => {
-  const { value, title, placeholder, width = " auto-width", className, dispatchValue } = props;
-  const onChangeHandler = (e: SyntheticEvent<HTMLInputElement>) => {
+export default class RegularInput extends React.PureComponent<RegularInputProps, RegularInputState> {
+  static defaultProps = {
+    title: "",
+    placeholder: "",
+    width: " auto-width",
+    className: "",
+    existErrorCondition: false,
+    isFormError: false
+  };
+
+  state = {
+    showErrorClass: false
+  };
+
+  onBlurHandler = (e: SyntheticEvent<HTMLInputElement>) => {
+    !e.currentTarget.value ? this.setState({ showErrorClass: true }) : this.setState({ showErrorClass: false });
+  };
+
+  onChangeHandler = (e: SyntheticEvent<HTMLInputElement>) => {
+    const { dispatchValue } = this.props;
     dispatchValue(e.currentTarget.value);
   };
-  return (
-    <div className={`regular-input input ${className || ""}`}>
-      {title ? <label className="regular-input__label">{title}</label> : null}
-      <input
-        className={`regular-input__field ${width}`}
-        value={value}
-        placeholder={placeholder}
-        type="text"
-        onChange={onChangeHandler}
-      />
-    </div>
-  );
-};
 
-RegularInput.defaultProps = {
-  title: "",
-  placeholder: "",
-  width: " auto-width",
-  className: ""
-};
+  render() {
+    const {
+      value,
+      title,
+      placeholder,
+      width = " auto-width",
+      className,
+      existErrorCondition,
+      isFormError
+    } = this.props;
+    const { showErrorClass } = this.state;
 
-export default memo<RegularInputProps>(RegularInput);
+    return (
+      <div className={`regular-input input ${className || ""}`}>
+        {title ? <label className="regular-input__label">{title}</label> : null}
+        <input
+          className={`regular-input__field ${width} ${
+            showErrorClass || isFormError ? "regular-input__field--error" : ""
+          }`}
+          value={value}
+          placeholder={placeholder}
+          type="text"
+          onChange={this.onChangeHandler}
+          onBlur={existErrorCondition ? this.onBlurHandler : null}
+        />
+      </div>
+    );
+  }
+}
