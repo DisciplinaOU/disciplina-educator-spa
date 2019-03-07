@@ -63,6 +63,13 @@
     &__item--button-edit,
     &__item--button-remove {
       flex: 0 0 20px;
+
+      .button--edit,
+      .button--remove {
+        width: 20px;
+        height: 20px;
+        cursor: pointer;
+      }
     }
 
     &__row--head {
@@ -95,9 +102,23 @@
         margin-right: 72px;
       }
 
+      .table__item--lang,
+      .table__item--score {
+        .dropdown-input__list {
+          max-height: auto;
+          overflow-y: auto;
+        }
+      }
+
       .table__item--course {
         padding-right: 0;
       }
+    }
+  }
+
+  &--error {
+    input {
+      border-color: $color-red;
     }
   }
 
@@ -258,18 +279,36 @@
       &__navigation {
         top: 27px;
         border: 0;
-        border-bottom: 2px solid $color-blue;
-        border-right: 2px solid $color-blue;
+        width: 14px;
+        height: 14px;
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: right;
+        // border-bottom: 2px solid $color-blue;
+        // border-right: 2px solid $color-blue;
       }
 
       &__navigation--next {
-        right: 30px;
-        transform: rotate(-45deg);
+        right: 50px;
+        // transform: rotate(-45deg);
+        background-image: url('../../../Common/Assets/icons/arrow-icon.svg');
+      }
+
+      &__navigation--next-year {
+        right: 25px;
+        background-image: url('../../../Common/Assets/icons/double-arrow-icon.svg');
       }
 
       &__navigation--previous {
-        left: 30px;
-        transform: rotate(135deg);
+        left: 50px;
+        background-image: url('../../../Common/Assets/icons/arrow-icon.svg');
+        transform: rotate(180deg);
+      }
+
+      &__navigation--previous-year {
+        left: 25px;
+        background-image: url('../../../Common/Assets/icons/double-arrow-icon.svg');
+        transform: rotate(180deg);
       }
 
       &__month {

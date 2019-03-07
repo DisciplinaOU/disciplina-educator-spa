@@ -138,3 +138,16 @@ ul {
 .text-right {
   text-align: right;
 }
+
+
+.valid-message {
+  position: absolute;
+  top: 33px;
+  left: 0;
+  @include smallerString($color-red);
+
+  &--scores {
+    position: relative;
+    top: 0;
+  }
+}

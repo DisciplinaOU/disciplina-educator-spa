@@ -4,6 +4,8 @@ import type { ScoresDataType } from "./index";
 import RegularInput from "../../../Common/Components/RegularInput";
 import DropDownInput from "../../../Common/Components/DropDownInput";
 import Button from "../../../Common/Components/Button";
+import editIcon from "../../../Common/Assets/icons/edit-icon.svg";
+import removeIcon from "../../../Common/Assets/icons/del-icon.svg";
 
 type ScoreItemProps = {
   isNewScore: boolean,
@@ -12,6 +14,9 @@ type ScoreItemProps = {
   scoreIndex?: number,
   remove: (scoreIndex: number) => void
 };
+
+const LANGUAGES_LIST = ["en", "ru"];
+const SCORES_LIST = ["отлично", "хорошо", "удовлетворительно", "зачтено"];
 
 export const ScoreItem = (props: ScoreItemProps) => {
   const { scoreData, dispatchScore, isNewScore, scoreIndex = -1, remove } = props;
@@ -31,7 +36,24 @@ export const ScoreItem = (props: ScoreItemProps) => {
     setSubject("");
   };
 
-  const checkScoreSaveAvailable = () => subject.length && lang.length && hours.length && credits.length && grade.length;
+  const checkIsNumber = value => {
+    const regexp = /^\d+$/;
+    return value.match(regexp);
+  };
+
+  const checkScoreSaveAvailable = () => {
+    const isHoursAvailable = checkIsNumber(hours.toString());
+    const isCreditsAvailable = checkIsNumber(credits.toString());
+    return (
+      subject.length &&
+      lang.length &&
+      hours.toString().length &&
+      credits.toString().length &&
+      grade.length &&
+      isHoursAvailable &&
+      isCreditsAvailable
+    );
+  };
 
   const addNewScore = () => {
     setScoresAvailable(true);
@@ -60,12 +82,10 @@ export const ScoreItem = (props: ScoreItemProps) => {
     <div className="table__row table__form">
       <div className="table__item table__item--course">
         <RegularInput value={subject} dispatchValue={setSubject} />
-        {!isScoresSaveAvailable ? (
-          <span className="login-form__message login-form__message--scores">Fill all inputs</span>
-        ) : null}
+        {!isScoresSaveAvailable ? <span className="valid-message valid-message--scores">Check all inputs</span> : null}
       </div>
       <div className="table__item table__item--lang">
-        <DropDownInput selectedValue={lang} list={["en", "ru"]} callback={setLanguage} />
+        <DropDownInput selectedValue={lang} list={LANGUAGES_LIST} callback={setLanguage} />
       </div>
       <div className="table__item table__item--hours">
         <RegularInput value={hours} dispatchValue={setHours} />
@@ -74,11 +94,7 @@ export const ScoreItem = (props: ScoreItemProps) => {
         <RegularInput value={credits} dispatchValue={setCredits} />
       </div>
       <div className="table__item table__item--score">
-        <DropDownInput
-          selectedValue={grade}
-          list={["отлично", "хорошо", "удовлетворительно", "зачтено"]}
-          callback={setGrade}
-        />
+        <DropDownInput selectedValue={grade} list={SCORES_LIST} callback={setGrade} />
       </div>
       <div className="table__item table__item--submit">
         {isNewScore ? (
@@ -110,10 +126,10 @@ export const ScoreItem = (props: ScoreItemProps) => {
       <div className="table__item table__item--credits">{credits}</div>
       <div className="table__item table__item--score">{grade}</div>
       <div className="table__item table__item--button table__item--button-edit" onClick={enableEditMode}>
-        <span className="btn btn--edit">&nbsp;</span>
+        <img src={editIcon} alt="" className="button--edit" />
       </div>
       <div className="table__item table__item--button table__item--button-remove" onClick={handleRemove}>
-        <span className="btn btn--remove">&nbsp;</span>
+        <img src={removeIcon} alt="" className="button--remove" />
       </div>
     </div>
   );
@@ -125,7 +141,7 @@ ScoreItem.defaultProps = {
     lang: "",
     hours: null,
     credits: null,
-    grade: null,
+    grade: "",
     scale: ""
   },
   scoreIndex: -1

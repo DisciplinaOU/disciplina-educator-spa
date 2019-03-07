@@ -7310,9 +7310,9 @@ react-app-polyfill@^0.2.0:
     raf "3.4.0"
     whatwg-fetch "3.0.0"
 
-react-datepicker@^2.0.0:
+"react-datepicker@https://github.com/truekubas/react-datepicker#8e3c15d9d259977438faba1bb0f6f3a391f71d2a":
   version "2.1.0"
-  resolved "https://registry.yarnpkg.com/react-datepicker/-/react-datepicker-2.1.0.tgz#d9b9dfe78eaf4214e93a77d150cdafbc49ef522c"
+  resolved "https://github.com/truekubas/react-datepicker#8e3c15d9d259977438faba1bb0f6f3a391f71d2a"
   dependencies:
     classnames "^2.2.5"
     date-fns "^2.0.0-alpha.23"

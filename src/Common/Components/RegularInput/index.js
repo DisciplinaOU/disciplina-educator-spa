@@ -1,6 +1,10 @@
 // @flow
-import React, { PureComponent } from "react";
+import React from "react";
 import "./styles.scss";
+
+type RegularInputState = {
+  showErrorClass: boolean
+};
 
 type RegularInputProps = {
   value: any,
@@ -8,15 +12,28 @@ type RegularInputProps = {
   placeholder?: string,
   width?: string,
   dispatchValue: (value: any) => void,
-  className?: string
+  className?: string,
+  existErrorCondition?: boolean,
+  isFormError?: boolean
 };
 
-export default class RegularInput extends PureComponent<RegularInputProps> {
+export default class RegularInput extends React.PureComponent<RegularInputProps, RegularInputState> {
   static defaultProps = {
     title: "",
     placeholder: "",
     width: " auto-width",
-    className: ""
+    className: "",
+    existErrorCondition: false,
+    isFormError: false
+  };
+
+  state = {
+    showErrorClass: false
+  };
+
+  onBlurHandler = (e: SyntheticEvent<HTMLInputElement>) => {
+    const { existErrorCondition } = this.props;
+    if (existErrorCondition) this.setState({ showErrorClass: !e.currentTarget.value });
   };
 
   onChangeHandler = (e: SyntheticEvent<HTMLInputElement>) => {
@@ -25,16 +42,21 @@ export default class RegularInput extends PureComponent<RegularInputProps> {
   };
 
   render() {
-    const { value, title, placeholder, width = " auto-width", className } = this.props;
+    const { value, title, placeholder, width = " auto-width", className, isFormError } = this.props;
+    const { showErrorClass } = this.state;
+
     return (
       <div className={`regular-input input ${className || ""}`}>
         {title ? <label className="regular-input__label">{title}</label> : null}
         <input
-          className={`regular-input__field ${width}`}
+          className={`regular-input__field ${width} ${
+            showErrorClass || isFormError ? "regular-input__field--error" : ""
+          }`}
           value={value}
           placeholder={placeholder}
           type="text"
           onChange={this.onChangeHandler}
+          onBlur={this.onBlurHandler}
         />
       </div>
     );

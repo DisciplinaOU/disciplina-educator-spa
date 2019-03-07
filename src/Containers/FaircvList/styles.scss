@@ -45,11 +45,11 @@
         @include titleH3();
         order: 2;
         margin-bottom: 0;
+        width: 100%;
       }
 
       .btn {
         order: 1;
-        width: 100%;
         margin-bottom: 32px;
       }
     }
@@ -108,7 +108,8 @@
 
   @media screen and (max-width: $phablet) {
     &__item {
-      flex-wrap: wrap;
+      flex-direction: column;
+      align-items: flex-start;
       padding-bottom: 12px;
 
       .btn {
