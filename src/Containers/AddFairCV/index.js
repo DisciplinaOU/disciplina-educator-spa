@@ -102,8 +102,12 @@ export class AddFairCV extends React.PureComponent<AddFairCVProps, AddFairCVStat
       const { data } = await FaircvService.create(newCertificate);
       this.openCreatedCertModal(data.id);
     } else {
-      this.setState({ isFormError: true });
+      this.addFormError();
     }
+  };
+
+  addFormError = () => {
+    this.setState({ isFormError: true });
   };
 
   clearFormError = () => {
@@ -178,7 +182,9 @@ export class AddFairCV extends React.PureComponent<AddFairCVProps, AddFairCVStat
     return "";
   };
 
-  handleStudentName = (v: string) => this.setState({ studentName: v, isFormError: false });
+  handleStudentName = (v: string) => {
+    this.setState(state => (state.isFormError ? { studentName: v, isFormError: false } : { studentName: v }));
+  }
 
   handleStudentBirthDate = (v: Date) => this.setState({ studentBirthDate: v });
 

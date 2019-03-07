@@ -32,7 +32,8 @@ export default class RegularInput extends React.PureComponent<RegularInputProps,
   };
 
   onBlurHandler = (e: SyntheticEvent<HTMLInputElement>) => {
-    !e.currentTarget.value ? this.setState({ showErrorClass: true }) : this.setState({ showErrorClass: false });
+    const { existErrorCondition } = this.props;
+    if (existErrorCondition) this.setState({ showErrorClass: !e.currentTarget.value });
   };
 
   onChangeHandler = (e: SyntheticEvent<HTMLInputElement>) => {
@@ -41,15 +42,7 @@ export default class RegularInput extends React.PureComponent<RegularInputProps,
   };
 
   render() {
-    const {
-      value,
-      title,
-      placeholder,
-      width = " auto-width",
-      className,
-      existErrorCondition,
-      isFormError
-    } = this.props;
+    const { value, title, placeholder, width = " auto-width", className, isFormError } = this.props;
     const { showErrorClass } = this.state;
 
     return (
@@ -63,7 +56,7 @@ export default class RegularInput extends React.PureComponent<RegularInputProps,
           placeholder={placeholder}
           type="text"
           onChange={this.onChangeHandler}
-          onBlur={existErrorCondition ? this.onBlurHandler : null}
+          onBlur={this.onBlurHandler}
         />
       </div>
     );
