@@ -63,6 +63,13 @@
     &__item--button-edit,
     &__item--button-remove {
       flex: 0 0 20px;
+
+      .button--edit,
+      .button--remove {
+        width: 20px;
+        height: 20px;
+        cursor: pointer;
+      }
     }
 
     &__row--head {
@@ -95,9 +102,23 @@
         margin-right: 72px;
       }
 
+      .table__item--lang,
+      .table__item--score {
+        .dropdown-input__list {
+          max-height: auto;
+          overflow-y: auto;
+        }
+      }
+
       .table__item--course {
         padding-right: 0;
       }
+    }
+  }
+
+  &--error {
+    input {
+      border-color: $color-red;
     }
   }
 

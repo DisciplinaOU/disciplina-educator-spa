@@ -14,7 +14,8 @@ export type ScoresDataType = {
 };
 
 type ScoresProps = {
-  dispatchScores: (data: Array<ScoresDataType>) => void
+  dispatchScores: (data: Array<ScoresDataType>) => void,
+  isFormError: boolean
 };
 
 type ScoresState = {
@@ -83,9 +84,10 @@ export class Scores extends PureComponent<ScoresProps, ScoresState> {
 
   render() {
     const { data, modal } = this.state;
+    const { isFormError } = this.props;
     return (
       <>
-        <div className="scores">
+        <div className={`scores ${isFormError ? "scores--error" : ""}`}>
           <h2 className="scores__title">Оценки</h2>
           <div className="scores__table table">
             <div className={`table__row table__row--head${data ? " active" : ""}`}>
@@ -94,8 +96,8 @@ export class Scores extends PureComponent<ScoresProps, ScoresState> {
               <div className="table__item table__item--hours">Часов</div>
               <div className="table__item table__item--credits">ECTS credits</div>
               <div className="table__item table__item--score">Оценка</div>
-              <div className="table__item table__item--button table__item--button-edit">&nbsp;</div>
-              <div className="table__item table__item--button table__item--button-remove">&nbsp;</div>
+              <div className="table__item table__item--button table__item--button-edit" />
+              <div className="table__item table__item--button table__item--button-remove" />
             </div>
             {data.length
               ? data.map((item, index) => (

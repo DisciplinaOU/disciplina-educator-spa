@@ -50,6 +50,7 @@
       text-transform: uppercase;
       display: inline-block;
       padding: 5px 0;
+      border-bottom: 2px solid transparent;
 
       &.active {
         border-bottom: 2px solid $color-blue;
@@ -134,17 +135,6 @@
 
     &--site {
       background-image: url('../../Common/Assets/icons/site-icon.svg');
-    }
-  }
-
-  &__message {
-    position: absolute;
-    top: 33px;
-    left: 0;
-    @include smallerString($color-red);
-    &--scores {
-      position: relative;
-      top: 0;
     }
   }
 }

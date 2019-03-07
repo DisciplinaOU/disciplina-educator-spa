@@ -5,16 +5,20 @@ import "./styles.scss";
 
 type ReminderProps = {
   dispatchSubmit: () => Promise<any>,
-  className?: string
+  className?: string,
+  isFormError: boolean
 };
 
-export const Reminder = ({ dispatchSubmit, className = "" }: ReminderProps) => {
+export const Reminder = ({ dispatchSubmit, className = "", isFormError }: ReminderProps) => {
   return (
     <div className={`reminder ${className}`}>
       <div className="container">
-        <div className="reminder__text">
+        <div className={`reminder__text ${isFormError ? "reminder__text--error" : ""}`}>
           <span />
-          <p>Внимательно проверьте все данные перед сохранением. Изменить сохраненные записи будет невозможно!</p>
+          {isFormError ?
+          <p>Заполните все поля!</p>
+          : <p>Внимательно проверьте все данные перед сохранением. Изменить сохраненные записи будет невозможно!</p>
+          }
         </div>
         <Button
           text="Сохранить FairCV"

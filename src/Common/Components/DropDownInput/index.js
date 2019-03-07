@@ -61,17 +61,21 @@ export default class DropDownInput extends React.PureComponent<DropDownInputProp
       <div
         className={`dropdown-input ${isSelectOpened ? "active" : ""} ${className || ""}`}
         onClick={this.changeSelectState}
-        ref={this.node}
+        ref={node => {
+          this.node = node;
+        }}
       >
         {title ? <label className="dropdown-input__label">{title}</label> : null}
         <input className="dropdown-input__field" type="text" readOnly value={selectedValue} />
-        <ul className="dropdown-input__list">
-          {list.map(item => (
-            <li className="dropdown-input__item" data-value={item} onClick={this.changeSelectValue} key={item}>
-              {item}
-            </li>
-          ))}
-        </ul>
+        <div className="dropdown-input__list-container">
+          <ul className="dropdown-input__list">
+            {list.map(item => (
+              <li className="dropdown-input__item" data-value={item} onClick={this.changeSelectValue} key={item}>
+                {item}
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
     );
   }

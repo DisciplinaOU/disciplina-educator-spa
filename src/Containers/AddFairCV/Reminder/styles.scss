@@ -14,7 +14,7 @@
   padding-bottom: 8px;
 
   &__text {
-    max-width: 480px;
+    width: 480px;
     display: flex;
     flex-direction: row;
     align-items: stretch;
@@ -36,6 +36,7 @@
       padding: 11px;
       box-sizing: border-box;
       position: relative;
+      transition: background-color $transition;
 
       &:before {
         content: 'i';
@@ -50,6 +51,12 @@
         height: 44px;
         text-align: center;
         border: 2px solid $color-white;
+      }
+    }
+
+    &--error {
+      span {
+        background-color: $color-rose;
       }
     }
   }
