@@ -24,7 +24,8 @@ type ScoresState = {
     state: string,
     submit: () => void,
     cancel: () => void
-  }
+  },
+  isScoreItemError: boolean
 };
 
 const mockFn = () => {};
@@ -37,7 +38,8 @@ const clearModalState = {
 
 const ScoresInitialState = {
   data: [],
-  modal: clearModalState
+  modal: clearModalState,
+  isScoreItemError: false
 };
 
 export class Scores extends PureComponent<ScoresProps, ScoresState> {
@@ -87,7 +89,7 @@ export class Scores extends PureComponent<ScoresProps, ScoresState> {
     const { isFormError } = this.props;
     return (
       <>
-        <div className={`scores ${isFormError ? "scores--error" : ""}`}>
+        <div className="scores">
           <h2 className="scores__title">Оценки</h2>
           <div className="scores__table table">
             <div className={`table__row table__row--head${data ? " active" : ""}`}>
@@ -108,10 +110,16 @@ export class Scores extends PureComponent<ScoresProps, ScoresState> {
                     remove={this.openScoreModal}
                     scoreData={item}
                     key={item.subject}
+                    isFormError={false}
                   />
                 ))
               : null}
-            <ScoreItem isNewScore dispatchScore={this.addNewScore} remove={this.openScoreModal} />
+            <ScoreItem
+              isNewScore
+              dispatchScore={this.addNewScore}
+              remove={this.openScoreModal}
+              isFormError={isFormError}
+            />
           </div>
         </div>
         {modal.state.length ? <Modal modalContent={modal.state} submit={modal.submit} cancel={modal.cancel} /> : null}

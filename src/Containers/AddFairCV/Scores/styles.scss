@@ -18,6 +18,7 @@
       flex-wrap: nowrap;
       align-items: flex-start;
       padding: 12px 0;
+      position: relative;
 
       &:last-child {
         padding-bottom: 0;
@@ -94,7 +95,7 @@
 
       .table__item--submit {
         flex-basis: 100%;
-        margin: 16px 0 0;
+        margin: 32px 0 0;
       }
 
       .table__item--score {
@@ -116,10 +117,9 @@
     }
   }
 
-  &--error {
-    input {
-      border-color: $color-red;
-    }
+  &-valid-message {
+    top: auto;
+    bottom: 48px;
   }
 
   @media screen and (max-width: $desktop) {
@@ -216,6 +216,10 @@
             margin-bottom: 16px;
             margin-right: 16px;
 
+            &:last-child {
+              margin-bottom: 0;
+            }
+
             &:nth-last-child(2) {
               margin-right: 0;
             }
@@ -284,13 +288,10 @@
         background-size: contain;
         background-repeat: no-repeat;
         background-position: right;
-        // border-bottom: 2px solid $color-blue;
-        // border-right: 2px solid $color-blue;
       }
 
       &__navigation--next {
         right: 50px;
-        // transform: rotate(-45deg);
         background-image: url('../../../Common/Assets/icons/arrow-icon.svg');
       }
 

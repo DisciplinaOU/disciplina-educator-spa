@@ -36,6 +36,10 @@
     border: 1px solid transparent;
     transition: border-color $transition;
     outline: 0;
+
+    &--error {
+      border-color: $color-rose;
+    }
   }
 
   &__list-container {

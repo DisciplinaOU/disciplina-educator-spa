@@ -145,9 +145,4 @@ ul {
   top: 33px;
   left: 0;
   @include smallerString($color-red);
-
-  &--scores {
-    position: relative;
-    top: 0;
-  }
 }

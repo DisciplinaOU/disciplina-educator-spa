@@ -12,14 +12,15 @@ type ScoreItemProps = {
   dispatchScore: (data: ScoresDataType, scoreIndex?: number) => void,
   scoreData?: ScoresDataType,
   scoreIndex?: number,
-  remove: (scoreIndex: number) => void
+  remove: (scoreIndex: number) => void,
+  isFormError: boolean
 };
 
 const LANGUAGES_LIST = ["en", "ru"];
 const SCORES_LIST = ["отлично", "хорошо", "удовлетворительно", "зачтено"];
 
 export const ScoreItem = (props: ScoreItemProps) => {
-  const { scoreData, dispatchScore, isNewScore, scoreIndex = -1, remove } = props;
+  const { scoreData, dispatchScore, isNewScore, scoreIndex = -1, remove, isFormError } = props;
   const [subject, setSubject] = useState((scoreData && scoreData.subject) || "");
   const [lang, setLanguage] = useState((scoreData && scoreData.lang) || "");
   const [hours, setHours] = useState((scoreData && scoreData.hours) || "");
@@ -49,7 +50,6 @@ export const ScoreItem = (props: ScoreItemProps) => {
       subject.length &&
       lang.length &&
       hours.toString().length &&
-      // credits.toString().length &&
       grade.length &&
       isHoursAvailable &&
       (isCreditsEmpty || isCreditsAvailable)
@@ -82,21 +82,43 @@ export const ScoreItem = (props: ScoreItemProps) => {
   return isEditMode ? (
     <div className="table__row table__form">
       <div className="table__item table__item--course">
-        <RegularInput value={subject} dispatchValue={setSubject} />
-        {!isScoresSaveAvailable ? <span className="valid-message valid-message--scores">Check all inputs</span> : null}
+        <RegularInput
+          value={subject}
+          dispatchValue={setSubject}
+          existErrorCondition
+          isFormError={!isScoresSaveAvailable || isFormError}
+        />
       </div>
       <div className="table__item table__item--lang">
-        <DropDownInput selectedValue={lang} list={LANGUAGES_LIST} callback={setLanguage} />
+        <DropDownInput
+          selectedValue={lang}
+          list={LANGUAGES_LIST}
+          callback={setLanguage}
+          existErrorCondition
+          isFormError={!isScoresSaveAvailable || isFormError}
+        />
       </div>
       <div className="table__item table__item--hours">
-        <RegularInput value={hours} dispatchValue={setHours} />
+        <RegularInput
+          value={hours}
+          dispatchValue={setHours}
+          existErrorCondition
+          isFormError={!isScoresSaveAvailable || isFormError}
+        />
       </div>
       <div className="table__item table__item--credits">
         <RegularInput value={credits} dispatchValue={setCredits} />
       </div>
       <div className="table__item table__item--score">
-        <DropDownInput selectedValue={grade} list={SCORES_LIST} callback={setGrade} />
+        <DropDownInput
+          selectedValue={grade}
+          list={SCORES_LIST}
+          callback={setGrade}
+          existErrorCondition
+          isFormError={!isScoresSaveAvailable || isFormError}
+        />
       </div>
+      {!isScoresSaveAvailable ? <span className="valid-message scores-valid-message">Check all inputs</span> : null}
       <div className="table__item table__item--submit">
         {isNewScore ? (
           <Button

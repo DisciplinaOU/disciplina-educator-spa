@@ -7,11 +7,14 @@ type DropDownInputProps = {
   title?: string,
   list: Array<any>,
   callback: (v: any) => void,
-  className?: string
+  className?: string,
+  existErrorCondition?: boolean,
+  isFormError?: boolean
 };
 
 type DropDownInputState = {
-  isSelectOpened: boolean
+  isSelectOpened: boolean,
+  showErrorClass: boolean
 };
 
 export default class DropDownInput extends React.PureComponent<DropDownInputProps, DropDownInputState> {
@@ -19,11 +22,14 @@ export default class DropDownInput extends React.PureComponent<DropDownInputProp
 
   static defaultProps = {
     title: "",
-    className: ""
+    className: "",
+    existErrorCondition: false,
+    isFormError: false
   };
 
   state = {
-    isSelectOpened: false
+    isSelectOpened: false,
+    showErrorClass: false
   };
 
   handleOutsideClick = (e: { target: EventTarget }) => {
@@ -49,14 +55,24 @@ export default class DropDownInput extends React.PureComponent<DropDownInputProp
   closeSelect = () => this.setState({ isSelectOpened: false });
 
   changeSelectValue = (e: SyntheticEvent<HTMLSelectElement>) => {
-    const { callback } = this.props;
+    const { callback, existErrorCondition } = this.props;
     const { value } = e.currentTarget.dataset;
+    if (existErrorCondition && value) this.setErrorClass(false);
     callback(value);
   };
 
+  onBlurHandler = () => {
+    const { existErrorCondition, selectedValue } = this.props;
+    if (existErrorCondition) {
+      this.setErrorClass(!selectedValue);
+    }
+  };
+
+  setErrorClass = (error: boolean) => this.setState({ showErrorClass: error });
+
   render() {
-    const { title, list, className, selectedValue } = this.props;
-    const { isSelectOpened } = this.state;
+    const { title, list, className, selectedValue, isFormError } = this.props;
+    const { isSelectOpened, showErrorClass } = this.state;
     return (
       <div
         className={`dropdown-input ${isSelectOpened ? "active" : ""} ${className || ""}`}
@@ -66,7 +82,15 @@ export default class DropDownInput extends React.PureComponent<DropDownInputProp
         }}
       >
         {title ? <label className="dropdown-input__label">{title}</label> : null}
-        <input className="dropdown-input__field" type="text" readOnly value={selectedValue} />
+        <input
+          className={`dropdown-input__field ${
+            showErrorClass || (isFormError && !selectedValue) ? "dropdown-input__field--error" : ""
+          }`}
+          type="text"
+          readOnly
+          value={selectedValue}
+          onBlur={this.onBlurHandler}
+        />
         <div className="dropdown-input__list-container">
           <ul className="dropdown-input__list">
             {list.map(item => (

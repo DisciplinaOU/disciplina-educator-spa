@@ -50,7 +50,7 @@ export default class RegularInput extends React.PureComponent<RegularInputProps,
         {title ? <label className="regular-input__label">{title}</label> : null}
         <input
           className={`regular-input__field ${width} ${
-            showErrorClass || isFormError ? "regular-input__field--error" : ""
+            showErrorClass || (isFormError && !value) ? "regular-input__field--error" : ""
           }`}
           value={value}
           placeholder={placeholder}
