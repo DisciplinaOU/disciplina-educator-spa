@@ -405,6 +405,8 @@ export class AddFairCV extends React.PureComponent<AddFairCVProps, AddFairCVStat
                     <label className="data-input__label">Дата выдачи</label>
                     <div className="data-input__wrapper">
                       <DatePicker
+                        showDisabledYearNavigation
+                        forceShowYearNavigation
                         selected={issueDate}
                         onChange={this.handleIssueDate}
                         dateFormat="yyyy-MM-dd"
