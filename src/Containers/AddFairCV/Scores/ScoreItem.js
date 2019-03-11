@@ -43,15 +43,16 @@ export const ScoreItem = (props: ScoreItemProps) => {
 
   const checkScoreSaveAvailable = () => {
     const isHoursAvailable = checkIsNumber(hours.toString());
+    const isCreditsEmpty = !credits;
     const isCreditsAvailable = checkIsNumber(credits.toString());
     return (
       subject.length &&
       lang.length &&
       hours.toString().length &&
-      credits.toString().length &&
+      // credits.toString().length &&
       grade.length &&
       isHoursAvailable &&
-      isCreditsAvailable
+      (isCreditsEmpty || isCreditsAvailable)
     );
   };
 
