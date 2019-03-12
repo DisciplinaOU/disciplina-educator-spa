@@ -22,7 +22,22 @@ type AuthFormState = {
   name: string,
   url: string,
   token: string,
-  isError: boolean
+  isError: boolean,
+  errorsMessagesCollection: {
+    emailInvalid: string,
+    emailNotfound: string,
+    emailEmpty: string,
+    emailUsed: string,
+    passwordWrong: string,
+    passwordEmpty: string,
+    passwordShort: string,
+    orgNameEmpty: string,
+    webSiteEmpty: string
+  },
+  currentEmailErrorMessage: string,
+  currentPasswordErrorMessage: string,
+  currentNameErrorMessage: string,
+  currentWebsiteErrorMessage: string
 };
 
 type AuthFormProps = {
@@ -42,7 +57,22 @@ class AuthForm extends PureComponent<AuthFormProps, AuthFormState> {
     newPassword: "",
     name: "",
     url: "",
-    token: ""
+    token: "",
+    errorsMessagesCollection: {
+      emailInvalid: "Некорректный  email адрес",
+      emailNotfound: "Пользователь с таким email адресом не найден",
+      emailEmpty: "Введите email",
+      emailUsed: "Пользователь с таким email адресом уже существует",
+      passwordWrong: "Email адрес и пароль не совпадают",
+      passwordEmpty: "Введите пароль",
+      passwordShort: "Пароль должен содержать 6 и более знаков",
+      orgNameEmpty: "Введите название организации",
+      webSiteEmpty: "Введите сайт организации"
+    },
+    currentEmailErrorMessage: "",
+    currentPasswordErrorMessage: "",
+    currentNameErrorMessage: "",
+    currentWebsiteErrorMessage: ""
   };
 
   componentDidMount(): void {
@@ -61,6 +91,80 @@ class AuthForm extends PureComponent<AuthFormProps, AuthFormState> {
 
   setError = () => this.setState({ isError: true });
 
+  clearCurrentErrorsMessage = () => {
+    this.setState({
+      currentEmailErrorMessage: "",
+      currentPasswordErrorMessage: "",
+      currentNameErrorMessage: "",
+      currentWebsiteErrorMessage: ""
+    });
+  };
+
+  errorsParser = (loginError: any) => {
+    const { errorsMessagesCollection } = this.state;
+    this.clearCurrentErrorsMessage();
+    /* eslint-disable no-restricted-syntax, guard-for-in */
+    for (const key in loginError) {
+      switch (key) {
+        case "email":
+          {
+            const errorStatus = loginError[key][0].predicate;
+            if (errorStatus === "filled?") {
+              this.setState({ currentEmailErrorMessage: errorsMessagesCollection.emailEmpty });
+            } else if (errorStatus === "email?") {
+              this.setState({ currentEmailErrorMessage: errorsMessagesCollection.emailInvalid });
+            } else if (errorStatus === "unique?") {
+              this.setState({ currentEmailErrorMessage: errorsMessagesCollection.emailUsed });
+            } else {
+              this.setState({ currentEmailErrorMessage: "Email error" });
+            }
+          }
+          break;
+        case "password":
+          {
+            const errorStatus = loginError[key][0].predicate;
+            if (errorStatus === "filled?") {
+              this.setState({ currentPasswordErrorMessage: errorsMessagesCollection.passwordEmpty });
+            } else if (errorStatus === "valid?") {
+              this.setState({ currentPasswordErrorMessage: errorsMessagesCollection.passwordWrong });
+            } else if (errorStatus === "min_size?") {
+              this.setState({ currentPasswordErrorMessage: errorsMessagesCollection.passwordShort });
+            } else {
+              this.setState({ currentEmailErrorMessage: "Password error" });
+            }
+          }
+          break;
+        case "name":
+          {
+            const errorStatus = loginError[key][0].predicate;
+            if (errorStatus === "filled?") {
+              this.setState({ currentNameErrorMessage: errorsMessagesCollection.orgNameEmpty });
+            } else {
+              this.setState({ currentNameErrorMessage: "Name error" });
+            }
+          }
+          break;
+        case "website":
+          {
+            const errorStatus = loginError[key][0].predicate;
+            if (errorStatus === "filled?") {
+              this.setState({ currentWebsiteErrorMessage: errorsMessagesCollection.webSiteEmpty });
+            } else {
+              this.setState({ currentWebsiteErrorMessage: "Website error" });
+            }
+          }
+          break;
+        default:
+          console.log("error");
+      }
+      /* eslint-enable no-restricted-syntax, guard-for-in */
+    }
+
+    if (!loginError) {
+      this.setState({ currentEmailErrorMessage: errorsMessagesCollection.emailNotfound });
+    }
+  };
+
   clearError = () => this.setState({ isError: false });
 
   login = async (e: SyntheticEvent<HTMLFormElement>) => {
@@ -74,6 +178,7 @@ class AuthForm extends PureComponent<AuthFormProps, AuthFormState> {
       history.push("/faircv");
     } catch (loginError) {
       console.log(loginError);
+      this.errorsParser(loginError);
       this.setError();
       this.stopLoading();
     }
@@ -90,6 +195,7 @@ class AuthForm extends PureComponent<AuthFormProps, AuthFormState> {
       history.push("/auth/check_email");
     } catch (signupError) {
       console.log(signupError);
+      this.errorsParser(signupError);
       this.setError();
       this.stopLoading();
     }
@@ -101,8 +207,9 @@ class AuthForm extends PureComponent<AuthFormProps, AuthFormState> {
     this.startLoading();
     try {
       await this.Service.createPassword(newPassword, token);
-    } catch (e) {
-      console.log(e);
+    } catch (setNewPasswordError) {
+      console.log(setNewPasswordError);
+      this.errorsParser(setNewPasswordError);
       this.setError();
     } finally {
       this.stopLoading();
@@ -115,8 +222,9 @@ class AuthForm extends PureComponent<AuthFormProps, AuthFormState> {
     this.startLoading();
     try {
       await this.Service.resetPassword(email);
-    } catch (e) {
-      console.log(e);
+    } catch (resetError) {
+      console.log(resetError);
+      this.errorsParser(resetError);
       this.setError();
     } finally {
       this.stopLoading();
@@ -170,7 +278,20 @@ class AuthForm extends PureComponent<AuthFormProps, AuthFormState> {
     });
 
   render() {
-    const { currentState, email, password, name, newPassword, url, isLoading, isError } = this.state;
+    const {
+      currentState,
+      email,
+      password,
+      name,
+      newPassword,
+      url,
+      isLoading,
+      isError,
+      currentEmailErrorMessage,
+      currentPasswordErrorMessage,
+      currentNameErrorMessage,
+      currentWebsiteErrorMessage
+    } = this.state;
 
     return (
       <div className="container">
@@ -203,6 +324,9 @@ class AuthForm extends PureComponent<AuthFormProps, AuthFormState> {
                           value={email}
                           onChange={this.handleEmailInput}
                         />
+                        {isError ? (
+                          <span className="login-form__message valid-message">{currentEmailErrorMessage}</span>
+                        ) : null}
                       </div>
                       <div className="login-form__input-container">
                         <input
@@ -216,7 +340,9 @@ class AuthForm extends PureComponent<AuthFormProps, AuthFormState> {
                           onChange={this.handlePasswordInput}
                           type="password"
                         />
-                        {isError ? <span className="login-form__message valid-message">Credentials error</span> : null}
+                        {isError ? (
+                          <span className="login-form__message valid-message">{currentPasswordErrorMessage}</span>
+                        ) : null}
                       </div>
                       <Button
                         type="submit"
@@ -259,7 +385,9 @@ class AuthForm extends PureComponent<AuthFormProps, AuthFormState> {
                           value={email}
                           onChange={this.handleEmailInput}
                         />
-                        {isError ? <span className="login-form__message valid-message">Check email</span> : null}
+                        {isError ? (
+                          <span className="login-form__message valid-message">{currentEmailErrorMessage}</span>
+                        ) : null}
                       </div>
                       <div className="login-form__input-container">
                         <input
@@ -273,7 +401,7 @@ class AuthForm extends PureComponent<AuthFormProps, AuthFormState> {
                           onChange={this.handleNameInput}
                         />
                         {isError ? (
-                          <span className="login-form__message valid-message">Check organization name</span>
+                          <span className="login-form__message valid-message">{currentNameErrorMessage}</span>
                         ) : null}
                       </div>
                       <div className="login-form__input-container">
@@ -287,7 +415,9 @@ class AuthForm extends PureComponent<AuthFormProps, AuthFormState> {
                           value={url}
                           onChange={this.handleUrlInput}
                         />
-                        {isError ? <span className="login-form__message valid-message">Check website</span> : null}
+                        {isError ? (
+                          <span className="login-form__message valid-message">{currentWebsiteErrorMessage}</span>
+                        ) : null}
                       </div>
                       <div className="login-form__input-container">
                         <input
@@ -301,7 +431,9 @@ class AuthForm extends PureComponent<AuthFormProps, AuthFormState> {
                           onChange={this.handlePasswordInput}
                           type="password"
                         />
-                        {isError ? <span className="login-form__message valid-message">Check password</span> : null}
+                        {isError ? (
+                          <span className="login-form__message valid-message">{currentPasswordErrorMessage}</span>
+                        ) : null}
                       </div>
                       <Button
                         type="submit"
@@ -331,7 +463,9 @@ class AuthForm extends PureComponent<AuthFormProps, AuthFormState> {
                           value={newPassword}
                           onChange={this.handleNewPasswordInput}
                         />
-                        {isError ? <span className="login-form__message valid-message">Check password</span> : null}
+                        {isError ? (
+                          <span className="login-form__message valid-message">{currentPasswordErrorMessage}</span>
+                        ) : null}
                       </div>
                       <Button
                         text="Сохранить"
@@ -366,7 +500,9 @@ class AuthForm extends PureComponent<AuthFormProps, AuthFormState> {
                           value={email}
                           onChange={this.handleEmailInput}
                         />
-                        {isError ? <span className="login-form__message valid-message">Check email</span> : null}
+                        {isError ? (
+                          <span className="login-form__message valid-message">{currentEmailErrorMessage}</span>
+                        ) : null}
                       </div>
                       <Button
                         text="Отправить"
