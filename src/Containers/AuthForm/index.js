@@ -13,6 +13,25 @@ export const AUTH_FORM_STATES = {
   RECOVERY: "recovery"
 };
 
+const errorsMessagesCollection = {
+  emailInvalid: "Некорректный  email адрес",
+  emailNotfound: "Пользователь с таким email адресом не найден",
+  emailEmpty: "Введите email",
+  emailUsed: "Пользователь с таким email адресом уже существует",
+  passwordWrong: "Email адрес и пароль не совпадают",
+  passwordEmpty: "Введите пароль",
+  passwordShort: "Пароль должен содержать 6 и более знаков",
+  orgNameEmpty: "Введите название организации",
+  webSiteEmpty: "Введите сайт организации"
+};
+
+const initialEmptyMessages = {
+  currentEmailErrorMessage: "",
+  currentPasswordErrorMessage: "",
+  currentNameErrorMessage: "",
+  currentWebsiteErrorMessage: ""
+};
+
 type AuthFormState = {
   currentState: $Values<typeof AUTH_FORM_STATES>,
   isLoading: boolean,
@@ -23,17 +42,6 @@ type AuthFormState = {
   url: string,
   token: string,
   isError: boolean,
-  errorsMessagesCollection: {
-    emailInvalid: string,
-    emailNotfound: string,
-    emailEmpty: string,
-    emailUsed: string,
-    passwordWrong: string,
-    passwordEmpty: string,
-    passwordShort: string,
-    orgNameEmpty: string,
-    webSiteEmpty: string
-  },
   currentEmailErrorMessage: string,
   currentPasswordErrorMessage: string,
   currentNameErrorMessage: string,
@@ -58,21 +66,7 @@ class AuthForm extends PureComponent<AuthFormProps, AuthFormState> {
     name: "",
     url: "",
     token: "",
-    errorsMessagesCollection: {
-      emailInvalid: "Некорректный  email адрес",
-      emailNotfound: "Пользователь с таким email адресом не найден",
-      emailEmpty: "Введите email",
-      emailUsed: "Пользователь с таким email адресом уже существует",
-      passwordWrong: "Email адрес и пароль не совпадают",
-      passwordEmpty: "Введите пароль",
-      passwordShort: "Пароль должен содержать 6 и более знаков",
-      orgNameEmpty: "Введите название организации",
-      webSiteEmpty: "Введите сайт организации"
-    },
-    currentEmailErrorMessage: "",
-    currentPasswordErrorMessage: "",
-    currentNameErrorMessage: "",
-    currentWebsiteErrorMessage: ""
+    ...initialEmptyMessages
   };
 
   componentDidMount(): void {
@@ -89,20 +83,17 @@ class AuthForm extends PureComponent<AuthFormProps, AuthFormState> {
     }
   }
 
-  setError = () => this.setState({ isError: true });
+  setError = (errorBody: {}) => this.setState({ isError: true, ...errorBody });
 
   clearCurrentErrorsMessage = () => {
     this.setState({
-      currentEmailErrorMessage: "",
-      currentPasswordErrorMessage: "",
-      currentNameErrorMessage: "",
-      currentWebsiteErrorMessage: ""
+      ...initialEmptyMessages
     });
   };
 
   errorsParser = (loginError: any) => {
-    const { errorsMessagesCollection } = this.state;
     this.clearCurrentErrorsMessage();
+    const messagesForState = {};
     /* eslint-disable no-restricted-syntax, guard-for-in */
     for (const key in loginError) {
       switch (key) {
@@ -110,13 +101,13 @@ class AuthForm extends PureComponent<AuthFormProps, AuthFormState> {
           {
             const errorStatus = loginError[key][0].predicate;
             if (errorStatus === "filled?") {
-              this.setState({ currentEmailErrorMessage: errorsMessagesCollection.emailEmpty });
+              messagesForState.currentEmailErrorMessage = errorsMessagesCollection.emailEmpty;
             } else if (errorStatus === "email?") {
-              this.setState({ currentEmailErrorMessage: errorsMessagesCollection.emailInvalid });
+              messagesForState.currentEmailErrorMessage = errorsMessagesCollection.emailInvalid;
             } else if (errorStatus === "unique?") {
-              this.setState({ currentEmailErrorMessage: errorsMessagesCollection.emailUsed });
+              messagesForState.currentEmailErrorMessage = errorsMessagesCollection.emailUsed;
             } else {
-              this.setState({ currentEmailErrorMessage: "Email error" });
+              messagesForState.currentEmailErrorMessage = "Ошибка email";
             }
           }
           break;
@@ -124,13 +115,13 @@ class AuthForm extends PureComponent<AuthFormProps, AuthFormState> {
           {
             const errorStatus = loginError[key][0].predicate;
             if (errorStatus === "filled?") {
-              this.setState({ currentPasswordErrorMessage: errorsMessagesCollection.passwordEmpty });
+              messagesForState.currentPasswordErrorMessage = errorsMessagesCollection.passwordEmpty;
             } else if (errorStatus === "valid?") {
-              this.setState({ currentPasswordErrorMessage: errorsMessagesCollection.passwordWrong });
+              messagesForState.currentPasswordErrorMessage = errorsMessagesCollection.passwordWrong;
             } else if (errorStatus === "min_size?") {
-              this.setState({ currentPasswordErrorMessage: errorsMessagesCollection.passwordShort });
+              messagesForState.currentPasswordErrorMessage = errorsMessagesCollection.passwordShort;
             } else {
-              this.setState({ currentEmailErrorMessage: "Password error" });
+              messagesForState.currentPasswordErrorMessage = "Ошибка пароля: Слишком простой";
             }
           }
           break;
@@ -138,9 +129,9 @@ class AuthForm extends PureComponent<AuthFormProps, AuthFormState> {
           {
             const errorStatus = loginError[key][0].predicate;
             if (errorStatus === "filled?") {
-              this.setState({ currentNameErrorMessage: errorsMessagesCollection.orgNameEmpty });
+              messagesForState.currentNameErrorMessage = errorsMessagesCollection.orgNameEmpty;
             } else {
-              this.setState({ currentNameErrorMessage: "Name error" });
+              messagesForState.currentNameErrorMessage = "Name error";
             }
           }
           break;
@@ -148,9 +139,9 @@ class AuthForm extends PureComponent<AuthFormProps, AuthFormState> {
           {
             const errorStatus = loginError[key][0].predicate;
             if (errorStatus === "filled?") {
-              this.setState({ currentWebsiteErrorMessage: errorsMessagesCollection.webSiteEmpty });
+              messagesForState.currentWebsiteErrorMessage = errorsMessagesCollection.webSiteEmpty;
             } else {
-              this.setState({ currentWebsiteErrorMessage: "Website error" });
+              messagesForState.currentWebsiteErrorMessage = "Website error";
             }
           }
           break;
@@ -161,8 +152,10 @@ class AuthForm extends PureComponent<AuthFormProps, AuthFormState> {
     }
 
     if (!loginError) {
-      this.setState({ currentEmailErrorMessage: errorsMessagesCollection.emailNotfound });
+      messagesForState.currentEmailErrorMessage = errorsMessagesCollection.emailNotfound;
     }
+
+    return messagesForState;
   };
 
   clearError = () => this.setState({ isError: false });
@@ -177,9 +170,8 @@ class AuthForm extends PureComponent<AuthFormProps, AuthFormState> {
       await this.Service.login(email, password);
       history.push("/faircv");
     } catch (loginError) {
-      console.log(loginError);
-      this.errorsParser(loginError);
-      this.setError();
+      const errorBody = this.errorsParser(loginError);
+      this.setError(errorBody);
       this.stopLoading();
     }
   };
@@ -194,9 +186,8 @@ class AuthForm extends PureComponent<AuthFormProps, AuthFormState> {
       await this.Service.createUser(email, name, url, password);
       history.push("/auth/check_email");
     } catch (signupError) {
-      console.log(signupError);
-      this.errorsParser(signupError);
-      this.setError();
+      const errorBody = this.errorsParser(signupError);
+      this.setError(errorBody);
       this.stopLoading();
     }
   };
@@ -209,8 +200,8 @@ class AuthForm extends PureComponent<AuthFormProps, AuthFormState> {
       await this.Service.createPassword(newPassword, token);
     } catch (setNewPasswordError) {
       console.log(setNewPasswordError);
-      this.errorsParser(setNewPasswordError);
-      this.setError();
+      const errorBody = this.errorsParser(setNewPasswordError);
+      this.setError(errorBody);
     } finally {
       this.stopLoading();
     }
@@ -223,9 +214,8 @@ class AuthForm extends PureComponent<AuthFormProps, AuthFormState> {
     try {
       await this.Service.resetPassword(email);
     } catch (resetError) {
-      console.log(resetError);
-      this.errorsParser(resetError);
-      this.setError();
+      const errorBody = this.errorsParser(resetError);
+      this.setError(errorBody);
     } finally {
       this.stopLoading();
     }
