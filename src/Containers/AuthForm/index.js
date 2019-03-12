@@ -96,53 +96,42 @@ class AuthForm extends PureComponent<AuthFormProps, AuthFormState> {
     const messagesForState = {};
     /* eslint-disable no-restricted-syntax, guard-for-in */
     for (const key in loginError) {
+      const errorStatus = loginError[key][0].predicate;
       switch (key) {
         case "email":
-          {
-            const errorStatus = loginError[key][0].predicate;
-            if (errorStatus === "filled?") {
-              messagesForState.currentEmailErrorMessage = errorsMessagesCollection.emailEmpty;
-            } else if (errorStatus === "email?") {
-              messagesForState.currentEmailErrorMessage = errorsMessagesCollection.emailInvalid;
-            } else if (errorStatus === "unique?") {
-              messagesForState.currentEmailErrorMessage = errorsMessagesCollection.emailUsed;
-            } else {
-              messagesForState.currentEmailErrorMessage = "Ошибка email";
-            }
+          if (errorStatus === "filled?") {
+            messagesForState.currentEmailErrorMessage = errorsMessagesCollection.emailEmpty;
+          } else if (errorStatus === "email?") {
+            messagesForState.currentEmailErrorMessage = errorsMessagesCollection.emailInvalid;
+          } else if (errorStatus === "unique?") {
+            messagesForState.currentEmailErrorMessage = errorsMessagesCollection.emailUsed;
+          } else {
+            messagesForState.currentEmailErrorMessage = "Ошибка email";
           }
           break;
         case "password":
-          {
-            const errorStatus = loginError[key][0].predicate;
-            if (errorStatus === "filled?") {
-              messagesForState.currentPasswordErrorMessage = errorsMessagesCollection.passwordEmpty;
-            } else if (errorStatus === "valid?") {
-              messagesForState.currentPasswordErrorMessage = errorsMessagesCollection.passwordWrong;
-            } else if (errorStatus === "min_size?") {
-              messagesForState.currentPasswordErrorMessage = errorsMessagesCollection.passwordShort;
-            } else {
-              messagesForState.currentPasswordErrorMessage = "Ошибка пароля: Слишком простой";
-            }
+          if (errorStatus === "filled?") {
+            messagesForState.currentPasswordErrorMessage = errorsMessagesCollection.passwordEmpty;
+          } else if (errorStatus === "valid?") {
+            messagesForState.currentPasswordErrorMessage = errorsMessagesCollection.passwordWrong;
+          } else if (errorStatus === "min_size?") {
+            messagesForState.currentPasswordErrorMessage = errorsMessagesCollection.passwordShort;
+          } else {
+            messagesForState.currentPasswordErrorMessage = "Ошибка пароля: Слишком простой";
           }
           break;
         case "name":
-          {
-            const errorStatus = loginError[key][0].predicate;
-            if (errorStatus === "filled?") {
-              messagesForState.currentNameErrorMessage = errorsMessagesCollection.orgNameEmpty;
-            } else {
-              messagesForState.currentNameErrorMessage = "Name error";
-            }
+          if (errorStatus === "filled?") {
+            messagesForState.currentNameErrorMessage = errorsMessagesCollection.orgNameEmpty;
+          } else {
+            messagesForState.currentNameErrorMessage = "Name error";
           }
           break;
         case "website":
-          {
-            const errorStatus = loginError[key][0].predicate;
-            if (errorStatus === "filled?") {
-              messagesForState.currentWebsiteErrorMessage = errorsMessagesCollection.webSiteEmpty;
-            } else {
-              messagesForState.currentWebsiteErrorMessage = "Website error";
-            }
+          if (errorStatus === "filled?") {
+            messagesForState.currentWebsiteErrorMessage = errorsMessagesCollection.webSiteEmpty;
+          } else {
+            messagesForState.currentWebsiteErrorMessage = "Website error";
           }
           break;
         default:
