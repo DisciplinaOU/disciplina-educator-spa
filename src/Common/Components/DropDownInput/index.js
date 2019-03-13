@@ -68,11 +68,17 @@ export default class DropDownInput extends React.PureComponent<DropDownInputProp
     }
   };
 
+  inputHasError = () => {
+    const { existInputError } = this.state;
+    const { isFormError, selectedValue } = this.props;
+    return existInputError || (isFormError && !selectedValue);
+  };
+
   setErrorClass = (isError: boolean) => this.setState({ existInputError: isError });
 
   render() {
-    const { title, list, className, selectedValue, isFormError } = this.props;
-    const { isSelectOpened, existInputError } = this.state;
+    const { title, list, className, selectedValue } = this.props;
+    const { isSelectOpened} = this.state;
     return (
       <div
         className={`dropdown-input ${isSelectOpened ? "active" : ""} ${className || ""}`}
@@ -83,9 +89,7 @@ export default class DropDownInput extends React.PureComponent<DropDownInputProp
       >
         {title ? <label className="dropdown-input__label">{title}</label> : null}
         <input
-          className={`dropdown-input__field ${
-            existInputError || (isFormError && !selectedValue) ? "dropdown-input__field--error" : ""
-          }`}
+          className={`dropdown-input__field ${this.inputHasError() ? "dropdown-input__field--error" : ""}`}
           type="text"
           readOnly
           value={selectedValue}
