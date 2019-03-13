@@ -3,7 +3,7 @@ import React from "react";
 import "./styles.scss";
 
 type RegularInputState = {
-  showErrorClass: boolean
+  existInputError: boolean
 };
 
 type RegularInputProps = {
@@ -28,12 +28,12 @@ export default class RegularInput extends React.PureComponent<RegularInputProps,
   };
 
   state = {
-    showErrorClass: false
+    existInputError: false
   };
 
   onBlurHandler = (e: SyntheticEvent<HTMLInputElement>) => {
     const { existErrorCondition } = this.props;
-    if (existErrorCondition) this.setState({ showErrorClass: !e.currentTarget.value });
+    if (existErrorCondition) this.setState({ existInputError: !e.currentTarget.value });
   };
 
   onChangeHandler = (e: SyntheticEvent<HTMLInputElement>) => {
@@ -43,14 +43,14 @@ export default class RegularInput extends React.PureComponent<RegularInputProps,
 
   render() {
     const { value, title, placeholder, width = " auto-width", className, isFormError } = this.props;
-    const { showErrorClass } = this.state;
+    const { existInputError } = this.state;
 
     return (
       <div className={`regular-input input ${className || ""}`}>
         {title ? <label className="regular-input__label">{title}</label> : null}
         <input
           className={`regular-input__field ${width} ${
-            showErrorClass || (isFormError && !value) ? "regular-input__field--error" : ""
+            existInputError || (isFormError && !value) ? "regular-input__field--error" : ""
           }`}
           value={value}
           placeholder={placeholder}
