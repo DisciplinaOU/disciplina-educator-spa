@@ -39,7 +39,11 @@ class FaircvService implements IFaircvService {
   _serializefilter(filter: {}): string {
     if (!filter) return "";
     const urlParams = Object.keys(filter)
-      .map(key => (filter[key] ? `${key}=${filter[key]}` : ""))
+      .map(key =>
+        Object.prototype.hasOwnProperty.call(filter, key)
+          ? `${encodeURIComponent(key)}=${encodeURIComponent(filter[key])}`
+          : ""
+      )
       .filter(Boolean)
       .join("&");
     return `?${urlParams}`;
