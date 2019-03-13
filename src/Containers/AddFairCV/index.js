@@ -110,17 +110,12 @@ export class AddFairCV extends React.PureComponent<AddFairCVProps, AddFairCVStat
 
   addFormError = () => {
     const { grades } = this.state;
-    this.setState({ isFormError: true });
     if (!grades.length) {
-      this.setScoresError();
+      this.setState({ isFormError: true, isScoresError: true });
     } else {
-      this.removeScoreError();
+      this.setState({ isFormError: true, isScoresError: false });
     }
   };
-
-  setScoresError = () => this.setState({ isScoresError: true });
-
-  removeScoreError = () => this.setState({ isScoresError: false });
 
   clearFormError = () => {
     this.setState({ isFormError: false });
