@@ -41,15 +41,10 @@ export default class RegularInput extends React.PureComponent<RegularInputProps,
     dispatchValue(e.currentTarget.value);
   };
 
-  inputHasErrorCheck = () => {
-    const { existInputError } = this.state;
-    const { isFormError, value } = this.props;
-    return existInputError || (isFormError && !value);
-  };
-
   render() {
-    const { value, title, placeholder, width = " auto-width", className } = this.props;
-    const inputHasError = this.inputHasErrorCheck();
+    const { value, title, placeholder, width = " auto-width", className, isFormError } = this.props;
+    const { existInputError } = this.state;
+    const inputHasError = existInputError || (isFormError && !value);
 
     return (
       <div className={`regular-input input ${className || ""}`}>
