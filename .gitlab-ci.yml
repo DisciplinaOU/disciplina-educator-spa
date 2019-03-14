@@ -9,6 +9,7 @@ build:
   image: &base-image node:10-slim
   script:
       - export API_URL="https://api.example.com/"
+      - apt-get update && apt-get install -y git
       - yarn install
       #- yarn test
       - yarn build
