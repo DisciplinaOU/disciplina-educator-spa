@@ -36,7 +36,8 @@ type AddFairCVState = {
     cancel: () => void
   },
   yearsArray: Array<number>,
-  isFormError: boolean
+  isFormError: boolean,
+  isScoresError: boolean
 };
 
 type AddFairCVProps = {
@@ -70,7 +71,8 @@ export class AddFairCV extends React.PureComponent<AddFairCVProps, AddFairCVStat
     specialization: "",
     modal: clearModalState,
     yearsArray: [],
-    isFormError: false
+    isFormError: false,
+    isScoresError: false
   };
 
   componentDidMount() {
@@ -107,7 +109,7 @@ export class AddFairCV extends React.PureComponent<AddFairCVProps, AddFairCVStat
   };
 
   addFormError = () => {
-    this.setState({ isFormError: true });
+    this.setState(state => ({ isFormError: true, isScoresError: !state.grades.length }));
   };
 
   clearFormError = () => {
@@ -129,7 +131,7 @@ export class AddFairCV extends React.PureComponent<AddFairCVProps, AddFairCVStat
     });
   };
 
-  openExitModal = () =>
+  openExitModal = () => {
     this.setState({
       modal: {
         state: "CLOSE",
@@ -137,6 +139,7 @@ export class AddFairCV extends React.PureComponent<AddFairCVProps, AddFairCVStat
         cancel: () => this.closeModal()
       }
     });
+  };
 
   getDataPickerBirthRef = (node: any) => {
     this._dataPickerBirthElement = node;
@@ -182,8 +185,7 @@ export class AddFairCV extends React.PureComponent<AddFairCVProps, AddFairCVStat
     return "";
   };
 
-  handleStudentName = (v: string) =>
-    this.setState(state => (state.isFormError ? { studentName: v, isFormError: false } : { studentName: v }));
+  handleStudentName = (v: string) => this.setState({ studentName: v });
 
   handleStudentBirthDate = (v: Date) => this.setState({ studentBirthDate: v });
 
@@ -193,19 +195,15 @@ export class AddFairCV extends React.PureComponent<AddFairCVProps, AddFairCVStat
 
   handleEducationForm = (v: EducationFormEnum) => this.setState({ educationForm: v });
 
-  handleNumber = (v: string) =>
-    this.setState(state => (state.isFormError ? { number: v, isFormError: false } : { number: v }));
+  handleNumber = (v: string) => this.setState({ number: v });
 
   handleIssueDate = (v: Date) => this.setState({ issueDate: v });
 
-  handleTitle = (v: string) =>
-    this.setState(state => (state.isFormError ? { title: v, isFormError: false } : { title: v }));
+  handleTitle = (v: string) => this.setState({ title: v });
 
-  handleMajor = (v: string) =>
-    this.setState(state => (state.isFormError ? { major: v, isFormError: false } : { major: v }));
+  handleMajor = (v: string) => this.setState({ major: v });
 
-  handleSpecialization = (v: string) =>
-    this.setState(state => (state.isFormError ? { specialization: v, isFormError: false } : { specialization: v }));
+  handleSpecialization = (v: string) => this.setState({ specialization: v });
 
   _formatDate = (date: Date) => {
     const y = date.getFullYear();
@@ -300,7 +298,8 @@ export class AddFairCV extends React.PureComponent<AddFairCVProps, AddFairCVStat
       endYear,
       modal,
       yearsArray,
-      isFormError
+      isFormError,
+      isScoresError
     } = this.state;
     return (
       <>
@@ -405,6 +404,8 @@ export class AddFairCV extends React.PureComponent<AddFairCVProps, AddFairCVStat
                     <label className="data-input__label">Дата выдачи</label>
                     <div className="data-input__wrapper">
                       <DatePicker
+                        showDisabledYearNavigation
+                        forceShowYearNavigation
                         selected={issueDate}
                         onChange={this.handleIssueDate}
                         dateFormat="yyyy-MM-dd"
@@ -445,7 +446,7 @@ export class AddFairCV extends React.PureComponent<AddFairCVProps, AddFairCVStat
                   dispatchValue={this.handleSpecialization}
                 />
               </div>
-              <Scores dispatchScores={this.updateGrades} isFormError={isFormError} />
+              <Scores dispatchScores={this.updateGrades} isFormError={isScoresError} />
             </form>
           </div>
           <Reminder dispatchSubmit={this.addNewFaircv} isFormError={isFormError} />

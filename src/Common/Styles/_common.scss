@@ -10,6 +10,10 @@ html {
   height: 100%;
 }
 
+#root {
+  height: 100%;
+}
+
 a {
   text-decoration: none;
   outline: none !important;
@@ -145,9 +149,4 @@ ul {
   top: 33px;
   left: 0;
   @include smallerString($color-red);
-
-  &--scores {
-    position: relative;
-    top: 0;
-  }
 }

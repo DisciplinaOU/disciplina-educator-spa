@@ -12,7 +12,7 @@
   min-height: 300px;
 
   &__container {
-    max-width: 482px;
+    max-width: 480px;
     width: calc(100% - 32px);
     position: absolute;
     top: 40%;
@@ -65,6 +65,10 @@
     &:last-child {
       margin-right: 0;
     }
+  }
+
+  .reminder {
+    background-color: transparent;
   }
 
   @media screen and (max-width: $phablet) {
