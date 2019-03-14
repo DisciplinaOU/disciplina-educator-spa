@@ -13,6 +13,33 @@ export const AUTH_FORM_STATES = {
   RECOVERY: "recovery"
 };
 
+const errorsMessagesCollection = {
+  email: {
+    "filled?": "Введите email",
+    "email?": "Некорректный  email адрес",
+    "unique?": "Пользователь с таким email адресом уже существует",
+    "notfound?": "Пользователь с таким email адресом не найден"
+  },
+  password: {
+    "filled?": "Введите пароль",
+    "valid?": "Email адрес и пароль не совпадают",
+    "min_size?": "Пароль должен содержать 6 и более знаков"
+  },
+  name: {
+    "filled?": "Введите название организации"
+  },
+  website: {
+    "filled?": "Введите сайт организации"
+  }
+};
+
+const initialEmptyMessages = {
+  emailErrorMessage: "",
+  passwordErrorMessage: "",
+  nameErrorMessage: "",
+  websiteErrorMessage: ""
+};
+
 type AuthFormState = {
   currentState: $Values<typeof AUTH_FORM_STATES>,
   isLoading: boolean,
@@ -22,7 +49,11 @@ type AuthFormState = {
   name: string,
   url: string,
   token: string,
-  isError: boolean
+  isError: boolean,
+  emailErrorMessage: string,
+  passwordErrorMessage: string,
+  nameErrorMessage: string,
+  websiteErrorMessage: string
 };
 
 type AuthFormProps = {
@@ -42,7 +73,8 @@ class AuthForm extends PureComponent<AuthFormProps, AuthFormState> {
     newPassword: "",
     name: "",
     url: "",
-    token: ""
+    token: "",
+    ...initialEmptyMessages
   };
 
   componentDidMount(): void {
@@ -59,7 +91,30 @@ class AuthForm extends PureComponent<AuthFormProps, AuthFormState> {
     }
   }
 
-  setError = () => this.setState({ isError: true });
+  setError = (errorBody: {}) => this.setState({ isError: true, ...errorBody });
+
+  clearCurrentErrorsMessage = () => {
+    this.setState({
+      ...initialEmptyMessages
+    });
+  };
+
+  errorsParser = (loginError: any) => {
+    this.clearCurrentErrorsMessage();
+    const messagesForState = {};
+    const loginErrorKeys = Object.keys(loginError);
+    for (let i = 0; i < loginErrorKeys.length; i++) {
+      const key = loginErrorKeys[i];
+      const errorStatus = loginError[key][0].predicate;
+      messagesForState[`${key}ErrorMessage`] = errorsMessagesCollection[key][errorStatus] || "Неизвестная ошибка";
+    }
+
+    if (!loginError) {
+      messagesForState.emailErrorMessage = errorsMessagesCollection.email["notfound?"];
+    }
+
+    return messagesForState;
+  };
 
   clearError = () => this.setState({ isError: false });
 
@@ -73,8 +128,8 @@ class AuthForm extends PureComponent<AuthFormProps, AuthFormState> {
       await this.Service.login(email, password);
       history.push("/faircv");
     } catch (loginError) {
-      console.log(loginError);
-      this.setError();
+      const errorBody = this.errorsParser(loginError);
+      this.setError(errorBody);
       this.stopLoading();
     }
   };
@@ -89,8 +144,8 @@ class AuthForm extends PureComponent<AuthFormProps, AuthFormState> {
       await this.Service.createUser(email, name, url, password);
       history.push("/auth/check_email");
     } catch (signupError) {
-      console.log(signupError);
-      this.setError();
+      const errorBody = this.errorsParser(signupError);
+      this.setError(errorBody);
       this.stopLoading();
     }
   };
@@ -101,9 +156,10 @@ class AuthForm extends PureComponent<AuthFormProps, AuthFormState> {
     this.startLoading();
     try {
       await this.Service.createPassword(newPassword, token);
-    } catch (e) {
-      console.log(e);
-      this.setError();
+    } catch (setNewPasswordError) {
+      console.log(setNewPasswordError);
+      const errorBody = this.errorsParser(setNewPasswordError);
+      this.setError(errorBody);
     } finally {
       this.stopLoading();
     }
@@ -115,9 +171,9 @@ class AuthForm extends PureComponent<AuthFormProps, AuthFormState> {
     this.startLoading();
     try {
       await this.Service.resetPassword(email);
-    } catch (e) {
-      console.log(e);
-      this.setError();
+    } catch (resetError) {
+      const errorBody = this.errorsParser(resetError);
+      this.setError(errorBody);
     } finally {
       this.stopLoading();
     }
@@ -170,7 +226,20 @@ class AuthForm extends PureComponent<AuthFormProps, AuthFormState> {
     });
 
   render() {
-    const { currentState, email, password, name, newPassword, url, isLoading, isError } = this.state;
+    const {
+      currentState,
+      email,
+      password,
+      name,
+      newPassword,
+      url,
+      isLoading,
+      isError,
+      emailErrorMessage,
+      passwordErrorMessage,
+      nameErrorMessage,
+      websiteErrorMessage
+    } = this.state;
 
     return (
       <div className="container">
@@ -203,6 +272,9 @@ class AuthForm extends PureComponent<AuthFormProps, AuthFormState> {
                           value={email}
                           onChange={this.handleEmailInput}
                         />
+                        {isError ? (
+                          <span className="login-form__message valid-message">{emailErrorMessage}</span>
+                        ) : null}
                       </div>
                       <div className="login-form__input-container">
                         <input
@@ -216,7 +288,9 @@ class AuthForm extends PureComponent<AuthFormProps, AuthFormState> {
                           onChange={this.handlePasswordInput}
                           type="password"
                         />
-                        {isError ? <span className="login-form__message valid-message">Credentials error</span> : null}
+                        {isError ? (
+                          <span className="login-form__message valid-message">{passwordErrorMessage}</span>
+                        ) : null}
                       </div>
                       <Button
                         type="submit"
@@ -259,7 +333,9 @@ class AuthForm extends PureComponent<AuthFormProps, AuthFormState> {
                           value={email}
                           onChange={this.handleEmailInput}
                         />
-                        {isError ? <span className="login-form__message valid-message">Check email</span> : null}
+                        {isError ? (
+                          <span className="login-form__message valid-message">{emailErrorMessage}</span>
+                        ) : null}
                       </div>
                       <div className="login-form__input-container">
                         <input
@@ -273,7 +349,7 @@ class AuthForm extends PureComponent<AuthFormProps, AuthFormState> {
                           onChange={this.handleNameInput}
                         />
                         {isError ? (
-                          <span className="login-form__message valid-message">Check organization name</span>
+                          <span className="login-form__message valid-message">{nameErrorMessage}</span>
                         ) : null}
                       </div>
                       <div className="login-form__input-container">
@@ -287,7 +363,9 @@ class AuthForm extends PureComponent<AuthFormProps, AuthFormState> {
                           value={url}
                           onChange={this.handleUrlInput}
                         />
-                        {isError ? <span className="login-form__message valid-message">Check website</span> : null}
+                        {isError ? (
+                          <span className="login-form__message valid-message">{websiteErrorMessage}</span>
+                        ) : null}
                       </div>
                       <div className="login-form__input-container">
                         <input
@@ -301,7 +379,9 @@ class AuthForm extends PureComponent<AuthFormProps, AuthFormState> {
                           onChange={this.handlePasswordInput}
                           type="password"
                         />
-                        {isError ? <span className="login-form__message valid-message">Check password</span> : null}
+                        {isError ? (
+                          <span className="login-form__message valid-message">{passwordErrorMessage}</span>
+                        ) : null}
                       </div>
                       <Button
                         type="submit"
@@ -331,7 +411,9 @@ class AuthForm extends PureComponent<AuthFormProps, AuthFormState> {
                           value={newPassword}
                           onChange={this.handleNewPasswordInput}
                         />
-                        {isError ? <span className="login-form__message valid-message">Check password</span> : null}
+                        {isError ? (
+                          <span className="login-form__message valid-message">{passwordErrorMessage}</span>
+                        ) : null}
                       </div>
                       <Button
                         text="Сохранить"
@@ -366,7 +448,9 @@ class AuthForm extends PureComponent<AuthFormProps, AuthFormState> {
                           value={email}
                           onChange={this.handleEmailInput}
                         />
-                        {isError ? <span className="login-form__message valid-message">Check email</span> : null}
+                        {isError ? (
+                          <span className="login-form__message valid-message">{emailErrorMessage}</span>
+                        ) : null}
                       </div>
                       <Button
                         text="Отправить"

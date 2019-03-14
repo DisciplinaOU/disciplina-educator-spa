@@ -29,7 +29,7 @@ class AAAService implements IAAAService {
         if (response.data.token) localStorage.setItem("token", response.data.token);
         return response;
       },
-      error => Promise.reject(error)
+      error => Promise.reject(error.response.data)
     );
 
     this.httpService.interceptors.request.use(
