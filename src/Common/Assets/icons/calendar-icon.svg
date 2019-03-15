@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="20px" height="17px" viewBox="0 0 20 17" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52.4 (67378) - http://www.bohemiancoding.com/sketch -->
+    <title>Shape</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Form-App" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Add-CV-tablet" transform="translate(-709.000000, -301.000000)" fill="#002590">
+            <g id="form" transform="translate(24.000000, 217.000000)">
+                <path d="M702.333333,84 L687.666667,84 C686.193333,84 685,84.8462222 685,85.8888889 L685,99.1111111 C685,100.153778 686.193333,101 687.666667,101 L702.333333,101 C703.805333,101 705,100.153778 705,99.1111111 L705,85.8888889 C705,84.8462222 703.805333,84 702.333333,84 L702.333333,84 Z M687,89 L703,89 L703,99 L687,99 L687,89 Z M688,90 L690,90 L690,92 L688,92 L688,90 Z M688,93 L690,93 L690,95 L688,95 L688,93 Z M688,96 L690,96 L690,98 L688,98 L688,96 Z M691,90 L693,90 L693,92 L691,92 L691,90 Z M691,93 L693,93 L693,95 L691,95 L691,93 Z M691,96 L693,96 L693,98 L691,98 L691,96 Z M694,90 L696,90 L696,92 L694,92 L694,90 Z M694,93 L696,93 L696,95 L694,95 L694,93 Z M697,90 L699,90 L699,92 L697,92 L697,90 Z M697,93 L699,93 L699,95 L697,95 L697,93 Z M700,90 L702,90 L702,92 L700,92 L700,90 Z M700,93 L702,93 L702,95 L700,95 L700,93 Z" id="Shape" transform="translate(695.000000, 92.500000) rotate(-360.000000) translate(-695.000000, -92.500000) "></path>
+            </g>
+        </g>
+    </g>
+</svg>

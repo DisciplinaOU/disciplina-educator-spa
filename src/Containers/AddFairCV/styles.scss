@@ -1,0 +1,214 @@
+@import '../../Common/Styles/mixins';
+@import '../../Common/Styles/variables';
+
+
+.input-container {
+  margin-bottom: 24px;
+
+  &__title {
+    @include customTitle(24px, 28px);
+    margin: 0 0 16px;
+  }
+
+  @media screen and (max-width: $mobile) {
+    &__title {
+      @include customTitle(18px, 22px);
+    }
+  }
+}
+
+.input-group {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+
+  .input,
+  .dropdown-input {
+    margin-right: $size-l;
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+
+  @media screen and (max-width: $phablet) {
+    flex-wrap: wrap;
+  }
+}
+
+.input {
+  margin-bottom: $size-m;
+}
+
+.data-input {
+  display: inline-block;
+
+  &__label {
+    display: block;
+    @include largerString();
+    margin-bottom: $size-xs;
+  }
+
+  .react-datepicker-wrapper {
+    input {
+      display: block;
+      background-color: $color-gray-2;
+      border-radius: $border-radius;
+      @include largerString();
+      padding: 7px 8px 9px;
+      border: 1px solid transparent;
+      transition: border-color $transition;
+      outline: 0;
+
+      &.react-datepicker-ignore-onclickoutside {
+        border-color: $color-blue;
+      }
+    }
+  }
+
+  &__wrapper {
+    position: relative;
+    max-width: 230px;
+    line-height: 1;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    cursor: pointer;
+  }
+
+  &__icon {
+    display: inline-block;
+    width: 20px;
+    height: 17px;
+    cursor: pointer;
+    margin-left: 8px;
+  }
+
+  &--calendar {
+    min-width: 326px;
+  }
+
+  @media screen and (max-width: $mobile) {
+    &--calendar {
+      width: 100%;
+      min-width: 0;
+    }
+
+    &__wrapper {
+      max-width: calc(100%);
+    }
+  }
+}
+
+.add-form {
+  flex: 1 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+
+  &__title {
+    text-align: left;
+    margin: 24px 32px 24px 0;
+    @include customTitle(36px, 42px);
+  }
+
+  form {
+    margin-bottom: $size-l;
+  }
+
+  .navigation-link {
+    margin-top: 24px;
+  }
+
+  &__navigation-link + .add-form__title {
+    margin-top: 16px;
+  }
+
+  .input-sudent {
+    width: 100%;
+    max-width: 904px;
+  }
+
+  .input-education-start,
+  .input-education-end {
+    width: 100%;
+    max-width: 130px;
+
+    input {
+      width: 104px;
+      box-sizing: border-box;
+    }
+
+    &:after {
+      right: 38px;
+    }
+  }
+
+  .input-education-end {
+    &:before {
+      content: '';
+      display: block;
+      width: 14px;
+      height: 2px;
+      background-color: $color-black;
+      position: absolute;
+      left: -37px;
+      top: 40px;
+    }
+  }
+
+  .input-number {
+    width: 100%;
+    max-width: 384px;
+  }
+
+  .input-rank {
+    width: 100%;
+    max-width: 900px;
+  }
+
+  .reminder {
+    margin-top: auto;
+  }
+
+  @media screen and (max-width: $phablet) {
+    .input {
+      margin-bottom: 16px;
+    }
+
+    .input-education-end,
+    .input-education-start {
+      margin-bottom: 16px;
+    }
+
+    .input-student {
+      margin-right: 0;
+    }
+  }
+
+  @media screen and (max-width: $mobile) {
+    &__title {
+      @include customTitle(24px, 28px);
+      margin-top: 12px;
+    }
+
+    .input-number {
+      max-width: none;
+      margin-right: 0;
+    }
+
+    .input-education-end {
+      margin-right: 0;
+
+      &:before {
+        left: -35px;
+      }
+    }
+
+    .input-education-start {
+      margin-right: 28px;
+    }
+  }
+}

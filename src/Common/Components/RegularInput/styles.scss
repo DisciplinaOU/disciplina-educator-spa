@@ -1,0 +1,34 @@
+@import '../../Styles/mixins';
+@import '../../Styles/variables';
+
+.regular-input {
+  &__label {
+    display: block;
+    @include largerString();
+    margin-bottom: $size-xs;
+  }
+
+  &__field {
+    display: block;
+    background-color: $color-gray-2;
+    border-radius: $border-radius;
+    @include largerString();
+    padding: 7px 8px 9px;
+    border: 1px solid transparent;
+    transition: border-color $transition;
+    outline: 0;
+
+    &:focus {
+      border-color: $color-blue;
+    }
+
+    &--error {
+      border-color: $color-rose;
+    }
+  }
+
+  &.input-student {
+    max-width: 900px;
+    width: 100%;
+  }
+}

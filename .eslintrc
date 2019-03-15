@@ -1,0 +1,59 @@
+{
+  "parser": "babel-eslint",
+  "extends": [
+    "airbnb",
+    "plugin:prettier/recommended",
+    "prettier/flowtype",
+    "prettier/react"
+  ],
+  "plugins": [
+    "react",
+    "jsx-a11y",
+    "import",
+    "flowtype",
+    "prettier"
+  ],
+  "rules": {
+    "react/jsx-filename-extension": [1, { "extensions": [".js"] }],
+    "prefer-destructuring": ["warn", {"object": true, "array": false}],
+    "import/no-named-as-default": 0,
+    "import/no-named-as-default-member": 0,
+    "import/named": 0,
+    "max-len": ["warn", 120],
+    "comma-dangle": "off",
+    "class-methods-use-this": "off",
+    "object-curly-newline": "off",
+    "no-underscore-dangle": "off",
+    "flowtype/define-flow-type": 1,
+    "flowtype/use-flow-type": 1,
+    "no-param-reassign": "off",
+    "no-console": "off", // TODO remove for production!,
+    "spaced-comment": "off",
+    "jsx-a11y/no-static-element-interactions": "off",
+    "jsx-a11y/no-noninteractive-element-interactions": "off",
+    "jsx-a11y/click-events-have-key-events": "off",
+    "jsx-a11y/label-has-for": "off",
+    "jsx-a11y/label-has-associated-control": "off",
+    "no-plusplus": [2, { "allowForLoopAfterthoughts": true }],
+    "no-bitwise": "off",
+    "no-unused-expressions": ["error", { "allowTernary": true }]
+  },
+  "globals": {
+    "document": true,
+    "window": true,
+    "HTMLInputElement": true,
+    "FileReader": true,
+    "SyntheticEvent": true,
+    "SyntheticInputEvent": true,
+    "Image": true,
+    "File": true,
+    "FormData": true,
+    "navigator": true,
+    "WebSocket": true,
+    "localStorage": true,
+    "Blob": true
+  },
+  "env": {
+    "jest": true
+  }
+}

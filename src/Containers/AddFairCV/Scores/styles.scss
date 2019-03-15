@@ -1,0 +1,374 @@
+@import '../../../Common/Styles/mixins';
+@import '../../../Common/Styles/variables';
+
+.scores {
+  .input {
+    margin: 0;
+  }
+
+  &__title {
+    @include customTitle(24px, 28px);
+    margin: 0 0 16px;
+  }
+
+  .table {
+    &__row {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      align-items: flex-start;
+      padding: 12px 0;
+      position: relative;
+
+      &:last-child {
+        padding-bottom: 0;
+      }
+    }
+
+    &__item {
+      margin-right: 16px;
+      box-sizing: border-box;
+
+      input {
+        width: 100%;
+        box-sizing: border-box;
+      }
+
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+
+    &__item--course {
+      flex: 1 0 200px;
+      padding-right: 24px;
+    }
+
+    &__item--lang {
+      flex: 0 0 80px;
+    }
+
+    &__item--hours {
+      flex: 0 0 80px;
+    }
+
+    &__item--credits {
+      flex: 0 0 120px;
+    }
+
+    &__item--score {
+      flex: 0 0 200px;
+      flex-basis: 232px;
+    }
+
+    &__item--button-edit,
+    &__item--button-remove {
+      flex: 0 0 20px;
+
+      .button--edit,
+      .button--remove {
+        width: 20px;
+        height: 20px;
+        cursor: pointer;
+      }
+    }
+
+    &__row--head {
+      padding-top: 0;
+      padding-bottom: 8px;
+
+      &.active {
+        border-bottom: 1px solid $color-black;
+
+        & + .table__row {
+          padding-top: 16px;
+        }
+
+        .table__form {
+          padding-top: 12px;
+        }
+      }
+    }
+
+    &__form {
+      flex-wrap: wrap;
+
+      .table__item--submit {
+        flex-basis: 100%;
+        margin: 32px 0 0;
+      }
+
+      .table__item--score {
+        flex-basis: 232px;
+        margin-right: 72px;
+      }
+
+      .table__item--lang,
+      .table__item--score {
+        .dropdown-input__list {
+          max-height: auto;
+          overflow-y: auto;
+        }
+      }
+
+      .table__item--course {
+        padding-right: 0;
+      }
+    }
+  }
+
+  &-valid-message {
+    top: auto;
+    bottom: 48px;
+  }
+
+  @media screen and (max-width: $desktop) {
+    .table {
+      &__row--head.active {
+        display: none;
+
+        & + .table__row {
+          padding-top: 0;
+          border: 0;
+        }
+      }
+
+      &__row {
+        flex-wrap: wrap;
+        border-top: 1px solid $color-gray-3;
+
+        &:first-child {
+          border: 0;
+        }
+
+        .table__item {
+          margin-bottom: 8px;
+          margin-right: 8px;
+
+          &:before {
+            display: block;
+            @include smallerString($color-gray-text);
+            margin-bottom: 2px;
+          }
+        }
+
+        .table__item--button-edit {
+          order: 2;
+          margin-top: 4px;
+        }
+
+        .table__item--button-remove {
+          order: 3;
+          margin-top: 4px;
+        }
+
+        .table__item--lang {
+          order: 4;
+          margin-left: 0;
+
+          &:before {
+            content: 'Язык';
+          }
+        }
+
+        .table__item--hours {
+          order: 5;
+
+          &:before {
+            content: 'Часов';
+          }
+        }
+
+        .table__item--credits {
+          order: 6;
+
+          &:before {
+            content: 'ECTS credits';
+          }
+        }
+
+        .table__item--course {
+          flex-basis: calc(100% - 80px);
+          order: 1;
+          font-weight: 500;
+          margin-bottom: 10px;
+        }
+
+        .table__item--score {
+          order: 7;
+          flex-basis: 184px;
+
+          &:before {
+            content: 'Оценка';
+          }
+        }
+
+        .table__item--submit {
+          order: 8;
+        }
+
+        &.table__form {
+          &:last-child {
+            border-top: 0;
+          }
+
+          .table__item {
+            margin-bottom: 16px;
+            margin-right: 16px;
+
+            &:last-child {
+              margin-bottom: 0;
+            }
+
+            &:nth-last-child(2) {
+              margin-right: 0;
+            }
+
+            &:before {
+              @include largerString();
+              margin-bottom: 8px;
+            }
+          }
+
+          .table__item--course {
+            margin-right: 0;
+
+            &:before {
+              content: 'Курс';
+            }
+          }
+        }
+      }
+    }
+  }
+
+  @media screen and (max-width: $mobile) {
+    &__title {
+      @include customTitle(18px, 22px);
+    }
+  }
+}
+
+.data-input__wrapper {
+  .react-datepicker-popper {
+    z-index: 99;
+
+    .react-datepicker {
+      border-radius: 3px;
+      border: 0;
+      box-shadow: 0 0 2px rgba(0, 0, 0, 0.25);
+
+      &__current-month {
+        padding-bottom: 16px;
+        @include titleH4();
+        font-weight: 500;
+      }
+
+      &__header {
+        background-color: transparent;
+        border: 0;
+        padding-top: 24px;
+      }
+
+      &__triangle {
+        border-bottom-color: $color-white !important;
+        left: 50px;
+
+        &:before {
+          border-bottom-color: #DFDFDF !important;
+          border-top-color: #DFDFDF !important;
+        }
+      }
+
+      &__navigation {
+        top: 27px;
+        border: 0;
+        width: 14px;
+        height: 14px;
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: right;
+      }
+
+      &__navigation--next {
+        right: 50px;
+        background-image: url('../../../Common/Assets/icons/arrow-icon.svg');
+      }
+
+      &__navigation--next-year {
+        right: 25px;
+        background-image: url('../../../Common/Assets/icons/double-arrow-icon.svg');
+      }
+
+      &__navigation--previous {
+        left: 50px;
+        background-image: url('../../../Common/Assets/icons/arrow-icon.svg');
+        transform: rotate(180deg);
+      }
+
+      &__navigation--previous-year {
+        left: 25px;
+        background-image: url('../../../Common/Assets/icons/double-arrow-icon.svg');
+        transform: rotate(180deg);
+      }
+
+      &__month {
+        margin: 0;
+        padding: 18px;
+      }
+
+      &__day-names {
+        margin-top: 5px;
+        display: flex;
+        justify-content: space-between;
+        padding: 0 24px;
+      }
+
+      &__day-name {
+        text-transform: uppercase;
+        @include smallerString($color-gray-text);
+        font-weight: 500;
+      }
+
+      &__day {
+        width: 38px;
+        height: 38px;
+        @include normalString();
+        line-height: 37px;
+
+        &:hover {
+          border-radius: 50%;
+        }
+      }
+
+      &__day--today {
+        color: $color-blue;
+        font-weight: 700;
+      }
+
+      &__day--selected {
+        border-radius: 50%;
+        background-color: $color-blue;
+        font-weight: 400;
+        color: $color-white;
+
+        &:hover {
+          background-color: $color-blue;
+          border-radius: 50%;
+        }
+      }
+
+      &__day--outside-month {
+        color: $color-gray-text;
+      }
+
+      @media screen and (max-width: $mobile) {
+        &__day {
+          width: 32px;
+          height: 32px;
+          line-height: 31px;
+        }
+      }
+    }
+  }
+}

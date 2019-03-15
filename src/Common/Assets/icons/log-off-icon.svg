@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="20px" height="14px" viewBox="0 0 20 14" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52.4 (67378) - http://www.bohemiancoding.com/sketch -->
+    <title>Group 5</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Form-App" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="CV-list-empty" transform="translate(-1169.000000, -35.000000)" fill="#FFFFFF">
+            <g id="header">
+                <g id="Group-5" transform="translate(1169.000000, 35.000000)">
+                    <path d="M14,3 L12,3 L12,11 L14,11 L14,12.4444444 C14,13.3031111 13.1637333,14 12.1333333,14 L1.86666667,14 C0.835333333,14 -1.54381697e-15,13.3031111 -1.33350429e-15,12.4444444 L1.33350429e-15,1.55555556 C1.54381697e-15,0.696888889 0.835333333,-1.57175918e-15 1.86666667,-1.31915537e-15 L12.1333333,1.19545273e-15 C13.1637333,1.44782794e-15 14,0.696888889 14,1.55555556 L14,3 Z M2,2 L2,12 L12,12 L12,2 L2,2 Z" id="Combined-Shape"></path>
+                    <rect id="Rectangle-2" x="11" y="6" width="5" height="2"></rect>
+                    <polygon id="Triangle" transform="translate(18.000000, 7.000000) rotate(90.000000) translate(-18.000000, -7.000000) " points="18 5 21 9 15 9"></polygon>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -1,0 +1,26 @@
+@import '../../Styles/mixins';
+@import '../../Styles/variables';
+
+.mail_confirmed {
+  margin: 20vh auto;
+  max-width: 560px;
+  text-align: center;
+
+  &__img {
+    width: 140px;
+  }
+
+  &__title {
+    @include titleH3();
+    margin-top: 32px;
+  }
+
+  &__text {
+    @include largerString();
+    margin-top: 16px;
+
+    & + .btn {
+      margin-top: 16px;
+    }
+  }
+}

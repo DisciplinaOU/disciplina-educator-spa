@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="20px" height="20px" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52.6 (67491) - http://www.bohemiancoding.com/sketch -->
+    <title>icons/mail</title>
+    <desc>Created with Sketch.</desc>
+    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <path d="M18.2091086,3.25362401 L10,9 L1.79089144,3.25362401 C2.16076641,3.09054768 2.56980893,3 3,3 L17,3 C17.4301911,3 17.8392336,3.09054768 18.2091086,3.25362401 Z M19.5040297,4.34717919 C19.8174884,4.82111526 20,5.3892437 20,6 L20,14 C20,15.6568542 18.6568542,17 17,17 L3,17 C1.34314575,17 2.02906125e-16,15.6568542 0,14 L0,6 C-7.47960754e-17,5.3892437 0.18251159,4.82111526 0.495970266,4.34717919 L10,11 L19.5040297,4.34717919 Z" fill="#C9C9C9"></path>
+    </g>
+</svg>

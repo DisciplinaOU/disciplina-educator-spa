@@ -3,12 +3,34 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "react": "^16.7.0",
-    "react-dom": "^16.7.0",
+    "axios": "^0.18.0",
+    "base64url": "^3.0.1",
+    "date-fns": "^2.0.0-alpha.27",
+    "eslint-config-airbnb": "^17.1.0",
+    "husky": "^1.3.1",
+    "node-sass": "^4.11.0",
+    "react": "^16.8.1",
+    "react-datepicker": "https://github.com/truekubas/react-datepicker#8e3c15d9d259977438faba1bb0f6f3a391f71d2a",
+    "react-dom": "^16.8.1",
+    "react-router-dom": "^4.3.1",
     "react-scripts": "2.1.3"
   },
+  "devDependencies": {
+    "eslint-config-prettier": "^4.0.0",
+    "eslint-plugin-flowtype": "^3.2.1",
+    "eslint-plugin-import": "^2.16.0",
+    "eslint-plugin-jsx-a11y": "^6.2.1",
+    "eslint-plugin-prettier": "^3.0.1",
+    "eslint-plugin-react": "^7.12.4",
+    "prettier": "^1.16.4"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "flow check"
+    }
+  },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "REACT_APP_AAA=https://stage-teachmeplease-aaa.stage.tchmpls.com REACT_APP_EDUCATOR=https://multi-educator.stage.net.disciplina.io react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

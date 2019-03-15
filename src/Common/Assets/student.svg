@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="139px" height="98px" viewBox="0 0 139 98" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52.4 (67378) - http://www.bohemiancoding.com/sketch -->
+    <title>Icons/sidebar/teach 2</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <polygon id="path-1" points="1.89177871 2.75729426 82.7068505 2.75729426 82.7068505 50.430622 1.89177871 50.430622"></polygon>
+    </defs>
+    <g id="Form-App" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" opacity="0.5">
+        <g id="not-yet" transform="translate(-572.000000, -257.000000)">
+            <g id="Group" transform="translate(360.000000, 233.000000)">
+                <g id="Icons/sidebar/teach-2" transform="translate(204.000000, 0.000000)">
+                    <g id="Icons/sidebar/teach">
+                        <g id="Group-6" opacity="0.3" transform="translate(8.157895, 24.473684)">
+                            <path d="M135.775624,29.576299 L110.245122,38.1305933 L73.7522632,50.3600191 C70.8777177,51.2929856 67.8077536,51.2929856 64.9332081,50.3600191 L24.5634952,36.8572201 L2.90984689,29.576299 C-0.967007177,28.3029258 -0.967007177,22.8248995 2.90984689,21.488488 L64.9332081,0.698464115 C67.8077536,-0.234502392 70.8777177,-0.234502392 73.7522632,0.698464115 L117.734069,15.4746364 L135.775624,21.488488 C139.652478,22.8248995 139.652478,28.3029258 135.775624,29.576299" id="Fill-1" fill="#777777"></path>
+                            <g id="Group-5" transform="translate(25.215311, 46.822311)">
+                                <mask id="mask-2" fill="white">
+                                    <use xlink:href="#path-1"></use>
+                                </mask>
+                                <g id="Clip-4"></g>
+                                <path d="M82.7068505,3.95502153 L82.7068505,34.6735742 C82.7068505,43.3665526 64.6148648,50.4331435 42.2993146,50.4331435 C19.9837644,50.4331435 1.89177871,43.3665526 1.89177871,34.6735742 L1.89177871,2.75729426 L39.9668983,15.4910263 C42.6775443,16.3735622 45.577305,16.3735622 48.287951,15.4910263 L82.7068505,3.95502153 Z" id="Fill-3" fill="#777777" mask="url(#mask-2)"></path>
+                            </g>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

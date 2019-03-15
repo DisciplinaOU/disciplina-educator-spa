@@ -1,0 +1,140 @@
+@import '../../Common/Styles/mixins';
+@import '../../Common/Styles/variables';
+
+.auth-form {
+  box-shadow: $shadow;
+  max-width: 350px;
+  width: 100%;
+  margin: 20vh auto 10vh;
+  border-radius: 3px;
+  overflow: hidden;
+  background-color: $color-white;
+  text-align: left;
+
+  &__header {
+    padding: 16px 24px;
+    background-image: $linear-gradient-horizon;
+  }
+
+  &__logo {
+    display: inline-block;
+    max-width: 180px;
+    margin-right: 15px;
+  }
+
+  &__main {
+    padding: 16px 24px 24px;
+  }
+
+  &__title {
+    @include titleH3();
+    margin-bottom: 18px;
+    margin-top: 0;
+    text-align: left;
+    width: 100%;
+  }
+
+  .btn + .auth-form__title {
+    margin-top: 12px;
+  }
+
+  &__tabs {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+
+    .tab {
+      @include customTitle(16px, 18px, $color-black);
+      cursor: pointer;
+      text-transform: uppercase;
+      display: inline-block;
+      padding: 5px 0;
+      border-bottom: 2px solid transparent;
+
+      &.active {
+        border-bottom: 2px solid $color-blue;
+      }
+
+      &:first-child {
+        margin-right: 16px;
+      }
+    }
+  }
+
+  @media screen and (max-width: 480px) {
+    margin: 0;
+    border-radius: 0;
+    box-shadow: none;
+    max-width: none;
+
+    &__header {
+      display: none;
+    }
+
+    &__main {
+      padding: 18px 0;
+    }
+
+    .tab {
+      font-size: 14px;
+    }
+  }
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+
+  &__input-container {
+    position: relative;
+
+    & + .btn {
+      margin-top: 12px;
+    }
+  }
+
+  .btn + .btn {
+    margin-top: 16px;
+  }
+
+  &__input {
+    @include largerString($color-bg);
+    width: 100%;
+    box-sizing: border-box;
+    border: 0;
+    outline: 0;
+    border-bottom: 1px solid $color-bg;
+    margin-bottom: 24px;
+    display: block;
+    padding: 5px 0;
+    padding-right: 30px;
+    background-repeat: no-repeat;
+    background-position: center right;
+    background-size: 20px;
+
+    &:focus {
+      color: $color-black;
+    }
+
+    &--filled {
+      color: $color-black;
+    }
+
+    &--password {
+      background-image: url('../../Common/Assets/icons/key-icon.svg');
+    }
+
+    &--email {
+      background-image: url('../../Common/Assets/icons/email-icon.svg');
+    }
+
+    &--org-name {
+      background-image: url('../../Common/Assets/icons/student-icon.svg');
+    }
+
+    &--site {
+      background-image: url('../../Common/Assets/icons/site-icon.svg');
+    }
+  }
+}

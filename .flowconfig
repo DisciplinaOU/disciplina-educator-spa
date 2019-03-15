@@ -1,0 +1,15 @@
+[strict]
+nonstrict-import
+unclear-type
+unsafe-getters-setters
+untyped-import
+untyped-type-import
+[options]
+module.file_ext=.js
+module.file_ext=.json
+module.file_ext=.css
+module.file_ext=.scss
+module.name_mapper.extension='css' -> 'empty/object'
+module.name_mapper.extension='scss' -> 'empty/object'
+suppress_comment= \\(.\\|\n\\)*\\$FlowFixMe
+esproposal.optional_chaining=enable

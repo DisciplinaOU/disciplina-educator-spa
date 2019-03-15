@@ -1,0 +1,280 @@
+.light-theme {
+  a {
+    color: $color-black;
+  }
+
+  //sidebar
+
+  .sidebar {
+    color: #fff;
+    background: $linear-gradient;
+
+    .sidebar__link {
+      color: $color-white;
+
+      &.active {
+        color: $color-emerald-2;
+      }
+
+      &:hover {
+        color: $color-emerald-2;
+      }
+    }
+    .switcher {
+      background-color: $color-white;
+      .switcher__indicator {
+        background-color: $color-emerald-2;
+        left: 2px;
+      }
+    }
+
+    .switcher-label {
+      &:before {
+        background-image: url("../img/moon.png");
+      }
+    }
+  }
+
+  .sidebar__mainMenu {
+    color: $color-white;
+  }
+
+  .sidebar-col-sticker {
+    background-color: $color-red;
+  }
+
+  //common
+
+  .main {
+    background-color: $color-light-gray-2;
+  }
+
+  .link {
+    color: $color-black;
+  }
+
+  .sticker {
+    background-color: $color-light-emerald;
+    border: 1px solid $color-light-emerald;
+  }
+
+  .state--enrolled {
+    background-color: $color-gray-2;
+    border: 1px solid $color-gray-2;
+  }
+
+  .status--bad {
+    background-color: $color-light-red;
+  }
+
+  .status--good {
+    background-color: $color-light-green;
+  }
+
+  .status--normal {
+    background-color: $color-light-orange;
+  }
+
+  .grade__status--submitted {
+    &:after {
+      border-right: 2px solid $color-white;
+      border-bottom: 2px solid $color-white;
+    }
+  }
+
+  //header
+
+  .header {
+    background-color: $color-gray-2;
+    color: $color-black;
+  }
+
+  .uniqAddress__title {
+    color: $color-gray-text;
+  }
+
+  .uniqAddress {
+    .copyBlock__copy {
+      color: $color-blue-2;
+
+      // &:before {
+      //   background-image: url("../img/copy-blue.png");
+      // }
+    }
+  }
+
+  //user
+
+  .usersBlock__user {
+    background-color: $color-white;
+    border: 1px solid $color-light-gray;
+  }
+
+  .blockTitle {
+    color: $color-gray-text;
+  }
+
+  .btn--simple {
+    color: $color-blue-2;
+    transition: color $transition;
+
+    &:hover {
+      color: $color-emerald-2;
+    }
+  }
+
+  .grade__input {
+    border: 1px solid $color-light-gray;
+  }
+
+  .person__card {
+    &:after {
+      color: $color-white;
+      background-color: $color-red;
+    }
+  }
+
+  //row-table
+
+  .row__contentName--small {
+    .row__contentLink {
+      color: $color-blue;
+    }
+  }
+
+  .pseudoTableRows__row {
+    border-bottom: 1px solid $color-light-gray;
+  }
+
+  .assignments {
+    color: $color-gray;
+  }
+
+  .row-content_delete {
+    color: $color-red;
+
+    &:before {
+      color: $color-red;
+    }
+  }
+
+  .row-content_process--completed {
+    color: $color-gray;
+  }
+
+  //input-block
+
+  .inputBlock {
+    .formBlock__inputText {
+      background-color: $color-gray-2;
+    }
+
+    .inputBlock__prompt {
+      background-color: $color-gray-2;
+
+      &:before {
+        background-color: $color-blue-3;
+        background-image: url("../img/inform.png");
+      }
+    }
+
+    .ui-checkboxradio-label {
+      .ui-checkboxradio-icon {
+        background-color: $color-emerald;
+      }
+
+      .ui-state-checked {
+        &:before {
+          border-right: 2px solid $color-white;
+          border-bottom: 2px solid $color-white;
+        }
+      }
+    }
+  }
+
+  //tasks
+
+  .task_description_link {
+    color: $color-blue;
+  }
+
+  .task_description {
+    border-bottom: 1px solid $color-gray;
+  }
+
+  .task_description_assign {
+    color: $color-white;
+  }
+
+  .task_description_assign .icon {
+    background-color: $color-white;
+  }
+
+  .task_description_assign--ok {
+    background-color: $color-green;
+  }
+
+  .task_description_assign--warn {
+    background-color: $color-orange;
+  }
+
+  .task_description_assign--err {
+    background-color: $color-red;
+  }
+
+  .task_description_assign--submitted {
+    background-color: $color-light-gray;
+    color: $color-black;
+  }
+
+  //tabs
+
+  .ui-tabs.ui-widget {
+    .ui-state-active {
+      border: 2px solid $color-blue;
+    }
+  }
+
+  //cards
+
+  .card {
+    border: 1px solid $color-light-gray;
+
+    &:after {
+      color: $color-white;
+      background-color: $color-red;
+    }
+
+    &:hover {
+      box-shadow: $shadow;
+      background-color: $color-white;
+    }
+
+    @media screen and (max-width: 1024px) {
+      &:after {
+        background-color: $color-light-gray;
+      }
+    }
+  }
+
+  //transactions
+
+  .transaction {
+    &::before {
+      background-color: $color-blue-3;
+    }
+  }
+
+  .date__title {
+    &::before {
+      background-color: $color-blue-3;
+    }
+  }
+
+  .transaction__idBlock {
+    &::before {
+      background-color: $color-blue-3;
+      border: 7px solid $color-light-gray-2;
+    }
+  }
+}
