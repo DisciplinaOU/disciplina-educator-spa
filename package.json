@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "axios": "^0.18.0",
+    "axios": "^0.21.1",
     "base64url": "^3.0.1",
     "date-fns": "^2.0.0-alpha.27",
     "eslint-config-airbnb": "^17.1.0",
