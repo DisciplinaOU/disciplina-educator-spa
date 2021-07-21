@@ -30,7 +30,7 @@
     }
   },
   "scripts": {
-    "start": "REACT_APP_AAA=https://stage-teachmeplease-aaa.stage.tchmpls.com REACT_APP_EDUCATOR=https://multi-educator.stage.net.disciplina.io react-scripts start",
+    "start": "REACT_APP_AAA=https://stage-teachmeplease-aaa.stage.tchmpls.com REACT_APP_EDUCATOR=https://multi-educator.disciplina.io react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
