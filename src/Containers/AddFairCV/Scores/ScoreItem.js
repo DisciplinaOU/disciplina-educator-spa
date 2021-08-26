@@ -122,7 +122,7 @@ export const ScoreItem = (props: ScoreItemProps) => {
       <div className="table__item table__item--submit">
         {isNewScore ? (
           <Button
-            text="Добавить оценку"
+            text="Add grade"
             modWidth="width-auto"
             modHeight="height-big"
             modStyle="empty"
@@ -131,7 +131,7 @@ export const ScoreItem = (props: ScoreItemProps) => {
           />
         ) : (
           <Button
-            text="Сохранить изменения"
+            text="Save changes"
             modWidth="width-auto"
             modHeight="height-big"
             modStyle="empty"
