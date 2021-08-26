@@ -16,12 +16,12 @@ export const Reminder = ({ dispatchSubmit, className = "", isFormError }: Remind
         <div className={`reminder__text ${isFormError ? "reminder__text--error" : ""}`}>
           <span />
           {isFormError ?
-          <p>Заполните все поля!</p>
-          : <p>Внимательно проверьте все данные перед сохранением. Изменить сохраненные записи будет невозможно!</p>
+          <p>Fill in all the fields</p>
+          : <p>Please check all data carefully before saving. It will be impossible to change the saved records!</p>
           }
         </div>
         <Button
-          text="Сохранить FairCV"
+          text="Save the FairCV"
           modWidth="width-auto"
           modHeight="height-big"
           modStyle="filled"
