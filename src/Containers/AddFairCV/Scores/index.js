@@ -90,14 +90,14 @@ export class Scores extends PureComponent<ScoresProps, ScoresState> {
     return (
       <>
         <div className="scores">
-          <h2 className="scores__title">Оценки</h2>
+          <h2 className="scores__title">Grades</h2>
           <div className="scores__table table">
             <div className={`table__row table__row--head${data ? " active" : ""}`}>
-              <div className="table__item table__item--course">Курс</div>
-              <div className="table__item table__item--lang">Язык</div>
-              <div className="table__item table__item--hours">Часов</div>
+              <div className="table__item table__item--course">Program</div>
+              <div className="table__item table__item--lang">Language</div>
+              <div className="table__item table__item--hours">Duration</div>
               <div className="table__item table__item--credits">ECTS credits</div>
-              <div className="table__item table__item--score">Оценка</div>
+              <div className="table__item table__item--score">Grade</div>
               <div className="table__item table__item--button table__item--button-edit" />
               <div className="table__item table__item--button table__item--button-remove" />
             </div>
