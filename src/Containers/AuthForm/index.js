@@ -254,10 +254,10 @@ class AuthForm extends PureComponent<AuthFormProps, AuthFormState> {
                   <>
                     <div className="auth-form__tabs">
                       <button className="tab active" href="1" type="button">
-                        Вход с паролем
+                        Sign in with password
                       </button>
                       <button className="tab" href="1" onClick={this.goToRegisterTab} type="button">
-                        Регистрация
+                        Sign up
                       </button>
                     </div>
                     <form className="secret__key-auth login-form" onSubmit={this.login}>
