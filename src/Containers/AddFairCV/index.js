@@ -15,8 +15,8 @@ import type { ScoresDataType } from "./Scores";
 import Modal from "./Modal";
 import iconCalendar from "../../Common/Assets/icons/calendar-icon.svg";
 
-type EducationFormEnum = "очная" | "заочная" | "очно-заочная";
-const EDUCATION_FORM_LIST = ["очная", "заочная", "очно-заочная"];
+type EducationFormEnum = "full-time" | "extra-mural" | "part-time";
+const EDUCATION_FORM_LIST = ["full-time", "extra-mural", "part-time"];
 
 type AddFairCVState = {
   grades: Array<ScoresDataType>,
@@ -61,9 +61,9 @@ export class AddFairCV extends React.PureComponent<AddFairCVProps, AddFairCVStat
     grades: [],
     studentName: "",
     studentBirthDate: new Date(),
-    startYear: 2019,
-    endYear: 2019,
-    educationForm: "очная",
+    startYear: 2021,
+    endYear: 2021,
+    educationForm: "full-time",
     number: "",
     issueDate: new Date(),
     title: "",
@@ -77,11 +77,11 @@ export class AddFairCV extends React.PureComponent<AddFairCVProps, AddFairCVStat
 
   componentDidMount() {
     const yearsArray = [];
-    for (let i = 2019; i > 1949; i--) {
+    for (let i = 2021; i > 1949; i--) {
       yearsArray.push(i);
     }
-    registerLocale("ru", ru);
-    setDefaultLocale("ru", ru);
+    registerLocale("en", en);
+    setDefaultLocale("en", en);
     this.setState({
       yearsArray
     });
@@ -230,13 +230,13 @@ export class AddFairCV extends React.PureComponent<AddFairCVProps, AddFairCVStat
     let edform: string;
 
     switch (educationForm) {
-      case "очная":
+      case "full-time":
         edform = "fulltime";
         break;
-      case "заочная":
+      case "extra-mural":
         edform = "parttime";
         break;
-      case "очно-заочная":
+      case "part-time":
         edform = "fullpart";
         break;
       default:
@@ -247,19 +247,19 @@ export class AddFairCV extends React.PureComponent<AddFairCVProps, AddFairCVStat
 
     for (let i = 0; i < grades.length; i++) {
       switch (grades[i].grade) {
-        case "отлично":
+        case "excellent":
           castedGrades[i].grade = 100;
           castedGrades[i].scale = "rusDiff";
           break;
-        case "хорошо":
+        case "good":
           castedGrades[i].grade = 80;
           castedGrades[i].scale = "rusDiff";
           break;
-        case "удовлетворительно":
+        case "adequate":
           castedGrades[i].grade = 60;
           castedGrades[i].scale = "rusDiff";
           break;
-        case "зачет":
+        case "pass":
           castedGrades[i].grade = 100;
           castedGrades[i].scale = "rusNonDiff";
           break;
@@ -307,7 +307,7 @@ export class AddFairCV extends React.PureComponent<AddFairCVProps, AddFairCVStat
           <div className="container">
             <div className="navigation-link text-left">
               <Button
-                text="Вернуться к списку"
+                text="Return to list"
                 modWidth="width-auto"
                 modHeight="height-big"
                 modStyle="arrow-back"
@@ -315,14 +315,14 @@ export class AddFairCV extends React.PureComponent<AddFairCVProps, AddFairCVStat
                 callback={this.openExitModal}
               />
             </div>
-            <h1 className="add-form__title">Добавление FairCV</h1>
+            <h1 className="add-form__title">New FairCV</h1>
             <form>
               <div className="add-form__item input-container">
-                <h2 className="input-container__title text-left">Студент</h2>
+                <h2 className="input-container__title text-left">Student</h2>
                 <div className="input-group">
                   <RegularInput
                     value={studentName}
-                    title="Фамилия, имя, отчество"
+                    title="Name, Surname"
                     className="input-student"
                     width="full-width"
                     dispatchValue={this.handleStudentName}
@@ -330,7 +330,7 @@ export class AddFairCV extends React.PureComponent<AddFairCVProps, AddFairCVStat
                     isFormError={isFormError}
                   />
                   <div className="input data-input data-input--calendar">
-                    <label className="data-input__label">Дата рождения</label>
+                    <label className="data-input__label">Date of birth</label>
                     <div className="data-input__wrapper">
                       <DatePicker
                         showDisabledYearNavigation
@@ -363,37 +363,37 @@ export class AddFairCV extends React.PureComponent<AddFairCVProps, AddFairCVStat
                 </div>
               </div>
               <div className="add-form__item input-container">
-                <h2 className="input-container__title text-left">Обучение</h2>
+                <h2 className="input-container__title text-left">Tuition</h2>
                 <div className="input-group">
                   <DropDownInput
                     list={yearsArray}
                     selectedValue={startYear}
-                    title="Год поступления"
+                    title="Year of admission"
                     className="input-education-start"
                     callback={this.handleStartYear}
                   />
                   <DropDownInput
                     list={yearsArray}
                     selectedValue={endYear}
-                    title="Год окончания"
+                    title="Year of completion"
                     className="input-education-end"
                     callback={this.handleEndYear}
                   />
                   <DropDownInput
                     list={EDUCATION_FORM_LIST}
                     selectedValue={educationForm}
-                    title="Форма обучения"
+                    title="Mode of study"
                     className="input-education-form"
                     callback={this.handleEducationForm}
                   />
                 </div>
               </div>
               <div className="add-form__item input-container">
-                <h2 className="input-container__title text-left">Диплом</h2>
+                <h2 className="input-container__title text-left">Diploma</h2>
                 <div className="input-group">
                   <RegularInput
                     value={number}
-                    title="Номер"
+                    title="Number"
                     className="input-number"
                     width="full-width"
                     dispatchValue={this.handleNumber}
@@ -401,7 +401,7 @@ export class AddFairCV extends React.PureComponent<AddFairCVProps, AddFairCVStat
                     isFormError={isFormError}
                   />
                   <div className="input data-input data-input--calendar">
-                    <label className="data-input__label">Дата выдачи</label>
+                    <label className="data-input__label">Date of award</label>
                     <div className="data-input__wrapper">
                       <DatePicker
                         showDisabledYearNavigation
@@ -422,7 +422,7 @@ export class AddFairCV extends React.PureComponent<AddFairCVProps, AddFairCVStat
                 </div>
                 <RegularInput
                   value={title}
-                  title="Присвоено звание"
+                  title="Degree"
                   width="full-width"
                   className="input-rank"
                   dispatchValue={this.handleTitle}
@@ -431,7 +431,7 @@ export class AddFairCV extends React.PureComponent<AddFairCVProps, AddFairCVStat
                 />
                 <RegularInput
                   value={major}
-                  title="Специальность"
+                  title="Major"
                   width="full-width"
                   className="input-speciality"
                   dispatchValue={this.handleMajor}
@@ -440,7 +440,7 @@ export class AddFairCV extends React.PureComponent<AddFairCVProps, AddFairCVStat
                 />
                 <RegularInput
                   value={specialization}
-                  title="Специализация (если есть)"
+                  title="Area"
                   width="full-width"
                   className="input-specialization"
                   dispatchValue={this.handleSpecialization}

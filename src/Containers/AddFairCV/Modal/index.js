@@ -25,17 +25,16 @@ export const Modal = (props: ModalProps) => {
           {
             [MODAL_CONTENT_STATE.SUCCESS]: (
               <>
-                <div className="modal__title">FairCV создано</div>
+                <div className="modal__title">The FairCV has been created</div>
                 <div className="modal__reminder reminder">
                   <div className="reminder__text">
                     <span />
                     <p>
-                      Первые несколько минут после создания новое FairCV может не проходить валидацию. Это связано с
-                      задержкой появления информации в блокчейне.
+                      The first minutes after creation, a new FairCV may not be validated due to delay of the confirm information in the blockchain.
                     </p>
                   </div>
                   <Button
-                    text="Скачать PDF"
+                    text="Download PDF"
                     modWidth="width-auto"
                     modHeight="height-big"
                     modStyle="filled"
@@ -43,7 +42,7 @@ export const Modal = (props: ModalProps) => {
                     callback={submit}
                   />
                   <Button
-                    text="Закрыть и вернуться к списку"
+                    text="Close and return"
                     modWidth="width-auto"
                     modHeight="height-big"
                     modStyle="empty"
@@ -55,10 +54,10 @@ export const Modal = (props: ModalProps) => {
             ),
             [MODAL_CONTENT_STATE.CLOSE]: (
               <>
-                <div className="modal__title">Вы уверены что хотите выйти?</div>
-                <p className="modal__text">Все введенные данные будут утеряны</p>
+                <div className="modal__title">Do you really want to leave?</div>
+                <p className="modal__text">All data will be lost</p>
                 <Button
-                  text="Выйти"
+                  text="Leave"
                   modWidth="width-auto"
                   modHeight="height-big"
                   modStyle="filled"
@@ -66,7 +65,7 @@ export const Modal = (props: ModalProps) => {
                   callback={submit}
                 />
                 <Button
-                  text="Отмена"
+                  text="Cancel"
                   modWidth="width-auto"
                   modHeight="height-big"
                   modStyle="empty"
@@ -77,9 +76,9 @@ export const Modal = (props: ModalProps) => {
             ),
             [MODAL_CONTENT_STATE.DELETE]: (
               <>
-                <div className="modal__title">Вы уверены что хотите удалить эту оценку?</div>
+                <div className="modal__title">Do you really want to delete this grade?</div>
                 <Button
-                  text="Удалить"
+                  text="Delete"
                   modWidth="width-auto"
                   modHeight="height-big"
                   modStyle="filled"
@@ -87,7 +86,7 @@ export const Modal = (props: ModalProps) => {
                   callback={submit}
                 />
                 <Button
-                  text="Отмена"
+                  text="Cancel"
                   modWidth="width-auto"
                   modHeight="height-big"
                   modStyle="empty"

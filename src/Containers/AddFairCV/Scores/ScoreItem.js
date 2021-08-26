@@ -16,8 +16,8 @@ type ScoreItemProps = {
   isFormError: boolean
 };
 
-const LANGUAGES_LIST = ["en", "ru"];
-const SCORES_LIST = ["отлично", "хорошо", "удовлетворительно", "зачтено"];
+const LANGUAGES_LIST = ["en", "zh"];
+const SCORES_LIST = ["excellent", "good", "adequate", "pass"];
 
 export const ScoreItem = (props: ScoreItemProps) => {
   const { scoreData, dispatchScore, isNewScore, scoreIndex = -1, remove, isFormError } = props;

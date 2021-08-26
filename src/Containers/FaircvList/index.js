@@ -112,7 +112,7 @@ class FaircvList extends PureComponent<FaircvListProps, FaircvListState> {
   render() {
     const { currentPage, searchInput, data, isLoading } = this.state;
     const isDesktop = window.innerWidth >= 768;
-    const searchPlaceholder = isDesktop ? "Введите имя студента или номер диплома" : "Поиск";
+    const searchPlaceholder = isDesktop ? "Enter student name or diploma number" : "Search";
     const filteredArray = this.liveSearchArray(searchInput);
     const normalizedArray = [...filteredArray].splice((currentPage - 1) * 10, 10);
     const pages = Math.round(filteredArray.length / 10);
@@ -138,7 +138,7 @@ class FaircvList extends PureComponent<FaircvListProps, FaircvListState> {
                   <div className="list__item-document">{`Диплом ${item.meta.number} выдан ${item.meta.issueDate}`}</div>
                 </div>
                 <Button
-                  text="Скачать"
+                  text="Download"
                   modWidth="width-auto"
                   modHeight="height-small"
                   modStyle="empty"
@@ -156,9 +156,9 @@ class FaircvList extends PureComponent<FaircvListProps, FaircvListState> {
     return (
       <div className="faircv-list container">
         <div className="faircv-list__title">
-          <h1>Созданные FairCV</h1>
+          <h1>Created FairCV</h1>
           <Button
-            text="Добавить FairCV"
+            text="Add FairCV"
             modWidth="width-auto"
             modHeight="height-big"
             modStyle="filled"
