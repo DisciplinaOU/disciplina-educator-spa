@@ -76,7 +76,7 @@ export const Modal = (props: ModalProps) => {
             ),
             [MODAL_CONTENT_STATE.DELETE]: (
               <>
-                <div className="modal__title">Do you really want to delete this rate?</div>
+                <div className="modal__title">Do you really want to delete this grade?</div>
                 <Button
                   text="Delete"
                   modWidth="width-auto"
