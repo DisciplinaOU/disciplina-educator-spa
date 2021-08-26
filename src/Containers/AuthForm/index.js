@@ -15,21 +15,21 @@ export const AUTH_FORM_STATES = {
 
 const errorsMessagesCollection = {
   email: {
-    "filled?": "Введите email",
-    "email?": "Некорректный  email адрес",
-    "unique?": "Пользователь с таким email адресом уже существует",
-    "notfound?": "Пользователь с таким email адресом не найден"
+    "filled?": "Specify e-mail",
+    "email?": "Incorrect e-mail address",
+    "unique?": "A user with this e-mail address already exists",
+    "notfound?": "User with this e-mail address was not found"
   },
   password: {
-    "filled?": "Введите пароль",
-    "valid?": "Email адрес и пароль не совпадают",
-    "min_size?": "Пароль должен содержать 6 и более знаков"
+    "filled?": "Specify password",
+    "valid?": "Email address and password do not match",
+    "min_size?": "Password should be 6 or more characters"
   },
   name: {
-    "filled?": "Введите название организации"
+    "filled?": "Specify organization name"
   },
   website: {
-    "filled?": "Введите сайт организации"
+    "filled?": "Specify organization website"
   }
 };
 
@@ -268,7 +268,7 @@ class AuthForm extends PureComponent<AuthFormProps, AuthFormState> {
                             login-form__input--email
                             ${email ? "login-form__input--filled" : ""}
                           `}
-                          placeholder="Электронная почта"
+                          placeholder="E-mail"
                           value={email}
                           onChange={this.handleEmailInput}
                         />
@@ -283,7 +283,7 @@ class AuthForm extends PureComponent<AuthFormProps, AuthFormState> {
                             login-form__input--password
                             ${password ? "login-form__input--filled" : ""}
                           `}
-                          placeholder="Пароль"
+                          placeholder="Password"
                           value={password}
                           onChange={this.handlePasswordInput}
                           type="password"
@@ -294,7 +294,7 @@ class AuthForm extends PureComponent<AuthFormProps, AuthFormState> {
                       </div>
                       <Button
                         type="submit"
-                        text="Войти"
+                        text="Sign in"
                         modWidth="width-full"
                         modHeight="height-big"
                         modStyle="filled"
@@ -303,7 +303,7 @@ class AuthForm extends PureComponent<AuthFormProps, AuthFormState> {
                         disabled={isLoading}
                       />
                       <Button
-                        text="Я забыл пароль"
+                        text="I forgot"
                         modStyle="simple"
                         modColor="color-main"
                         callback={this.goToRecoveryTab}
@@ -315,10 +315,10 @@ class AuthForm extends PureComponent<AuthFormProps, AuthFormState> {
                   <>
                     <div className="auth-form__tabs">
                       <button className="tab" href="1" onClick={this.goToSigninTab} type="button">
-                        Вход с паролем
+                        Sign in with password
                       </button>
                       <button className="tab active" href="1" type="button">
-                        Регистрация
+                        Sign up
                       </button>
                     </div>
                     <form className="secret__key-auth login-form" onSubmit={this.signUp}>
@@ -329,7 +329,7 @@ class AuthForm extends PureComponent<AuthFormProps, AuthFormState> {
                             login-form__input--email
                             ${email ? "login-form__input--filled" : ""}
                           `}
-                          placeholder="Электронная почта"
+                          placeholder="E-mail"
                           value={email}
                           onChange={this.handleEmailInput}
                         />
@@ -344,7 +344,7 @@ class AuthForm extends PureComponent<AuthFormProps, AuthFormState> {
                             login-form__input--org-name
                             ${name ? "login-form__input--filled" : ""}
                           `}
-                          placeholder="Название организации"
+                          placeholder="Organization name"
                           value={name}
                           onChange={this.handleNameInput}
                         />
@@ -359,7 +359,7 @@ class AuthForm extends PureComponent<AuthFormProps, AuthFormState> {
                             login-form__input--site
                             ${url ? "login-form__input--filled" : ""}
                           `}
-                          placeholder="Сайт организации"
+                          placeholder="Organization website"
                           value={url}
                           onChange={this.handleUrlInput}
                         />
@@ -374,7 +374,7 @@ class AuthForm extends PureComponent<AuthFormProps, AuthFormState> {
                             login-form__input--password
                             ${password ? "login-form__input--filled" : ""}
                           `}
-                          placeholder="Пароль"
+                          placeholder="Password"
                           value={password}
                           onChange={this.handlePasswordInput}
                           type="password"
@@ -385,7 +385,7 @@ class AuthForm extends PureComponent<AuthFormProps, AuthFormState> {
                       </div>
                       <Button
                         type="submit"
-                        text="Зарегистрироваться"
+                        text="Sign up"
                         modWidth="width-full"
                         modHeight="height-big"
                         modStyle="filled"
@@ -398,7 +398,7 @@ class AuthForm extends PureComponent<AuthFormProps, AuthFormState> {
                 ),
                 [AUTH_FORM_STATES.RESET]: (
                   <>
-                    <p className="auth-form__title">Создание нового пароля</p>
+                    <p className="auth-form__title">Create a new password</p>
                     <form className="login-form">
                       <div className="login-form__input-container">
                         <input
@@ -407,7 +407,7 @@ class AuthForm extends PureComponent<AuthFormProps, AuthFormState> {
                             login-form__input--password
                             ${newPassword ? "login-form__input--filled" : ""}
                           `}
-                          placeholder="Новый пароль"
+                          placeholder="New password"
                           value={newPassword}
                           onChange={this.handleNewPasswordInput}
                         />
@@ -416,7 +416,7 @@ class AuthForm extends PureComponent<AuthFormProps, AuthFormState> {
                         ) : null}
                       </div>
                       <Button
-                        text="Сохранить"
+                        text="Save"
                         modWidth="width-full"
                         modHeight="height-big"
                         modStyle="filled"
@@ -431,11 +431,11 @@ class AuthForm extends PureComponent<AuthFormProps, AuthFormState> {
                   <>
                     <Button
                       callback={this.goToSigninTab}
-                      text="Вернуться назад"
+                      text="Return"
                       modStyle="arrow-back"
                       modColor="color-main"
                     />
-                    <p className="auth-form__title">Восстановление пароля</p>
+                    <p className="auth-form__title">Remember password</p>
                     <form className="login-form">
                       <div className="login-form__input-container">
                         <input
@@ -444,7 +444,7 @@ class AuthForm extends PureComponent<AuthFormProps, AuthFormState> {
                             login-form__input--email
                             ${email ? "login-form__input--filled" : ""}
                           `}
-                          placeholder="Электронная почта"
+                          placeholder="E-mail"
                           value={email}
                           onChange={this.handleEmailInput}
                         />
@@ -453,7 +453,7 @@ class AuthForm extends PureComponent<AuthFormProps, AuthFormState> {
                         ) : null}
                       </div>
                       <Button
-                        text="Отправить"
+                        text="Send"
                         modWidth="width-full"
                         modHeight="height-big"
                         modStyle="filled"
