@@ -20,7 +20,7 @@ export const Header = (props: HeaderProps) => {
       {user && user.confirmedAt ? <div className="header__title">{user.name}</div> : null}
       {user ? (
         <button className="header__log-off" onClick={logout} type="button">
-          Выход
+          Leave
         </button>
       ) : null}
     </header>
