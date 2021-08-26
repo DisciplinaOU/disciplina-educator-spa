@@ -3,7 +3,7 @@ import * as React from "react";
 import base64url from "base64url";
 import "./styles.scss";
 import DatePicker, { registerLocale, setDefaultLocale } from "react-datepicker";
-import ru from "date-fns/locale/ru";
+import { enGB } from "date-fns/locale";
 import Button from "../../Common/Components/Button";
 import RegularInput from "../../Common/Components/RegularInput";
 import DropDownInput from "../../Common/Components/DropDownInput";
@@ -80,8 +80,8 @@ export class AddFairCV extends React.PureComponent<AddFairCVProps, AddFairCVStat
     for (let i = 2021; i > 1949; i--) {
       yearsArray.push(i);
     }
-    registerLocale("en", en);
-    setDefaultLocale("en", en);
+    registerLocale("en", enGB);
+    setDefaultLocale("en", enGB);
     this.setState({
       yearsArray
     });
