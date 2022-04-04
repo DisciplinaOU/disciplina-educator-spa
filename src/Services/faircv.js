@@ -1,7 +1,11 @@
 import axios, { AxiosStatic, AxiosInstance } from "axios";
 import type { Certificate, FaircvListResponse, FaircvQuery, IFaircvService, NewCertificate } from "./types";
 
-const API_URL = process.env.REACT_APP_EDUCATOR;
+const API_URL =
+  process.env.NODE_ENV === "production"
+    ? process.env.REACT_APP_EDUCATOR
+    : `http://${window.location.host}${process.env.REACT_APP_EDUCATOR}`;
+
 const EDUCATOR_API = "/api/educator/v1";
 const BASE_URL = `${API_URL}${EDUCATOR_API}/certificates`;
 /*eslint new-cap: ["error", { "properties": false }]*/
