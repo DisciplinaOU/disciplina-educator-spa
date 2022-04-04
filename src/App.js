@@ -1,5 +1,6 @@
 import React, { Component, PureComponent } from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
+
 import Header from "./Containers/Header";
 import "./App.scss";
 import AuthContainer from "./Containers/Auth";
@@ -7,6 +8,8 @@ import FaircvList from "./Containers/FaircvList";
 import AAAService from "./Services/aaa";
 import AddFairCV from "./Containers/AddFairCV";
 import MainMessage from "./Common/Components/MainMessage";
+import { DAppProvider } from "@usedapp/core";
+import { ConnectMetamask } from "./Containers/ConnectMetamask";
 
 const withUserContext = (WrappedComponent: Component, isGuardEnabled: boolean) => {
   type PrivateContainerProps = {
@@ -17,7 +20,8 @@ const withUserContext = (WrappedComponent: Component, isGuardEnabled: boolean) =
     state = {
       isLoading: true,
       isAuthenticated: false,
-      user: {}
+      user: {},
+      metamaskConnected: false
     };
 
     async componentDidMount() {
@@ -35,7 +39,7 @@ const withUserContext = (WrappedComponent: Component, isGuardEnabled: boolean) =
 
     render() {
       // TODO while no redux accept header inside HoC
-      const { isAuthenticated, isLoading, user } = this.state;
+      const { isAuthenticated, isLoading, user, metamaskConnected } = this.state;
       if (isLoading) return <h5>Loading...</h5>;
       if ((!isAuthenticated || !user.confirmedAt || !user.confirmedByOrganization) && isGuardEnabled) {
         return <Redirect to="/auth" />;
@@ -43,7 +47,11 @@ const withUserContext = (WrappedComponent: Component, isGuardEnabled: boolean) =
       return (
         <>
           <Header user={user} />
-          <WrappedComponent {...this.props} user={user} />
+          {metamaskConnected ? (
+            <WrappedComponent {...this.props} user={user} />
+          ) : (
+            <ConnectMetamask onChange={connected => this.setState({ metamaskConnected: connected })} />
+          )}
         </>
       );
     }
@@ -76,13 +84,15 @@ const App = () => {
   return (
     <div className="App">
       <main className="main">
-        <Switch>
-          <Redirect exact from="/" to="/faircv" />
-          <Route path="/auth/check_email" component={CheckEmail} />
-          <Route path="/auth/confirmation" component={Confirmation} />
-          <Route path="/auth" component={withUserContext(AuthContainer, false)} />
-          <Route path="/faircv" component={withUserContext(Faircv, true)} />
-        </Switch>
+        <DAppProvider>
+          <Switch>
+            <Redirect exact from="/" to="/faircv" />
+            <Route path="/auth/check_email" component={CheckEmail} />
+            <Route path="/auth/confirmation" component={Confirmation} />
+            <Route path="/auth" component={withUserContext(AuthContainer, false)} />
+            <Route path="/faircv" component={withUserContext(Faircv, true)} />
+          </Switch>
+        </DAppProvider>
       </main>
     </div>
   );
