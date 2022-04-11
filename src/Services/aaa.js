@@ -1,7 +1,11 @@
 import axios, { AxiosStatic, AxiosInstance } from "axios";
 import type { Educator, IAAAService } from "./types";
 
-const API_URL = process.env.REACT_APP_AAA;
+const API_URL =
+  process.env.NODE_ENV === "production"
+    ? process.env.REACT_APP_AAA
+    : `http://${window.location.host}${process.env.REACT_APP_AAA}`;
+
 const BASE_URL = `${API_URL}/educators`;
 const USER_CURRENT = `${BASE_URL}/current`;
 const USER_LOGIN = "/educator_session";
@@ -14,7 +18,8 @@ const http = new axios.create({
   withCredentials: true,
   headers: {
     "Content-Type": "application/json",
-    "tmp-csrf": "tmp-csrf"
+    "tmp-csrf": "tmp-csrf",
+    mode: "no-cors"
   }
 });
 
