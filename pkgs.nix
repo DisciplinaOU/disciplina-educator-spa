@@ -14,7 +14,12 @@ let
     sha256 = "0wqmxijinm9mjcm3n5id13phmapqcxcrxwi106wvg0krca3ki58x";
   }) {};
 
+  sassBinaryPath = pkgs.fetchurl {
+    url = https://github.com/sass/node-sass/releases/download/v7.0.1/linux-x64-93_binding.node;
+    sha256 = "1rzrzyy5sla708qypr7s3kqwc3g0dhc99bjvxwf3qq4dfygags7x";
+  };
+
 in pkgs.extend(final: previous: with previous; rec {
+  inherit sassBinaryPath;
   buildYarnPackage = bp.buildYarnPackage;
-  constGitIgnore = _: path: _: path;
 })

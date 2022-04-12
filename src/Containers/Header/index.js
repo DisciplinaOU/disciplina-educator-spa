@@ -17,7 +17,9 @@ export const Header = (props: HeaderProps) => {
       <a className="header__logo" href="/faircv">
         <img src={logoIcon} alt="disciplina.io" />
       </a>
-      {user && user.confirmedAt ? <div className="header__title">{user.name}</div> : null}
+      {user && user.confirmedAt ? (
+        <div className="header__title">{user.username ? user.username : user.publicAddress}</div>
+      ) : null}
       {user ? (
         <button className="header__log-off" onClick={logout} type="button">
           Leave
