@@ -14,6 +14,8 @@ import "react-datepicker/dist/react-datepicker.css";
 import type { ScoresDataType } from "./Scores";
 import Modal from "./Modal";
 import iconCalendar from "../../Common/Assets/icons/calendar-icon.svg";
+import { contractX } from "../../SmartContracts";
+import { Web3 } from "../../libs/web3/core";
 
 type EducationFormEnum = "full-time" | "extra-mural" | "part-time";
 const EDUCATION_FORM_LIST = ["full-time", "extra-mural", "part-time"];
@@ -99,12 +101,26 @@ export class AddFairCV extends React.PureComponent<AddFairCVProps, AddFairCVStat
   addNewFaircv = async () => {
     this.clearFormError();
 
-    if (this.checkFormValid()) {
-      const newCertificate = this.normalizeRequest();
-      const { data } = await FaircvService.create(newCertificate);
-      this.openCreatedCertModal(data.id);
-    } else {
-      this.addFormError();
+    try {
+      if (this.checkFormValid()) {
+        const newCertificate = this.normalizeRequest();
+        const { data } = await FaircvService.create(newCertificate);
+
+        const merkelRootBytes32 = `0x${data.header.bodyProof.root}`;
+        const prevHash = await contractX.prevHashCur(Web3.state.defaultAccount);
+        const hasPrevHash = prevHash === 0;
+
+        const res = await contractX[hasPrevHash ? "submitHeader" : "startChain"](
+          prevHash || `0x${data.header.prevBlock}`,
+          merkelRootBytes32
+        );
+
+        this.openCreatedCertModal(data.id);
+      } else {
+        this.addFormError();
+      }
+    } catch (e) {
+      console.error(e);
     }
   };
 
