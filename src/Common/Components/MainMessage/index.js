@@ -27,26 +27,26 @@ const MainMessage = (props: MainMessageProps) => {
             [MAIN_MESSAGE_STATE.CONFIRMED]: (
               <Message
                 img={emailImg}
-                title="Ваш адрес электронной почты подтвержден"
-                text="Чтобы продолжить, войдите в систему:"
-                buttonText="Вход с паролем"
+                title="Your email address has been verified"
+                text="Please sign in to continue:"
+                buttonText="Sign in using password"
               />
             ),
             [MAIN_MESSAGE_STATE.NOT_CONFIRMED]: (
               <Message
                 img={studentImg}
-                title="Ваша учетная запись еще не&nbsp;подтверждена как учебное заведение."
-                text="Мы&nbsp;сообщим о&nbsp;подтверждении письмом на&nbsp;указанную электронную почту."
+                title="Your account has not&nbsp;yet&nbsp;been verified as a school."
+                text="We&nbsp;will&nbsp;notify&nbsp;you of confirmation by a&nbsp;letter to the specified e-mail."
               />
             ),
             [MAIN_MESSAGE_STATE.LIST_EMPTY]: (
-              <Message img={personImg} title="Вы&nbsp;еще не&nbsp;создали ни&nbsp;одного FairCV" />
+              <Message img={personImg} title="You haven't created any&nbsp;FairCVs&nbsp;yet" />
             ),
             [MAIN_MESSAGE_STATE.CHECK_EMAIL]: (
               <Message
                 img={emailImg}
-                title="Проверьте вашу электронную почту"
-                text="Мы выслали на нее письмо со&nbsp;ссылкой для подтверждения адреся"
+                title="Check your e-mail"
+                text="Confirmation link sent to email"
               />
             )
           }[type]
