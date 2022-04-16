@@ -102,7 +102,7 @@ export class AddFairCV extends React.PureComponent<AddFairCVProps, AddFairCVStat
     if (this.checkFormValid()) {
       const newCertificate = this.normalizeRequest();
       const { data } = await FaircvService.create(newCertificate);
-      this.openCreatedCertModal(data.id);
+      this.openCreatedCertModal(data.certificate.id);
     } else {
       this.addFormError();
     }
@@ -175,12 +175,12 @@ export class AddFairCV extends React.PureComponent<AddFairCVProps, AddFairCVStat
   };
 
   makeCertId = (hash: string): string => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("accessToken");
     if (token) {
       const baseEducatorData = token.split(".")[1];
       const decodedEducatorData = base64url.decode(baseEducatorData);
       const educator = JSON.parse(decodedEducatorData.toString());
-      return base64url.encode(`${educator.data.id}:${hash}`);
+      return base64url.encode(`${educator.data.publicAddress}:${hash}`);
     }
     return "";
   };
