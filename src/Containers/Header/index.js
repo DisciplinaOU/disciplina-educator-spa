@@ -1,28 +1,25 @@
 // @flow
-import React from "react";
-import AAAService from "../../Services/aaa";
+import React, { useContext } from "react";
+import { Link } from "react-router-dom";
 import logoIcon from "../../Common/Assets/main-logo.svg";
+import { AuthContext } from "../../Contexts/Auth";
+
 import "./styles.scss";
-import type { Educator } from "../../Services/types";
 
-type HeaderProps = {
-  user: Educator
-};
+export const Header = () => {
+  const { user, logout } = useContext(AuthContext);
 
-export const Header = (props: HeaderProps) => {
-  const { user } = props;
-  const logout = () => AAAService.logout();
   return (
     <header className="header">
-      <a className="header__logo" href="/faircv">
+      <Link className="header__logo" to="/faircv">
         <img src={logoIcon} alt="disciplina.io" />
-      </a>
+      </Link>
       {user && user.confirmedAt ? (
         <div className="header__title">{user.username ? user.username : user.publicAddress}</div>
       ) : null}
       {user ? (
         <button className="header__log-off" onClick={logout} type="button">
-          Leave
+          Logout
         </button>
       ) : null}
     </header>

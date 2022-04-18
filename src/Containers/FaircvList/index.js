@@ -8,6 +8,7 @@ import Pagination from "../../Common/Components/Pagination";
 import FaircvService from "../../Services/faircv";
 import type { Certificate, IFaircvService } from "../../Services/types";
 import MainMessage from "../../Common/Components/MainMessage";
+import { PageLoader } from "../../Common/Components/PageLoader";
 
 type FaircvListState = {
   data: Array<Certificate>,
@@ -166,7 +167,7 @@ class FaircvList extends PureComponent<FaircvListProps, FaircvListState> {
             callback={this.createFairHandler}
           />
         </div>
-        {isLoading ? <h5>Loading...</h5> : renderData()}
+        {isLoading ? <PageLoader /> : renderData()}
         {+pages > 1 ? (
           <Pagination goTo={this.goToPage} fwd={this.goFwd} bcwd={this.goBcwd} count={+pages} current={+currentPage} />
         ) : null}

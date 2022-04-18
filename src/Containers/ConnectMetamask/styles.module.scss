@@ -1,7 +1,23 @@
-.box {
+.noMetamaskBox {
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  height: 100vh;
+  height: 100%;
+
+  p {
+    margin: 8px 0;
+  }
+}
+
+.connectMetamaskBox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  height: 100%;
+
+  p {
+    margin: 8px 0;
+  }
 }

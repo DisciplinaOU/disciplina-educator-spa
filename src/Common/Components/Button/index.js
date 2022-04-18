@@ -1,5 +1,6 @@
 // @flow
 import React, { memo } from "react";
+import { Spinner } from "../Spinner";
 import "./styles.scss";
 
 type ButtonProps = {
@@ -8,8 +9,9 @@ type ButtonProps = {
   modHeight?: "height-small" | "height-big",
   modStyle: "filled" | "empty" | "simple" | "arrow-forward" | "arrow-back",
   modColor: "color-main" | "color-red",
-  callback: (e: any) => Promise<any> | void,
-  type?: "button" | "submit"
+  loading?: boolean,
+  type?: "button" | "submit",
+  callback?: (e: any) => Promise<any> | void
 };
 
 const Button = (props: ButtonProps) => {
@@ -20,15 +22,19 @@ const Button = (props: ButtonProps) => {
     modWidth = "width-auto",
     modColor,
     callback,
-    type = "button"
+    type = "button",
+    loading = false
   } = props;
   return (
     /*eslint react/button-has-type: off */
     <button
       className={`btn btn--${modWidth} btn--${modHeight} btn--${modStyle} btn--${modColor}`}
+      disabled={loading}
+      data-loading={loading}
       type={type}
       onClick={callback}
     >
+      <div className="spinner-box">{<Spinner strokeWidth="1" />}</div>
       {text}
     </button>
   );

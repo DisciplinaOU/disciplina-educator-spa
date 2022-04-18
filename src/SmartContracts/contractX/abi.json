@@ -19,6 +19,12 @@
         "internalType": "bytes32",
         "name": "merkleRoot",
         "type": "bytes32"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint64",
+        "name": "size",
+        "type": "uint64"
       }
     ],
     "name": "NewChain",
@@ -44,10 +50,45 @@
         "internalType": "bytes32",
         "name": "merkleRoot",
         "type": "bytes32"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint64",
+        "name": "size",
+        "type": "uint64"
       }
     ],
     "name": "NewHeader",
     "type": "event"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bytes32",
+        "name": "prevHash",
+        "type": "bytes32"
+      },
+      {
+        "internalType": "bytes32",
+        "name": "merkleRoot",
+        "type": "bytes32"
+      },
+      {
+        "internalType": "uint64",
+        "name": "size",
+        "type": "uint64"
+      }
+    ],
+    "name": "constructPrivateHeader",
+    "outputs": [
+      {
+        "internalType": "bytes",
+        "name": "",
+        "type": "bytes"
+      }
+    ],
+    "stateMutability": "pure",
+    "type": "function"
   },
   {
     "inputs": [
@@ -90,6 +131,25 @@
   {
     "inputs": [
       {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "name": "sizes",
+    "outputs": [
+      {
+        "internalType": "uint64",
+        "name": "",
+        "type": "uint64"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
         "internalType": "bytes32",
         "name": "genesisHash",
         "type": "bytes32"
@@ -98,6 +158,11 @@
         "internalType": "bytes32",
         "name": "merkleRoot",
         "type": "bytes32"
+      },
+      {
+        "internalType": "uint64",
+        "name": "size",
+        "type": "uint64"
       }
     ],
     "name": "startChain",
@@ -116,6 +181,11 @@
         "internalType": "bytes32",
         "name": "merkleRoot",
         "type": "bytes32"
+      },
+      {
+        "internalType": "uint64",
+        "name": "size",
+        "type": "uint64"
       }
     ],
     "name": "submitHeader",

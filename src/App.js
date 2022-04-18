@@ -4,24 +4,35 @@ import { DAppProvider } from "@usedapp/core";
 
 import Header from "./Containers/Header";
 import "./App.scss";
-// import AuthContainer from "./Containers/Auth";
 import FaircvList from "./Containers/FaircvList";
 import AAAService from "./Services/aaa";
 import AddFairCV from "./Containers/AddFairCV";
+import { useConnect } from "./libs/web3/hooks";
 import { ConnectMetamask } from "./Containers/ConnectMetamask";
+import { PageLoader } from "./Common/Components/PageLoader";
+import { AuthContext } from "./Contexts/Auth";
+import { Web3 } from "./libs/web3";
 
 const withUserContext = (WrappedComponent: Component, isGuardEnabled: boolean) => {
   type PrivateContainerProps = {
     history: { push: (url: string) => void },
-    location: { pathname: string }
+    location: { pathname: string },
+    metaMask: {
+      connected: Boolean,
+      connect: () => void
+    }
   };
 
   return class PrivateContainer extends PureComponent<PrivateContainerProps> {
     state = {
       isLoading: true,
       isAuthenticated: false,
-      user: {}
+      user: null
     };
+
+    unsubscribeWeb3ConnectionChange = Web3.onConnectionChange(status => {
+      if (status === false) this.handleLogout();
+    });
 
     async componentDidMount() {
       try {
@@ -36,7 +47,11 @@ const withUserContext = (WrappedComponent: Component, isGuardEnabled: boolean) =
       }
     }
 
-    handleLogin(user: Educator, accessToken: string) {
+    componentWillUnmount() {
+      this.unsubscribeWeb3ConnectionChange();
+    }
+
+    handleLogin = (user: Educator, accessToken: string) => {
       localStorage.setItem("accessToken", accessToken);
       this.setState({
         isLoading: false,
@@ -44,51 +59,79 @@ const withUserContext = (WrappedComponent: Component, isGuardEnabled: boolean) =
         user
       });
       const { history } = this.props;
+
       history.push("/faircv");
-    }
+    };
+
+    handleLogout = () => {
+      localStorage.removeItem("accessToken");
+      localStorage.removeItem("metamask-connected");
+
+      this.setState({
+        isLoading: false,
+        isAuthenticated: false,
+        user: null
+      });
+      const { history } = this.props;
+
+      Web3.disconnect();
+
+      history.push("/auth");
+    };
 
     render() {
       // TODO while no redux accept header inside HoC
       const { isAuthenticated, isLoading, user } = this.state;
       if (isLoading) {
-        return <h5>Loading...</h5>;
+        return <PageLoader loading />;
       }
       if (!isAuthenticated && isGuardEnabled) {
         return <Redirect to="/auth" />;
       }
       return (
-        <>
-          <Header user={user} />
-          {/* {metamaskConnected ? ( */}
+        <AuthContext.Provider
+          value={{
+            user,
+            login: this.handleLogin,
+            logout: this.handleLogout
+          }}
+        >
+          <Header />
           <WrappedComponent {...this.props} onLogin={(newUser, token) => this.handleLogin(newUser, token)} />
-          {/* ) : ( */}
-          {/* <ConnectMetamask onChange={connected => this.setState({ metamaskConnected: connected })} /> */}
-          {/* )} */}
-        </>
+        </AuthContext.Provider>
       );
     }
   };
 };
 
-const Faircv = () => (
-  <Switch>
-    <Redirect exact from="/faircv" to="/faircv/list" />
-    <Route exact path="/faircv/create" component={AddFairCV} />
-    <Route exact path="/faircv/list" component={FaircvList} />
-  </Switch>
-);
+const Faircv = () => {
+  const { connected } = useConnect();
+
+  return (
+    <>
+      {connected ? (
+        <Switch>
+          <Redirect exact from="/faircv" to="/faircv/list" />
+          <Route exact path="/faircv/create" component={AddFairCV} />
+          <Route exact path="/faircv/list" component={FaircvList} />
+        </Switch>
+      ) : (
+        <ConnectMetamask />
+      )}
+    </>
+  );
+};
+
 
 const App = () => {
   return (
     <div className="App">
       <main className="main">
-        <DAppProvider>
-          <Switch>
-            <Redirect exact from="/" to="/faircv" />
-            <Route path="/auth" component={withUserContext(ConnectMetamask, false)} />
-            <Route path="/faircv" component={withUserContext(Faircv, true)} />
-          </Switch>
-        </DAppProvider>
+        <Switch>
+          <Redirect exact from="/" to="/faircv" />
+          <Route path="/auth" component={withUserContext(ConnectMetamask, false)} />
+          <Route path="/faircv" component={withUserContext(Faircv, true)} />
+        </Switch>
       </main>
     </div>
   );

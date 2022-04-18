@@ -1,94 +1,75 @@
 /* eslint-disable import/prefer-default-export */
 // @flow
-import React, { useEffect } from "react";
-import Web3 from "web3";
-import { useEthers } from "@usedapp/core";
-
+import React, { useEffect, useContext } from "react";
+import { useConnect, Web3 } from "../../libs/web3";
 import Button from "../../Common/Components/Button";
-import Educator from "../../Services/types";
 import AAAService from "../../Services/aaa";
 import styles from "./styles.module.scss";
 import { usePersistanceState } from "../../libs/usePersistanceState";
+import { AuthContext } from "../../Contexts/Auth";
 
-type Props = {
-  onLogin: (user: Educator, token: string) => void
-};
-
-export const ConnectMetamask = ({ onLogin }: Props) => {
-  const { activateBrowserWallet, account, library } = useEthers();
+export const ConnectMetamask = () => {
   const [hasBeenConnected, setHasBeenConnected] = usePersistanceState(false, "metamask-connected");
+  const { connect, hasProvider, connected, accounts } = useConnect();
+  const auth = useContext(AuthContext);
 
-  const handleConnect = async () => {
-    await activateBrowserWallet();
-  };
-
-  const handleSignMessage = async (
-    web3,
-    {
-      publicAddress,
-      nonce
-    }: {
-      publicAddress: string,
-      nonce: string
-    }
-  ) => {
+  const handleAuth = async () => {
     try {
-      return await web3.eth.personal.sign(
-        `I am signing my one-time nonce: ${nonce}`,
+      const publicAddress = accounts[0].toLowerCase();
+      const [existingUser] = await AAAService.findUser(publicAddress);
+      const currentUser = existingUser || (await AAAService.createUser(publicAddress));
+
+      const provider = Web3.getCurrentProvider();
+      const signer = provider.getSigner();
+      const signature = await signer.signMessage(
+        `I am signing my one-time nonce: ${currentUser.nonce}`,
         publicAddress,
         "" // MetaMask will ignore the password argument here
       );
-    } catch (err) {
-      throw new Error("You need to sign the message to be able to log in.");
+
+      const { accessToken } = await AAAService.login(publicAddress, signature);
+
+      auth.login(currentUser, accessToken);
+    } catch (e) {
+      console.error(e);
     }
   };
 
-  useEffect(async () => {
-    if (account && library) {
-      console.log(library);
-      console.log(account);
-
-      const web3 = new Web3(library.provider);
-      const publicAddress = account.toLowerCase();
-
-      const existingUsers = await AAAService.findUser(publicAddress);
-
-      console.log(existingUsers);
-
-      let curUser: Educator;
-      if (existingUsers.length) {
-        curUser = existingUsers[0];
-      } else {
-        curUser = await AAAService.createUser(publicAddress);
-      }
-
-      const signature = await handleSignMessage(web3, curUser);
-      const { accessToken } = await AAAService.login(publicAddress, signature);
-
-      setHasBeenConnected(true);
-      onLogin(curUser, accessToken);
-    } else {
-      console.log('Something went wrong');
-      console.log(account);
-      console.log(library);
-    }
-  }, [library]);
+  useEffect(() => {
+    if (connected && accounts.length) handleAuth();
+  }, [connected]);
 
   useEffect(() => {
-    if (hasBeenConnected) {
-      activateBrowserWallet();
-    }
-  }, [hasBeenConnected]);
+    if (hasBeenConnected && !connected) connect();
+
+    setHasBeenConnected(connected);
+  }, [hasBeenConnected, connected]);
+
+  if (!hasProvider) {
+    return (
+      <div className={styles.noMetamaskBox}>
+        <h1>Metamask is not detected</h1>
+        <p>
+          You need to install metamask and then <a href=".">reload</a> the page
+        </p>
+        <a href="https://metamask.io/download/" rel="noopener noreferrer" target="_blank">
+          <Button text="Install" modWidth="width-auto" modHeight="height-big" modStyle="filled" modColor="color-main" />
+        </a>
+      </div>
+    );
+  }
 
   return (
-    <div className={styles.box}>
+    <div className={styles.connectMetamaskBox}>
+      <h1>Metamask is not connected</h1>
+      <p>You need to connect to your metamask</p>
       <Button
-        text="Connect Metamask"
+        text="Connect"
         modWidth="width-auto"
         modHeight="height-big"
         modStyle="filled"
         modColor="color-main"
-        callback={handleConnect}
+        callback={connect}
       />
     </div>
   );

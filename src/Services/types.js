@@ -78,3 +78,8 @@ export interface IAAAService {
   setUsername(username: string): Promise<Educator>;
   logout(): void;
 }
+
+export interface SubmitCertificate {
+  blockHash: string;
+  txId: string;
+}

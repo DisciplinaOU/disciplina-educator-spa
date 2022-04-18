@@ -6,21 +6,24 @@ import "./styles.scss";
 type ReminderProps = {
   dispatchSubmit: () => Promise<any>,
   className?: string,
-  isFormError: boolean
+  isFormError: boolean,
+  loading?: boolean
 };
 
-export const Reminder = ({ dispatchSubmit, className = "", isFormError }: ReminderProps) => {
+export const Reminder = ({ dispatchSubmit, className = "", loading, isFormError }: ReminderProps) => {
   return (
     <div className={`reminder ${className}`}>
       <div className="container">
         <div className={`reminder__text ${isFormError ? "reminder__text--error" : ""}`}>
           <span />
-          {isFormError ?
-          <p>Fill in all the fields</p>
-          : <p>Please check all data carefully before saving. It will be impossible to change the saved records!</p>
-          }
+          {isFormError ? (
+            <p>Fill in all the fields</p>
+          ) : (
+            <p>Please check all data carefully before saving. It will be impossible to change the saved records!</p>
+          )}
         </div>
         <Button
+          loading={loading}
           text="Save the FairCV"
           modWidth="width-auto"
           modHeight="height-big"
@@ -34,7 +37,8 @@ export const Reminder = ({ dispatchSubmit, className = "", isFormError }: Remind
 };
 
 Reminder.defaultProps = {
-  className: ""
+  className: "",
+  loading: false
 };
 
 export default memo<ReminderProps>(Reminder);

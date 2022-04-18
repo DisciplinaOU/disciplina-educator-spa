@@ -1,11 +1,12 @@
 import axios, { AxiosStatic, AxiosInstance } from "axios";
 import type { Educator, IAAAService } from "./types";
 
-// const API_URL =
-//   process.env.NODE_ENV === "production"
-//     ? process.env.REACT_APP_AAA
-//     : `http://${window.location.host}${process.env.REACT_APP_AAA}`;
-const API_URL = process.env.REACT_APP_AAA;
+const API_URL =
+  process.env.NODE_ENV === "production"
+    ? process.env.REACT_APP_AAA
+    : `http://${window.location.host}${process.env.REACT_APP_AAA}`;
+// const API_URL = process.env.REACT_APP_AAA;
+
 const BASE_URL = `${API_URL}/api`;
 
 /*eslint new-cap: ["error", { "properties": false }]*/
@@ -27,7 +28,11 @@ class AAAService implements IAAAService {
   }
 
   findUser(publicAddress: string): Promise<[Educator]> {
-    return this.httpService.get(`/users?publicAddress=${publicAddress}`).then(res => res.data);
+    return this.httpService
+      .get("/users", {
+        params: { publicAddress }
+      })
+      .then(res => res.data);
   }
 
   createUser(publicAddress: string): Promise<Educator> {
@@ -60,11 +65,6 @@ class AAAService implements IAAAService {
 
   login(publicAddress: string, signature: string): Promise<*> {
     return this.httpService.post("/auth", { publicAddress, signature }).then(res => res.data);
-  }
-
-  logout(): void {
-    localStorage.removeItem("accessToken");
-    window.location.pathname = "/";
   }
 }
 
