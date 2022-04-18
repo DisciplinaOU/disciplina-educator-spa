@@ -21,8 +21,12 @@ The build is minified and the filenames include the hashes.<br>
 Your app is ready to be deployed!
 
 ### ENV
-Current environment variables are: 
-REACT_APP_AAA=https://stage-teachmeplease-aaa.stage.tchmpls.com REACT_APP_EDUCATOR=http://educator.dev.net.disciplina.io/api/educator/v1
 
-These environment variables by default used in dev server mode.
+All dev env variables stored in [this](./.env.development) file
+
+REACT_APP_CONTRACT_X_ADDRESS - stores address of smart contract
+REACT_APP_AAA - stores url of AAA service
+REACT_APP_EDUCATOR - stores url of educator service
+
+⚠️ Variables with PROXY postfix serve only to handle requests as proxy url pattern 
 To change them look at `package.json` scripts section. 
