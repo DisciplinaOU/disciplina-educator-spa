@@ -1,5 +1,6 @@
 { aaaUrl ? null
 , educatorUrl ? null
+, contractAddr ? "0x0972Aba5efAC051643dB1A2936739DD27847C225"
 , buildYarnPackage
 , sassBinaryPath
 , parallel
@@ -11,6 +12,7 @@
 buildYarnPackage {
   REACT_APP_AAA = aaaUrl;
   REACT_APP_EDUCATOR = educatorUrl;
+  REACT_APP_CONTRACT_X_ADDRESS = contractAddr;
   SASS_BINARY_PATH = sassBinaryPath;
 
   src = ./.;
