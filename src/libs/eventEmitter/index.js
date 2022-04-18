@@ -14,10 +14,10 @@ export const EventEmitter = () => {
     };
   };
 
-  const emit = type => {
+  const emit = (type, ...payload) => {
     const currentWatchers = events.get(type) || [];
 
-    currentWatchers.forEach(watcher => watcher());
+    currentWatchers.forEach(watcher => watcher(...payload));
   };
 
   return {

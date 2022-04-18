@@ -2,6 +2,7 @@
 export interface IHttpService {
   get(url: string, filter?: any): Promise<any>;
   post(url: string, data?: any): Promise<any>;
+  patch(url: string, data?: any): Promise<any>;
 }
 
 // FairCv
@@ -15,12 +16,9 @@ type GradingScale = "rusDiff" | "rusNonDiff";
 
 export type Educator = {
   id?: number,
-  email: string,
-  name: string,
-  website: string,
-  password: string,
-  confirmedAt: string,
-  confirmedByOrganization: boolean
+  username?: string,
+  nonce?: number,
+  publicAddress: string
 };
 
 export type FaircvQuery = {
@@ -73,10 +71,15 @@ export interface IFaircvService {
 // TODO return types must be updated when api spec will be ready
 export interface IAAAService {
   httpService: IHttpService;
-  createUser(email: string, name: string, website: string, password: string): Promise<Educator>;
-  login(email: string, password: string): Promise<any>;
-  resetPassword(email: string): Promise<any>;
-  createPassword(password: string, resetPasswordToken: string): Promise<any>;
+  findUser(publicAddress: string): Promise<[Educator]>;
+  createUser(publicAddress: string): Promise<Educator>;
+  login(publicAddress: string, signature: string): Promise<any>;
   getCurrentUser(): Promise<Educator>;
+  setUsername(username: string): Promise<Educator>;
   logout(): void;
+}
+
+export interface SubmitCertificate {
+  blockHash: string;
+  txId: string;
 }

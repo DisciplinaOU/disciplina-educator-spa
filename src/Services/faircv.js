@@ -1,5 +1,12 @@
 import axios, { AxiosStatic, AxiosInstance } from "axios";
-import type { Certificate, FaircvListResponse, FaircvQuery, IFaircvService, NewCertificate } from "./types";
+import type {
+  Certificate,
+  FaircvListResponse,
+  FaircvQuery,
+  IFaircvService,
+  NewCertificate,
+  SubmitCertificate
+} from "./types";
 
 const SERVICE_URL =
   process.env.NODE_ENV === "production"
@@ -22,7 +29,7 @@ class FaircvService implements IFaircvService {
 
     this.httpService.interceptors.request.use(
       config => {
-        const token = localStorage.getItem("token");
+        const token = localStorage.getItem("accessToken");
         if (token) config.headers.authorization = `Bearer ${token}`;
         return config;
       },
@@ -36,6 +43,10 @@ class FaircvService implements IFaircvService {
 
   create(cert: NewCertificate): Promise<Certificate> {
     return this.httpService.post("/certificate", cert);
+  }
+
+  update(cert: SubmitCertificate): Promise<Certificate> {
+    return this.httpService.put("/certificate", cert);
   }
 
   _serializefilter(filter: {}): string {

@@ -1,16 +1,16 @@
-import React, { Component, PureComponent, useEffect } from "react";
+import React, { Component, PureComponent } from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
 
 import Header from "./Containers/Header";
 import "./App.scss";
-import AuthContainer from "./Containers/Auth";
 import FaircvList from "./Containers/FaircvList";
 import AAAService from "./Services/aaa";
 import AddFairCV from "./Containers/AddFairCV";
-import MainMessage from "./Common/Components/MainMessage";
-import Button from "./Common/Components/Button";
 import { useConnect } from "./libs/web3/hooks";
-import { usePersistanceState } from "./libs/usePersistanceState";
+import { ConnectMetamask } from "./Containers/ConnectMetamask";
+import { PageLoader } from "./Common/Components/PageLoader";
+import { AuthContext } from "./Contexts/Auth";
+import { Web3 } from "./libs/web3";
 
 const withUserContext = (WrappedComponent: Component, isGuardEnabled: boolean) => {
   type PrivateContainerProps = {
@@ -26,52 +26,85 @@ const withUserContext = (WrappedComponent: Component, isGuardEnabled: boolean) =
     state = {
       isLoading: true,
       isAuthenticated: false,
-      user: {}
+      user: null
     };
+
+    unsubscribeWeb3ConnectionChange = Web3.onConnectionChange(status => {
+      if (status === false) this.handleLogout();
+    });
 
     async componentDidMount() {
       try {
-        const userResponse = await AAAService.getCurrentUser();
+        const user = await AAAService.getCurrentUser();
         this.setState({
           isLoading: false,
           isAuthenticated: true,
-          user: userResponse.data
+          user
         });
       } catch (e) {
         this.setState({ isLoading: false, isAuthenticated: false });
       }
     }
 
+    componentWillUnmount() {
+      this.unsubscribeWeb3ConnectionChange();
+    }
+
+    handleLogin = (user: Educator, accessToken: string) => {
+      localStorage.setItem("accessToken", accessToken);
+      this.setState({
+        isLoading: false,
+        isAuthenticated: true,
+        user
+      });
+      const { history } = this.props;
+
+      history.push("/faircv");
+    };
+
+    handleLogout = () => {
+      localStorage.removeItem("accessToken");
+      localStorage.removeItem("metamask-connected");
+
+      this.setState({
+        isLoading: false,
+        isAuthenticated: false,
+        user: null
+      });
+      const { history } = this.props;
+
+      Web3.disconnect();
+
+      history.push("/auth");
+    };
+
     render() {
       // TODO while no redux accept header inside HoC
       const { isAuthenticated, isLoading, user } = this.state;
-      if (isLoading) return <h5>Loading...</h5>;
-      if ((!isAuthenticated || !user.confirmedAt || !user.confirmedByOrganization) && isGuardEnabled) {
+      if (isLoading) {
+        return <PageLoader loading />;
+      }
+      if (!isAuthenticated && isGuardEnabled) {
         return <Redirect to="/auth" />;
       }
       return (
-        <>
-          <Header user={user} />
-          <WrappedComponent {...this.props} user={user} />
-        </>
+        <AuthContext.Provider
+          value={{
+            user,
+            login: this.handleLogin,
+            logout: this.handleLogout
+          }}
+        >
+          <Header />
+          <WrappedComponent {...this.props} onLogin={(newUser, token) => this.handleLogin(newUser, token)} />
+        </AuthContext.Provider>
       );
     }
   };
 };
 
 const Faircv = () => {
-  const [isConnectedBefore, setisConnectecBefore] = usePersistanceState(false, "metamast-connected");
-  const { connected, connect } = useConnect();
-
-  useEffect(() => {
-    setisConnectecBefore(connected);
-  }, [connected]);
-
-  useEffect(() => {
-    if (isConnectedBefore && !connected) {
-      connect();
-    }
-  }, [isConnectedBefore, connected]);
+  const { connected } = useConnect();
 
   return (
     <>
@@ -82,32 +115,11 @@ const Faircv = () => {
           <Route exact path="/faircv/list" component={FaircvList} />
         </Switch>
       ) : (
-        <Button
-          text="Connect Metamask"
-          modWidth="width-auto"
-          modHeight="height-big"
-          modStyle="filled"
-          modColor="color-main"
-          callback={connect}
-        />
+        <ConnectMetamask />
       )}
     </>
   );
 };
-
-const Confirmation = () => (
-  <>
-    <Header user={{}} />
-    <MainMessage type="CONFIRMED" />
-  </>
-);
-
-const CheckEmail = () => (
-  <>
-    <Header user={{}} />
-    <MainMessage type="CHECK_EMAIL" />
-  </>
-);
 
 const App = () => {
   return (
@@ -115,9 +127,7 @@ const App = () => {
       <main className="main">
         <Switch>
           <Redirect exact from="/" to="/faircv" />
-          <Route path="/auth/check_email" component={CheckEmail} />
-          <Route path="/auth/confirmation" component={Confirmation} />
-          <Route path="/auth" component={withUserContext(AuthContainer, false)} />
+          <Route path="/auth" component={withUserContext(ConnectMetamask, false)} />
           <Route path="/faircv" component={withUserContext(Faircv, true)} />
         </Switch>
       </main>

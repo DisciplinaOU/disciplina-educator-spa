@@ -39,7 +39,8 @@ type AddFairCVState = {
   },
   yearsArray: Array<number>,
   isFormError: boolean,
-  isScoresError: boolean
+  isScoresError: boolean,
+  isSubmitting: boolean
 };
 
 type AddFairCVProps = {
@@ -74,7 +75,8 @@ export class AddFairCV extends React.PureComponent<AddFairCVProps, AddFairCVStat
     modal: clearModalState,
     yearsArray: [],
     isFormError: false,
-    isScoresError: false
+    isScoresError: false,
+    isSubmitting: false
   };
 
   componentDidMount() {
@@ -104,16 +106,32 @@ export class AddFairCV extends React.PureComponent<AddFairCVProps, AddFairCVStat
     try {
       if (this.checkFormValid()) {
         const newCertificate = this.normalizeRequest();
+
+        this.setState({
+          isSubmitting: true
+        });
+
         const { data } = await FaircvService.create(newCertificate);
 
-        const merkelRootBytes32 = `0x${data.header.bodyProof.root}`;
-        const prevHash = await contractX.prevHashCur(Web3.state.defaultAccount);
-        const hasPrevHash = prevHash === 0;
+        const merkleRootBytes32 = `0x${data.header.bodyProof.root}`;
+        const prevHash = `0x${data.header.prevBlock}`;
+        const { transactionsNum } = data.header.bodyProof;
 
-        const res = await contractX[hasPrevHash ? "submitHeader" : "startChain"](
-          prevHash || `0x${data.header.prevBlock}`,
-          merkelRootBytes32
-        );
+        const prevHashCur = await contractX.prevHashCur(Web3.state.defaultAccount);
+        const hasPrevHashCur = Number(prevHashCur) !== 0;
+
+        const method = hasPrevHashCur ? "submitHeader" : "startChain";
+        const tx = await contractX[method](prevHash, merkleRootBytes32, transactionsNum);
+        const { blockHash } = await tx.wait();
+
+        await FaircvService.update({
+          txId: tx.hash,
+          blockHash: blockHash.replace("0x", "")
+        });
+
+        this.setState({
+          isSubmitting: false
+        });
 
         this.openCreatedCertModal(data.id);
       } else {
@@ -302,6 +320,7 @@ export class AddFairCV extends React.PureComponent<AddFairCVProps, AddFairCVStat
 
   render() {
     const {
+      isSubmitting,
       studentName,
       number,
       title,
@@ -465,7 +484,7 @@ export class AddFairCV extends React.PureComponent<AddFairCVProps, AddFairCVStat
               <Scores dispatchScores={this.updateGrades} isFormError={isScoresError} />
             </form>
           </div>
-          <Reminder dispatchSubmit={this.addNewFaircv} isFormError={isFormError} />
+          <Reminder loading={isSubmitting} dispatchSubmit={this.addNewFaircv} isFormError={isFormError} />
         </div>
         {modal.state.length ? <Modal modalContent={modal.state} submit={modal.submit} cancel={modal.cancel} /> : null}
       </>

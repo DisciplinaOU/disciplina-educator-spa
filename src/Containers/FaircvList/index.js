@@ -8,6 +8,7 @@ import Pagination from "../../Common/Components/Pagination";
 import FaircvService from "../../Services/faircv";
 import type { Certificate, IFaircvService } from "../../Services/types";
 import MainMessage from "../../Common/Components/MainMessage";
+import { PageLoader } from "../../Common/Components/PageLoader";
 
 type FaircvListState = {
   data: Array<Certificate>,
@@ -99,12 +100,12 @@ class FaircvList extends PureComponent<FaircvListProps, FaircvListState> {
   };
 
   makeCertId = (hash: string): string => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("accessToken");
     if (token) {
       const baseEducatorData = token.split(".")[1];
       const decodedEducatorData = base64url.decode(baseEducatorData);
       const educator = JSON.parse(decodedEducatorData.toString());
-      return base64url.encode(`${educator.data.id}:${hash}`);
+      return base64url.encode(`${educator.data.publicAddress}:${hash}`);
     }
     return "";
   };
@@ -166,7 +167,7 @@ class FaircvList extends PureComponent<FaircvListProps, FaircvListState> {
             callback={this.createFairHandler}
           />
         </div>
-        {isLoading ? <h5>Loading...</h5> : renderData()}
+        {isLoading ? <PageLoader /> : renderData()}
         {+pages > 1 ? (
           <Pagination goTo={this.goToPage} fwd={this.goFwd} bcwd={this.goBcwd} count={+pages} current={+currentPage} />
         ) : null}
