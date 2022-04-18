@@ -136,7 +136,7 @@ class FaircvList extends PureComponent<FaircvListProps, FaircvListState> {
                 <div className="list__item-content">
                   <div className="list__item-name">{item.meta.studentName}</div>
                   <div className="list__item-degree">{item.meta.major}</div>
-                  <div className="list__item-document">{`Диплом ${item.meta.number} выдан ${item.meta.issueDate}`}</div>
+                  <div className="list__item-document">{`Diploma ${item.meta.number} issued ${item.meta.issueDate}`}</div>
                 </div>
                 <Button
                   text="Download"

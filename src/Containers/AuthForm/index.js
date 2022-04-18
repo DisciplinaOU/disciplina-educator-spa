@@ -106,7 +106,7 @@ class AuthForm extends PureComponent<AuthFormProps, AuthFormState> {
     for (let i = 0; i < loginErrorKeys.length; i++) {
       const key = loginErrorKeys[i];
       const errorStatus = loginError[key][0].predicate;
-      messagesForState[`${key}ErrorMessage`] = errorsMessagesCollection[key][errorStatus] || "Неизвестная ошибка";
+      messagesForState[`${key}ErrorMessage`] = errorsMessagesCollection[key][errorStatus] || "Unknown error";
     }
 
     if (!loginError) {

@@ -1,5 +1,6 @@
 import React, { Component, PureComponent } from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
+import { DAppProvider } from "@usedapp/core";
 
 import Header from "./Containers/Header";
 import "./App.scss";
@@ -120,6 +121,7 @@ const Faircv = () => {
     </>
   );
 };
+
 
 const App = () => {
   return (

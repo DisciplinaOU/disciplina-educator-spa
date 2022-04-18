@@ -13,6 +13,7 @@ const SERVICE_URL =
     ? process.env.REACT_APP_EDUCATOR
     : `http://${window.location.host}${process.env.REACT_APP_EDUCATOR}`;
 
+
 /*eslint new-cap: ["error", { "properties": false }]*/
 const http = new axios.create({
   baseURL: `${SERVICE_URL}/api/educator/v1`,

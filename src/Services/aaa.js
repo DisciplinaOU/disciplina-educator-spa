@@ -6,6 +6,7 @@ const API_URL =
     ? process.env.REACT_APP_AAA
     : `http://${window.location.host}${process.env.REACT_APP_AAA}`;
 // const API_URL = process.env.REACT_APP_AAA;
+
 const BASE_URL = `${API_URL}/api`;
 
 /*eslint new-cap: ["error", { "properties": false }]*/
