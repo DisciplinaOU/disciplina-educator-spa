@@ -34,7 +34,7 @@ const Button = (props: ButtonProps) => {
       type={type}
       onClick={callback}
     >
-      <div className="spinner-box">{<Spinner strokeWidth="1" />}</div>
+      {loading && <div className="spinner-box">{<Spinner strokeWidth="1" />}</div>}
       {text}
     </button>
   );
