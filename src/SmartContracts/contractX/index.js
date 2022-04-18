@@ -5,5 +5,6 @@ import abi from "./abi.json";
 const wethInterface = new utils.Interface(abi);
 
 const address = process.env.REACT_APP_CONTRACT_X_ADDRESS;
+const { provider } = Web3.state;
 
-export const contractX = new ethers.Contract(address, wethInterface, Web3.state.provider.getSigner());
+export const contractX = new ethers.Contract(address, wethInterface, provider && provider.getSigner());
