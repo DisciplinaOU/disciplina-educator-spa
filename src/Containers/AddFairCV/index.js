@@ -121,12 +121,12 @@ export class AddFairCV extends React.PureComponent<AddFairCVProps, AddFairCVStat
         const hasPrevHashCur = Number(prevHashCur) !== 0;
 
         const method = hasPrevHashCur ? "submitHeader" : "startChain";
+
         const tx = await contractX[method](prevHash, merkleRootBytes32, transactionsNum);
-        const { blockHash } = await tx.wait();
 
         await FaircvService.update({
           txId: tx.hash,
-          blockHash: blockHash.replace("0x", "")
+          blockHash: data.headerHash
         });
 
         this.setState({
@@ -138,6 +138,10 @@ export class AddFairCV extends React.PureComponent<AddFairCVProps, AddFairCVStat
         this.addFormError();
       }
     } catch (e) {
+      this.setState({
+        isSubmitting: false
+      });
+
       console.error(e);
     }
   };
