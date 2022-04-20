@@ -47,8 +47,6 @@ type AddFairCVProps = {
   history: any
 };
 
-const mockFn = () => {};
-
 const clearModalState = {
   state: "",
   submit: async () => Promise.resolve({}),
@@ -112,6 +110,13 @@ export class AddFairCV extends React.PureComponent<AddFairCVProps, AddFairCVStat
         });
 
         const { data } = await FaircvService.create(newCertificate);
+
+        this.setState(state => ({
+          modal: {
+            ...state.modal,
+            state: "PENDING"
+          }
+        }));
 
         const merkleRootBytes32 = `0x${data.header.bodyProof.root}`;
         const prevHash = `0x${data.header.prevBlock}`;
@@ -283,64 +288,64 @@ export class AddFairCV extends React.PureComponent<AddFairCVProps, AddFairCVStat
 
     const castedGrades: Array<{ grade: number, scale: string }> = ([...grades]: Array<any>);
 
-    for (let i = 0; i < grades.length; i++) {
+      for (let i = 0; i < grades.length; i++) {
       switch (grades[i].grade) {
         case "excellent":
-          castedGrades[i].grade = 100;
-          castedGrades[i].scale = "rusDiff";
-          break;
-        case "good":
-          castedGrades[i].grade = 80;
-          castedGrades[i].scale = "rusDiff";
-          break;
-        case "adequate":
-          castedGrades[i].grade = 60;
-          castedGrades[i].scale = "rusDiff";
-          break;
-        case "pass":
-          castedGrades[i].grade = 100;
-          castedGrades[i].scale = "rusNonDiff";
-          break;
-        default:
-          return false;
+      castedGrades[i].grade = 100;
+      castedGrades[i].scale = "rusDiff";
+      break;
+      case "good":
+      castedGrades[i].grade = 80;
+      castedGrades[i].scale = "rusDiff";
+      break;
+      case "adequate":
+      castedGrades[i].grade = 60;
+      castedGrades[i].scale = "rusDiff";
+      break;
+      case "pass":
+      castedGrades[i].grade = 100;
+      castedGrades[i].scale = "rusNonDiff";
+      break;
+      default:
+      return false;
       }
     }
-    return {
-      meta: {
+      return {
+        meta: {
         studentName,
         studentBirthDate: this._formatDate(studentBirthDate),
-        startYear: +startYear,
-        endYear: +endYear,
-        educationForm: edform,
-        number: +number,
-        issueDate: this._formatDate(issueDate),
-        title,
-        major,
-        specialization
+      startYear: +startYear,
+      endYear: +endYear,
+      educationForm: edform,
+      number: +number,
+      issueDate: this._formatDate(issueDate),
+      title,
+      major,
+      specialization
       },
       grades
     };
   };
 
-  render() {
+      render() {
     const {
-      isSubmitting,
-      studentName,
-      number,
-      title,
-      major,
-      specialization = "",
-      studentBirthDate,
-      issueDate,
-      educationForm,
-      startYear,
-      endYear,
-      modal,
-      yearsArray,
-      isFormError,
-      isScoresError
-    } = this.state;
-    return (
+        isSubmitting,
+        studentName,
+        number,
+        title,
+        major,
+        specialization = "",
+        studentBirthDate,
+        issueDate,
+        educationForm,
+        startYear,
+        endYear,
+        modal,
+        yearsArray,
+        isFormError,
+        isScoresError
+      } = this.state;
+      return (
       <>
         <div className="add-form">
           <div className="container">
@@ -492,8 +497,8 @@ export class AddFairCV extends React.PureComponent<AddFairCVProps, AddFairCVStat
         </div>
         {modal.state.length ? <Modal modalContent={modal.state} submit={modal.submit} cancel={modal.cancel} /> : null}
       </>
-    );
+      );
   }
 }
 
-export default AddFairCV;
+      export default AddFairCV;

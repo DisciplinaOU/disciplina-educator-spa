@@ -47,10 +47,18 @@
   }
 
   &__reminder {
+    width: 100%;
     background-color: transparent;
     flex-wrap: wrap;
     padding: 0;
     justify-content: space-between;
+  }
+
+  &__progress-box {
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
   }
 
   .reminder__text {
