@@ -2,11 +2,13 @@
 import React from "react";
 import Button from "../../../Common/Components/Button";
 import "./styles.scss";
+import { Progress } from "../../../Common/Components/Progress";
 
 export const MODAL_CONTENT_STATE = {
   SUCCESS: "SUCCESS",
   DELETE: "DELETE",
-  CLOSE: "CLOSE"
+  CLOSE: "CLOSE",
+  PENDING: "PENDING"
 };
 
 type ModalProps = {
@@ -21,6 +23,9 @@ export const Modal = (props: ModalProps) => {
   return (
     <div className="modal">
       <div className="modal__container">
+        <div className="modal__progress-box">
+          <Progress inProgress={modalContent === "PENDING"} />
+        </div>
         {
           {
             [MODAL_CONTENT_STATE.SUCCESS]: (
@@ -30,7 +35,8 @@ export const Modal = (props: ModalProps) => {
                   <div className="reminder__text">
                     <span />
                     <p>
-                      The first minutes after creation, a new FairCV may not be validated due to delay of the confirm information in the blockchain.
+                      The first minutes after creation, a new FairCV may not be validated due to delay of the confirm
+                      information in the blockchain.
                     </p>
                   </div>
                   <Button
@@ -49,6 +55,17 @@ export const Modal = (props: ModalProps) => {
                     modColor="color-main"
                     callback={cancel}
                   />
+                </div>
+              </>
+            ),
+            [MODAL_CONTENT_STATE.PENDING]: (
+              <>
+                <div className="modal__title">The FairCV is creating</div>
+                <div className="modal__reminder reminder">
+                  <div className="reminder__text">
+                    <span />
+                    <p>Confirm the operation via metamask and wait for the CV creation</p>
+                  </div>
                 </div>
               </>
             ),
