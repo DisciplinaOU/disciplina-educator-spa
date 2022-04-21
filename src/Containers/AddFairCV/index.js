@@ -47,6 +47,8 @@ type AddFairCVProps = {
   history: any
 };
 
+const mockFn = () => {};
+
 const clearModalState = {
   state: "",
   submit: async () => Promise.resolve({}),
