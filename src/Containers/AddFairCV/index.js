@@ -50,7 +50,7 @@ type AddFairCVProps = {
 const clearModalState = {
   state: "",
   submit: async () => Promise.resolve({}),
-  cancel: () => mockFn()
+  cancel: () => { }
 };
 
 export class AddFairCV extends React.PureComponent<AddFairCVProps, AddFairCVState> {
