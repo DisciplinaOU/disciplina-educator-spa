@@ -16,7 +16,7 @@ type ScoreItemProps = {
   isFormError: boolean
 };
 
-const LANGUAGES_LIST = ["English", "Chinese", "Spanish"];
+const LANGUAGES_LIST = ["en", "czh"];
 const SCORES_LIST = ["excellent", "good", "adequate", "pass"];
 
 export const ScoreItem = (props: ScoreItemProps) => {
