@@ -16,7 +16,7 @@ type ScoreItemProps = {
   isFormError: boolean
 };
 
-const LANGUAGES_LIST = ["en", "zh"];
+const LANGUAGES_LIST = ["English", "Chinese", "Spanish"];
 const SCORES_LIST = ["excellent", "good", "adequate", "pass"];
 
 export const ScoreItem = (props: ScoreItemProps) => {
@@ -106,9 +106,6 @@ export const ScoreItem = (props: ScoreItemProps) => {
           isFormError={!isScoresSaveAvailable || isFormError}
         />
       </div>
-      <div className="table__item table__item--credits">
-        <RegularInput value={credits} dispatchValue={setCredits} />
-      </div>
       <div className="table__item table__item--score">
         <DropDownInput
           selectedValue={grade}
@@ -146,7 +143,6 @@ export const ScoreItem = (props: ScoreItemProps) => {
       <div className="table__item table__item--course">{subject}</div>
       <div className="table__item table__item--lang">{lang}</div>
       <div className="table__item table__item--hours">{hours}</div>
-      <div className="table__item table__item--credits">{credits}</div>
       <div className="table__item table__item--score">{grade}</div>
       <div className="table__item table__item--button table__item--button-edit" onClick={enableEditMode}>
         <img src={editIcon} alt="" className="button--edit" />
@@ -170,4 +166,4 @@ ScoreItem.defaultProps = {
   scoreIndex: -1
 };
 
-export default memo<ScoreItemProps>(ScoreItem);
+export default memo < ScoreItemProps > (ScoreItem);

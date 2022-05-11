@@ -28,7 +28,7 @@ type ScoresState = {
   isScoreItemError: boolean
 };
 
-const mockFn = () => {};
+const mockFn = () => { };
 
 const clearModalState = {
   state: "",
@@ -96,23 +96,22 @@ export class Scores extends PureComponent<ScoresProps, ScoresState> {
               <div className="table__item table__item--course">Program</div>
               <div className="table__item table__item--lang">Language</div>
               <div className="table__item table__item--hours">Duration</div>
-              <div className="table__item table__item--credits">ECTS credits</div>
               <div className="table__item table__item--score">Grade</div>
               <div className="table__item table__item--button table__item--button-edit" />
               <div className="table__item table__item--button table__item--button-remove" />
             </div>
             {data.length
               ? data.map((item, index) => (
-                  <ScoreItem
-                    scoreIndex={index}
-                    isNewScore={false}
-                    dispatchScore={this.addNewScore}
-                    remove={this.openScoreModal}
-                    scoreData={item}
-                    key={item.subject}
-                    isFormError={false}
-                  />
-                ))
+                <ScoreItem
+                  scoreIndex={index}
+                  isNewScore={false}
+                  dispatchScore={this.addNewScore}
+                  remove={this.openScoreModal}
+                  scoreData={item}
+                  key={item.subject}
+                  isFormError={false}
+                />
+              ))
               : null}
             <ScoreItem
               isNewScore

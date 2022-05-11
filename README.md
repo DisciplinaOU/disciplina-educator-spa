@@ -27,6 +27,7 @@ All dev env variables stored in [this](./.env.development) file
 REACT_APP_CONTRACT_X_ADDRESS - stores address of smart contract
 REACT_APP_AAA - stores url of AAA service
 REACT_APP_EDUCATOR - stores url of educator service
+REACT_APP_STATUS - stores current status of application. Set is as "COMING_SOON" to display this state
 
 ⚠️ Variables with PROXY postfix serve only to handle requests as proxy url pattern 
 To change them look at `package.json` scripts section. 
