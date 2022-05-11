@@ -11,6 +11,7 @@ import { ConnectMetamask } from "./Containers/ConnectMetamask";
 import { PageLoader } from "./Common/Components/PageLoader";
 import { AuthContext } from "./Contexts/Auth";
 import { Web3 } from "./libs/web3";
+import { ComingSoon } from "./Containers/ComingSoon";
 
 const withUserContext = (WrappedComponent: Component, isGuardEnabled: boolean) => {
   type PrivateContainerProps = {
@@ -121,15 +122,20 @@ const Faircv = () => {
   );
 };
 
-
 const App = () => {
   return (
     <div className="App">
       <main className="main">
         <Switch>
-          <Redirect exact from="/" to="/faircv" />
-          <Route path="/auth" component={withUserContext(ConnectMetamask, false)} />
-          <Route path="/faircv" component={withUserContext(Faircv, true)} />
+          {process.env.REACT_APP_STATUS === "COMING_SOON" ? (
+            <Route path="*" component={withUserContext(ComingSoon)} />
+          ) : (
+            <>
+              <Redirect exact from="/" to="/faircv" />
+              <Route path="/auth" component={withUserContext(ConnectMetamask, false)} />
+              <Route path="/faircv" component={withUserContext(Faircv, true)} />
+            </>
+          )}
         </Switch>
       </main>
     </div>

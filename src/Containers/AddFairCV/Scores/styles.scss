@@ -45,7 +45,7 @@
     }
 
     &__item--lang {
-      flex: 0 0 80px;
+      flex: 0 120px;
     }
 
     &__item--hours {
@@ -176,14 +176,6 @@
 
           &:before {
             content: 'Часов';
-          }
-        }
-
-        .table__item--credits {
-          order: 6;
-
-          &:before {
-            content: 'ECTS credits';
           }
         }
 

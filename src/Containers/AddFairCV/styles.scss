@@ -25,6 +25,7 @@
   .input,
   .dropdown-input {
     margin-right: $size-l;
+    white-space: nowrap;
 
     &:last-child {
       margin-right: 0;
