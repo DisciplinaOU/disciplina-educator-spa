@@ -78,7 +78,7 @@ class FaircvList extends PureComponent<FaircvListProps, FaircvListState> {
     if (v.length) {
       return arr.filter(
         (d: Certificate) =>
-          d.meta.studentName.toLowerCase().indexOf(v.toLowerCase()) >= 0 || d.meta.number.toString().indexOf(v) >= 0
+          d.certificate.meta.studentName.toLowerCase().indexOf(v.toLowerCase()) >= 0 || d.certificate.meta.number.toString().indexOf(v) >= 0
       );
     }
     return arr;
@@ -132,11 +132,11 @@ class FaircvList extends PureComponent<FaircvListProps, FaircvListState> {
           </form>
           <ul className="list">
             {normalizedArray.map((item: Certificate) => (
-              <li className="list__item" key={item.id}>
+              <li className="list__item" key={item.certificate.id}>
                 <div className="list__item-content">
-                  <div className="list__item-name">{item.meta.studentName}</div>
-                  <div className="list__item-degree">{item.meta.major}</div>
-                  <div className="list__item-document">{`Diploma ${item.meta.number} issued ${item.meta.issueDate}`}</div>
+                  <div className="list__item-name">{item.certificate.meta.studentName}</div>
+                  <div className="list__item-degree">{item.certificate.meta.major}</div>
+                  <div className="list__item-document">{`Diploma ${item.certificate.meta.number} issued ${item.certificate.meta.issueDate}`}</div>
                 </div>
                 <Button
                   text="Download"
@@ -144,7 +144,7 @@ class FaircvList extends PureComponent<FaircvListProps, FaircvListState> {
                   modHeight="height-small"
                   modStyle="empty"
                   modColor="color-main"
-                  callback={() => this.downloadPdf(item.id)}
+                  callback={() => this.downloadPdf(item.certificate.id)}
                 />
               </li>
             ))}
