@@ -29,18 +29,28 @@ export type FaircvQuery = {
 };
 
 export type Certificate = {
-  id?: string,
-  meta: {
-    studentName: string,
-    studentBirthDate: string,
-    startYear: number,
-    endYear: number,
-    educationForm: EducationForm,
-    number: string,
-    issueDate: string,
-    title: string,
-    major: string,
-    specialization: string
+  certificate: {
+    id: string,
+    txId?: null | string,
+    meta: {
+      studentName: string,
+      studentBirthDate: string,
+      startYear: number,
+      endYear: number,
+      educationForm: EducationForm,
+      number: string,
+      issueDate: string,
+      title: string,
+      major: string,
+      specialization: string
+    }
+  },
+  headerHash?: string,
+  header: {
+    bodyProof: {
+      root: string,
+      transactionsNum: number
+    }
   }
 };
 
@@ -82,4 +92,11 @@ export interface IAAAService {
 export interface SubmitCertificate {
   blockHash: string;
   txId: string;
+}
+
+export interface VerifyCertificate {
+  merkleRoot: string;
+  prevHash: string;
+  transactionsNum: number;
+  headerHash: string;
 }

@@ -14,8 +14,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import type { ScoresDataType } from "./Scores";
 import Modal from "./Modal";
 import iconCalendar from "../../Common/Assets/icons/calendar-icon.svg";
-import { contractX } from "../../SmartContracts";
-import { Web3 } from "../../libs/web3/core";
+import { Notification } from "../../libs/Notification";
 
 type EducationFormEnum = "full-time" | "extra-mural" | "part-time";
 const EDUCATION_FORM_LIST = ["full-time", "extra-mural", "part-time"];
@@ -40,14 +39,13 @@ type AddFairCVState = {
   yearsArray: Array<number>,
   isFormError: boolean,
   isScoresError: boolean,
-  isSubmitting: boolean
+  isSubmitting: boolean,
+  contractSignError: string
 };
 
 type AddFairCVProps = {
   history: any
 };
-
-const mockFn = () => {};
 
 const clearModalState = {
   state: "",
@@ -76,7 +74,8 @@ export class AddFairCV extends React.PureComponent<AddFairCVProps, AddFairCVStat
     yearsArray: [],
     isFormError: false,
     isScoresError: false,
-    isSubmitting: false
+    isSubmitting: false,
+    contractSignError: ""
   };
 
   componentDidMount() {
@@ -120,20 +119,11 @@ export class AddFairCV extends React.PureComponent<AddFairCVProps, AddFairCVStat
           }
         }));
 
-        const merkleRootBytes32 = `0x${data.header.bodyProof.root}`;
-        const prevHash = `0x${data.header.prevBlock}`;
-        const { transactionsNum } = data.header.bodyProof;
-
-        const prevHashCur = await contractX.prevHashCur(Web3.state.defaultAccount);
-        const hasPrevHashCur = Number(prevHashCur) !== 0;
-
-        const method = hasPrevHashCur ? "submitHeader" : "startChain";
-
-        const tx = await contractX[method](prevHash, merkleRootBytes32, transactionsNum);
-
-        await FaircvService.update({
-          txId: tx.hash,
-          blockHash: data.headerHash
+        await FaircvService.verify({
+          merkleRoot: data.header.bodyProof.root,
+          prevHash: data.header.prevBlock,
+          transactionsNum: data.header.bodyProof.transactionsNum,
+          headerHash: data.headerHash
         });
 
         this.setState({
@@ -145,11 +135,20 @@ export class AddFairCV extends React.PureComponent<AddFairCVProps, AddFairCVStat
         this.addFormError();
       }
     } catch (e) {
+      const error = e.error ? e.error.message : e.response.data.error;
+
       this.setState({
-        isSubmitting: false
+        isSubmitting: false,
+        contractSignError: error,
+        modal: { ...clearModalState }
       });
 
-      console.error(e);
+      setTimeout(() => {
+        this.setState({
+          isSubmitting: false,
+          contractSignError: ""
+        });
+      }, 3000);
     }
   };
 
@@ -345,11 +344,16 @@ export class AddFairCV extends React.PureComponent<AddFairCVProps, AddFairCVStat
         modal,
         yearsArray,
         isFormError,
-        isScoresError
+        isScoresError,
+        contractSignError
       } = this.state;
+
       return (
       <>
         <div className="add-form">
+          <Notification kind="error" active={Boolean(contractSignError)}>
+            {contractSignError}
+          </Notification>
           <div className="container">
             <div className="navigation-link text-left">
               <Button

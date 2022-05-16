@@ -5,6 +5,7 @@ import "./styles.scss";
 
 type ButtonProps = {
   text: string,
+  disabled?: boolean,
   modWidth?: "width-auto" | "width-full",
   modHeight?: "height-small" | "height-big",
   modStyle: "filled" | "empty" | "simple" | "arrow-forward" | "arrow-back",
@@ -23,13 +24,14 @@ const Button = (props: ButtonProps) => {
     modColor,
     callback,
     type = "button",
-    loading = false
+    loading = false,
+    disabled
   } = props;
   return (
     /*eslint react/button-has-type: off */
     <button
       className={`btn btn--${modWidth} btn--${modHeight} btn--${modStyle} btn--${modColor}`}
-      disabled={loading}
+      disabled={disabled || loading}
       data-loading={loading}
       type={type}
       onClick={callback}
@@ -43,7 +45,9 @@ const Button = (props: ButtonProps) => {
 Button.defaultProps = {
   modWidth: "width-auto",
   modHeight: "height-big",
-  type: "button"
+  type: "button",
+  disabled: false,
+  loading: false
 };
 
-export default memo<ButtonProps>(Button);
+export default memo < ButtonProps > (Button);

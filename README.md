@@ -28,6 +28,7 @@ REACT_APP_CONTRACT_X_ADDRESS - stores address of smart contract
 REACT_APP_AAA - stores url of AAA service
 REACT_APP_EDUCATOR - stores url of educator service
 REACT_APP_STATUS - stores current status of application. Set is as "COMING_SOON" to display this state
+REACT_APP_ETHERSCAN_BASE_URL - stores base url of Etherscan to search transactions
 
 ⚠️ Variables with PROXY postfix serve only to handle requests as proxy url pattern 
 To change them look at `package.json` scripts section. 

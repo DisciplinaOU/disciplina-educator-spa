@@ -16,7 +16,14 @@ type ScoreItemProps = {
   isFormError: boolean
 };
 
-const LANGUAGES_LIST = ["en", "czh"];
+const LANGUAGES_MAP: { [key: string]: string } = {
+  English: "en",
+  Chinese: "zh",
+  Spanish: "es"
+};
+
+const LANGUAGES_LIST = Object.keys(LANGUAGES_MAP);
+
 const SCORES_LIST = ["excellent", "good", "adequate", "pass"];
 
 export const ScoreItem = (props: ScoreItemProps) => {
@@ -29,6 +36,7 @@ export const ScoreItem = (props: ScoreItemProps) => {
   const [isEditMode, setEditMode] = useState(isNewScore);
   const [isScoresSaveAvailable, setScoresAvailable] = useState(true);
   const enableEditMode = () => setEditMode(true);
+
   const clearInputs = () => {
     setGrade("");
     setCredits("");
@@ -60,7 +68,7 @@ export const ScoreItem = (props: ScoreItemProps) => {
     setScoresAvailable(true);
     const isAvailable = checkScoreSaveAvailable();
     if (isAvailable) {
-      dispatchScore({ subject, lang, hours: +hours, credits: +credits, grade });
+      dispatchScore({ subject, lang: LANGUAGES_MAP[lang], hours: +hours, credits: +credits, grade });
       clearInputs();
     } else {
       setScoresAvailable(false);
@@ -70,7 +78,7 @@ export const ScoreItem = (props: ScoreItemProps) => {
     setScoresAvailable(true);
     const isAvailable = checkScoreSaveAvailable();
     if (isAvailable) {
-      dispatchScore({ subject, lang, hours: +hours, credits: +credits, grade }, scoreIndex);
+      dispatchScore({ subject, lang: LANGUAGES_MAP[lang], hours: +hours, credits: +credits, grade }, scoreIndex);
       setEditMode(false);
     } else {
       setScoresAvailable(false);

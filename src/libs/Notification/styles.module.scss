@@ -1,0 +1,47 @@
+@import '../../Common//Styles/mixins';
+
+.box {
+  box-shadow: 3px -1px 10px #c5c5c56b;
+  border-radius: 20px;
+  padding: 16px 18px;
+  position: fixed;
+  top: 20px;
+  right: 30px;
+  background-color: white;
+  opacity: 0;
+  transition: 0.4s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  z-index: 1000;
+  transform: translateX(calc(100%));
+  text-transform: capitalize;
+  
+  @include for-tablet-landscape-down {
+    right: unset;
+    left: 50%;
+    transform: translate(-50%, -100%);
+    padding: 15px;
+  }
+}
+
+.box {
+  &.error {
+    color: red;
+  }
+
+  &.success {
+    color: green;
+  }
+}
+
+.enter-active,
+.enter-done {
+  opacity: 1;
+  transform: translateX(0);
+
+  @include for-tablet-landscape-down {
+    transform: translate(-50%, 0%);
+  }
+}
