@@ -14,7 +14,11 @@ type FaircvListState = {
   data: Array<Certificate>,
   currentPage: number,
   searchInput: string,
-  isLoading: boolean
+  isLoading: boolean,
+  certificatesStates: {
+    [key: string]: "idle" | "signing" | "downloading"
+  },
+  hasUnsignedCertificate: boolean
 };
 
 type FaircvListProps = {
@@ -28,17 +32,25 @@ class FaircvList extends PureComponent<FaircvListProps, FaircvListState> {
     isLoading: false,
     data: [],
     currentPage: -1,
-    searchInput: ""
+    searchInput: "",
+    certificatesStates: {},
+    hasUnsignedCertificate: true
   };
 
   async componentDidMount() {
     this.startLoading();
-    const data = await this.api.getList();
+    const data = await this.api.getList({
+      sortBy: "desc(createdAt)"
+    });
+
     const { items } = data.data;
+
     this.setState({
       data: items,
-      currentPage: 1
+      currentPage: 1,
+      hasUnsignedCertificate: items.some(row => row.certificate.txId === null)
     });
+
     this.stopLoading();
   }
 
@@ -78,7 +90,8 @@ class FaircvList extends PureComponent<FaircvListProps, FaircvListState> {
     if (v.length) {
       return arr.filter(
         (d: Certificate) =>
-          d.certificate.meta.studentName.toLowerCase().indexOf(v.toLowerCase()) >= 0 || d.certificate.meta.number.toString().indexOf(v) >= 0
+          d.certificate.meta.studentName.toLowerCase().indexOf(v.toLowerCase()) >= 0 ||
+          d.certificate.meta.number.toString().indexOf(v) >= 0
       );
     }
     return arr;
@@ -110,8 +123,44 @@ class FaircvList extends PureComponent<FaircvListProps, FaircvListState> {
     return "";
   };
 
+  verifyCert = async (certId: string) => {
+    try {
+      // eslint-disable-next-line react/destructuring-assignment
+      const cert = this.state.data.find(row => row.certificate.id === certId);
+
+      if (!cert) return;
+
+      this.setState(state => ({
+        certificatesStates: {
+          ...state.certificatesStates,
+          [certId]: "signing"
+        }
+      }));
+
+      const txId = await FaircvService.verify({
+        merkleRoot: cert.header.bodyProof.root,
+        prevHash: cert.header.prevBlock,
+        transactionsNum: cert.header.bodyProof.transactionsNum,
+        headerHash: cert.headerHash
+      });
+
+      this.setState(state => ({
+        certificatesStates: {
+          ...state.certificatesStates,
+          [certId]: "idle"
+        },
+        hasUnsignedCertificate: false,
+        data: state.data.map(row =>
+          row.certificate.id === certId ? { ...row, certificate: { ...row.certificate, txId } } : row
+        )
+      }));
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   render() {
-    const { currentPage, searchInput, data, isLoading } = this.state;
+    const { currentPage, searchInput, data, isLoading, certificatesStates, hasUnsignedCertificate } = this.state;
     const isDesktop = window.innerWidth >= 768;
     const searchPlaceholder = isDesktop ? "Enter student name or diploma number" : "Search";
     const filteredArray = this.liveSearchArray(searchInput);
@@ -131,21 +180,49 @@ class FaircvList extends PureComponent<FaircvListProps, FaircvListState> {
             />
           </form>
           <ul className="list">
-            {normalizedArray.map((item: Certificate) => (
-              <li className="list__item" key={item.certificate.id}>
+            {normalizedArray.map(({ certificate }: Certificate) => (
+              <li className="list__item" key={certificate.id}>
                 <div className="list__item-content">
-                  <div className="list__item-name">{item.certificate.meta.studentName}</div>
-                  <div className="list__item-degree">{item.certificate.meta.major}</div>
-                  <div className="list__item-document">{`Diploma ${item.certificate.meta.number} issued ${item.certificate.meta.issueDate}`}</div>
+                  <div className="list__item-name">{certificate.meta.studentName}</div>
+                  <div className="list__item-degree">{certificate.meta.major}</div>
+                  <div className="list__item-document">{`Diploma ${certificate.meta.number} issued ${certificate.meta.issueDate}`}</div>
                 </div>
-                <Button
-                  text="Download"
-                  modWidth="width-auto"
-                  modHeight="height-small"
-                  modStyle="empty"
-                  modColor="color-main"
-                  callback={() => this.downloadPdf(item.certificate.id)}
-                />
+
+                <div className="list__buttons-group">
+                  {certificate.txId === null ? (
+                    <Button
+                      text="Verify"
+                      modWidth="width-auto"
+                      modHeight="height-small"
+                      modStyle="filled"
+                      modColor="color-main"
+                      loading={certificatesStates[certificate.id] === "signing"}
+                      callback={() => this.verifyCert(certificate.id)}
+                    />
+                  ) : (
+                    <a
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      href={`${process.env.REACT_APP_ETHERSCAN_BASE_URL}/tx/${certificate.txId}`}
+                    >
+                      <Button
+                        text="Show transaction"
+                        modWidth="width-auto"
+                        modHeight="height-small"
+                        modStyle="empty"
+                        modColor="color-main"
+                      />
+                    </a>
+                  )}
+                  <Button
+                    text="Download"
+                    modWidth="width-auto"
+                    modHeight="height-small"
+                    modStyle="empty"
+                    modColor="color-main"
+                    callback={() => this.downloadPdf(certificate.id)}
+                  />
+                </div>
               </li>
             ))}
           </ul>
@@ -159,6 +236,7 @@ class FaircvList extends PureComponent<FaircvListProps, FaircvListState> {
         <div className="faircv-list__title">
           <h1>Created FairCV</h1>
           <Button
+            disabled={hasUnsignedCertificate}
             text="Add FairCV"
             modWidth="width-auto"
             modHeight="height-big"

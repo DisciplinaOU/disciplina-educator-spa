@@ -90,6 +90,12 @@
     margin-bottom: 8px;
   }
 
+  &__buttons-group {
+    display: grid;
+    grid-template-columns: auto auto;
+    gap: 8px;
+  }
+
   &__item-degree {
     margin-right: 28px;
     width: 100%;
