@@ -90,7 +90,8 @@ class FaircvList extends PureComponent<FaircvListProps, FaircvListState> {
     if (v.length) {
       return arr.filter(
         (d: Certificate) =>
-          d.meta.studentName.toLowerCase().indexOf(v.toLowerCase()) >= 0 || d.meta.number.toString().indexOf(v) >= 0
+          d.certificate.meta.studentName.toLowerCase().indexOf(v.toLowerCase()) >= 0 ||
+          d.certificate.meta.number.toString().indexOf(v) >= 0
       );
     }
     return arr;
